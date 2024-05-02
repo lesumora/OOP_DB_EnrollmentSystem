@@ -130,24 +130,24 @@ public class LoginPage extends javax.swing.JFrame {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
             // Check if user is blocked
-            String sqlBlockedCheck = "SELECT userId, userBlocked FROM user_account WHERE username = ?";
+            String sqlBlockedCheck = "SELECT UserId, UserBlocked FROM ACCOUNT WHERE Username = ?";
             PreparedStatement preparedStatementBlockedCheck = conn.prepareStatement(sqlBlockedCheck);
             preparedStatementBlockedCheck.setString(1, username);
 
             ResultSet resultSetBlockedCheck = preparedStatementBlockedCheck.executeQuery();
 
             if (resultSetBlockedCheck.next()) {
-                int userId = resultSetBlockedCheck.getInt("userId");
-                boolean isBlocked = resultSetBlockedCheck.getBoolean("userBlocked");
+                int UserId = resultSetBlockedCheck.getInt("UserId");
+                boolean isBlocked = resultSetBlockedCheck.getBoolean("UserBlocked");
 
                 // Get the current date and time
                 LocalDateTime now = LocalDateTime.now();
                 // Convert LocalDateTime to java.sql.Timestamp
                 Timestamp currentTimestamp = Timestamp.valueOf(now);
 
-                String sqlLogs = "INSERT INTO login_attempt (userId, attemptDate) VALUES (?,?)";
+                String sqlLogs = "INSERT INTO USER_LOG (UserId, AttemptDate) VALUES (?,?)";
                 PreparedStatement preparedStatementLogs = conn.prepareStatement(sqlLogs);
-                preparedStatementLogs.setInt(1, userId);
+                preparedStatementLogs.setInt(1, UserId);
                 preparedStatementLogs.setTimestamp(2, currentTimestamp);
 
                 int rowsInserted = preparedStatementLogs.executeUpdate();
@@ -164,7 +164,7 @@ public class LoginPage extends javax.swing.JFrame {
                 }
             }
 
-            String sqlCredential = "SELECT * FROM user_account WHERE username = ? AND userPassword = ?";
+            String sqlCredential = "SELECT * FROM ACCOUNT WHERE Username = ? AND UserPassword = ?";
             PreparedStatement preparedStatementCredential = conn.prepareStatement(sqlCredential);
             preparedStatementCredential.setString(1, username);
             preparedStatementCredential.setString(2, password);
@@ -176,7 +176,7 @@ public class LoginPage extends javax.swing.JFrame {
                 if (isBlocked.equals("false")) {
                     JOptionPane.showMessageDialog(null, "Login Successful.");
                     loginAttempt = 0;
-                    //new HomePage().setVisible(true);
+                    new HomePage().setVisible(true);
                     this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(null, """
