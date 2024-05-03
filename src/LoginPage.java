@@ -21,6 +21,7 @@ public class LoginPage extends javax.swing.JFrame {
      * Creates new form loginpage
      */
     private int loginAttempt = 0;
+    private int userSessionID;
 
     public LoginPage() {
         initComponents();
@@ -173,10 +174,12 @@ public class LoginPage extends javax.swing.JFrame {
 
             if (resultSetCredential.next()) {
                 Object isBlocked = resultSetCredential.getObject(4);
-                if (isBlocked.equals("false")) {
+                if (isBlocked.equals("false")) { 
+                    userSessionID = resultSetCredential.getInt("UserID");
                     JOptionPane.showMessageDialog(null, "Login Successful.");
                     loginAttempt = 0;
-                    new HomePage().setVisible(true);
+                    HomePage homePage = new HomePage(userSessionID);
+                    homePage.setVisible(true);
                     this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(null, """
@@ -211,6 +214,14 @@ public class LoginPage extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
+    }
+
+    public void setUserSessionID(int userSessionID) {
+        this.userSessionID = userSessionID;
+    }
+    
+    public int getUserSessionID() {
+        return userSessionID;
     }
 
     /**

@@ -12,8 +12,11 @@ public class academics extends javax.swing.JFrame {
     /**
      * Creates new form academics
      */
-    public academics() {
+    static int userSessionID;
+    
+    public academics(int userSessionID) {
         initComponents();
+        this.userSessionID = userSessionID;
     }
 
     /**
@@ -66,7 +69,7 @@ public class academics extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new HomePage().setVisible(true);
+        new HomePage(userSessionID).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -100,7 +103,7 @@ public class academics extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new academics().setVisible(true);
+                new academics(userSessionID).setVisible(true);
             }
         });
     }

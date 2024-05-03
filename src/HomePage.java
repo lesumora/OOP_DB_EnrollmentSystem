@@ -14,7 +14,9 @@ public class HomePage extends javax.swing.JFrame {
     /**
      * Creates new form HomePage
      */
-    public HomePage() {
+    static int userSessionID;
+    
+    public HomePage(int userSessionID) {
         initComponents();
         {
         jButton1.setOpaque(false); // Make the button transparent
@@ -48,6 +50,8 @@ public class HomePage extends javax.swing.JFrame {
         jButton5.setFocusPainted(false); // Remove focus border
         jButton5.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
+        this.userSessionID = userSessionID;
+        jLabel2.setText("ID IS " + HomePage.userSessionID);
     }
 
     /**
@@ -59,6 +63,7 @@ public class HomePage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel2 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -66,8 +71,11 @@ public class HomePage extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1200, 675));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("jLabel2");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 170, -1, -1));
 
         jButton5.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         jButton5.setText("ACADEMICS");
@@ -125,7 +133,7 @@ public class HomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        new academics().setVisible(true);
+        new academics(userSessionID).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -159,7 +167,7 @@ public class HomePage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HomePage().setVisible(true);
+                new HomePage(userSessionID).setVisible(true);
             }
         });
     }
@@ -170,5 +178,6 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }
