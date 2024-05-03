@@ -26,7 +26,7 @@ public class step1_enroll extends javax.swing.JFrame {
     final String DB_URL = "jdbc:sqlserver://localhost\\DESKTOP-FT3D7QK:1433;databaseName=enrollment;encrypt=true;trustServerCertificate=true";
     final String USERNAME = "admin";
     final String PASSWORD = "admin";
-    String curriculum;
+    String semesterNumber, selectedCourse, curriculum, campus, courseName;
     static int userSessionID;
 
     public step1_enroll(int userSessionID) {
@@ -42,15 +42,29 @@ public class step1_enroll extends javax.swing.JFrame {
                 preparedStatementStudent.setInt(1, userSessionID);
                 ResultSet resultSetStudent = preparedStatementStudent.executeQuery();
                 if (resultSetStudent.next()) {
-                int yearLevel = resultSetStudent.getInt("YearLevel");
-                String status = resultSetStudent.getString("EnrollmentStatus");
-                jTextField1.setText("" + yearLevel);
-                jTextField7.setText("" + status);
+                    int yearLevel = resultSetStudent.getInt("YearLevel");
+                    String status = resultSetStudent.getString("EnrollmentStatus");
+                    jTextField1.setText("" + yearLevel);
+                    jTextField7.setText("" + status);
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);
             }
         }
+        //Get sem
+        String textFieldText = jTextField3.getText();
+        semesterNumber = textFieldText.substring(textFieldText.indexOf(' ') + 1, textFieldText.indexOf(' ', textFieldText.indexOf(' ') + 1));
+        //Get campuszy
+        jComboBox1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (jComboBox1.getSelectedIndex() != -1) {
+                    campus = (String) jComboBox1.getSelectedItem();
+                    jLabel8.setText(campus);
+                }
+            }
+        });
+
     }
 
     /**
@@ -94,6 +108,8 @@ public class step1_enroll extends javax.swing.JFrame {
         jLabel2.setText(" Academic Year & Term");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 230, -1, 30));
 
+        jTextField1.setEditable(false);
+        jTextField1.setFocusable(false);
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -132,7 +148,7 @@ public class step1_enroll extends javax.swing.JFrame {
         getContentPane().add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 330, 360, 30));
 
         jTextField3.setEditable(false);
-        jTextField3.setText("2024-2025 1st Semester");
+        jTextField3.setText("2024-2025 2nd Semester");
         jTextField3.setFocusable(false);
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -169,6 +185,8 @@ public class step1_enroll extends javax.swing.JFrame {
         jLabel11.setText("  Incoming Level");
         getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 430, -1, 30));
 
+        jTextField7.setEditable(false);
+        jTextField7.setFocusable(false);
         jTextField7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField7ActionPerformed(evt);
@@ -205,6 +223,11 @@ public class step1_enroll extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Continue ");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 590, 100, 30));
 
         jButton2.setText("BACK");
@@ -245,7 +268,7 @@ public class step1_enroll extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField7ActionPerformed
 
     private void jComboBox2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox2MouseClicked
-        String selectedCourse;
+
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             // Succesfully connected to database...
@@ -258,10 +281,9 @@ public class step1_enroll extends javax.swing.JFrame {
             Map<String, String> courseMap = new HashMap<>();
 
             while (resultSetCourse.next()) {
-                String courseName = resultSetCourse.getString("CourseName");
+                courseName = resultSetCourse.getString("CourseName");
                 curriculum = resultSetCourse.getString("Curriculum");
 
-                // Populate the combo box model
                 model.addElement(courseName);
 
                 // Store course name and curriculum in the map
@@ -270,13 +292,12 @@ public class step1_enroll extends javax.swing.JFrame {
 
             jComboBox2.setModel(model);
 
-// Add an ActionListener to jComboBox2 to detect selection changes
             jComboBox2.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (jComboBox2.getSelectedIndex() != -1) {
-                        String selectedCourse = (String) jComboBox2.getSelectedItem();
-                        String curriculum = courseMap.get(selectedCourse);
+                        selectedCourse = (String) jComboBox2.getSelectedItem();
+                        curriculum = courseMap.get(selectedCourse);
                         jTextField6.setText(curriculum);
                     }
                 }
@@ -292,6 +313,11 @@ public class step1_enroll extends javax.swing.JFrame {
         new HomePage(userSessionID).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        new step2_enroll().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
