@@ -26,7 +26,7 @@ public class step1_enroll extends javax.swing.JFrame {
     final String DB_URL = "jdbc:sqlserver://localhost\\DESKTOP-FT3D7QK:1433;databaseName=enrollment;encrypt=true;trustServerCertificate=true";
     final String USERNAME = "admin";
     final String PASSWORD = "admin";
-    String semesterNumber, selectedCourse, curriculum, campus, courseName;
+    static String semesterNumber, selectedCourse, curriculum, campus, courseName;
     static int userSessionID;
 
     public step1_enroll(int userSessionID) {
