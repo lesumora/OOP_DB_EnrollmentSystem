@@ -26,7 +26,7 @@ public class step1_enroll extends javax.swing.JFrame {
     final String DB_URL = "jdbc:sqlserver://localhost\\DESKTOP-FT3D7QK:1433;databaseName=enrollment;encrypt=true;trustServerCertificate=true";
     final String USERNAME = "admin";
     final String PASSWORD = "admin";
-    static String semesterNumber, selectedCourse, curriculum, campus, courseName;
+    static String semesterNumber, selectedCourse, curriculum, campus, courseID, courseName;
     static int userSessionID;
 
     public step1_enroll(int userSessionID) {
@@ -60,7 +60,6 @@ public class step1_enroll extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (jComboBox1.getSelectedIndex() != -1) {
                     campus = (String) jComboBox1.getSelectedItem();
-                    jLabel8.setText(campus);
                 }
             }
         });
@@ -281,6 +280,7 @@ public class step1_enroll extends javax.swing.JFrame {
             Map<String, String> courseMap = new HashMap<>();
 
             while (resultSetCourse.next()) {
+                courseID = resultSetCourse.getString("CourseID");
                 courseName = resultSetCourse.getString("CourseName");
                 curriculum = resultSetCourse.getString("Curriculum");
 
@@ -315,7 +315,7 @@ public class step1_enroll extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new step2_enroll().setVisible(true);
+        new step2_enroll(userSessionID, semesterNumber, selectedCourse, curriculum, campus, courseID, courseName).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 

@@ -1,8 +1,17 @@
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author acer
@@ -12,8 +21,72 @@ public class step2_enroll extends javax.swing.JFrame {
     /**
      * Creates new form step2_enroll
      */
-    public step2_enroll() {
+    final String DB_URL = "jdbc:sqlserver://localhost\\DESKTOP-FT3D7QK:1433;databaseName=enrollment;encrypt=true;trustServerCertificate=true";
+    final String USERNAME = "admin";
+    final String PASSWORD = "admin";
+    static String semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, section;
+    static int userSessionID;
+    String facultyFirstName, facultyLastName, facultyMiddleName, facultyFullName;
+    DefaultTableModel model = new DefaultTableModel();
+
+    public step2_enroll(int userSessionID, String semesterNumber, String selectedCourse, String curriculum, String campus, String courseID, String courseName) {
         initComponents();
+        this.userSessionID = userSessionID;
+        this.semesterNumber = semesterNumber;
+        this.selectedCourse = selectedCourse;
+        this.curriculum = curriculum;
+        this.campus = campus;
+        this.courseID = courseID;
+        this.courseName = courseName;
+
+        jComboBox1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (jComboBox1.getSelectedIndex() != -1) {
+                    section = (String) jComboBox1.getSelectedItem();
+                }
+            }
+        });
+        
+        model = (DefaultTableModel) jTable1.getModel();
+        
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            // Succesfully connected to database...
+
+            String sqlCourseSubject = "SELECT SubjectCode, SubjectTitle, Lecture, Lab, Credit, Schedule, EmpID FROM COURSE_SUBJECT WHERE CourseID = ?";
+            PreparedStatement preparedStatementCourseSubject = conn.prepareStatement(sqlCourseSubject);
+            preparedStatementCourseSubject.setString(1, courseID);
+            ResultSet resultSetCourseSubject = preparedStatementCourseSubject.executeQuery();
+
+            while (resultSetCourseSubject.next()) {
+                int faculty = resultSetCourseSubject.getInt("EmpID");
+
+                String sqlFaculty = "SELECT * FROM FACULTY WHERE EmpID = ?";
+                PreparedStatement preparedStatementFaculty = conn.prepareStatement(sqlFaculty);
+                preparedStatementFaculty.setInt(1, faculty);
+                ResultSet resultSetFaculty = preparedStatementFaculty.executeQuery();
+                if (resultSetFaculty.next()) {
+                    facultyFirstName = resultSetFaculty.getString("FName");
+                    facultyLastName = resultSetFaculty.getString("LName");
+                    facultyFullName = facultyFirstName + " " + facultyLastName;
+                }
+
+                Object[] row = new Object[8];
+                row[0] = false;
+                row[1] = resultSetCourseSubject.getObject("SubjectCode");
+                row[2] = resultSetCourseSubject.getObject("SubjectTitle");
+                row[3] = resultSetCourseSubject.getObject("Lecture");
+                row[4] = resultSetCourseSubject.getObject("Lab");
+                row[5] = resultSetCourseSubject.getObject("Credit");
+                row[6] = resultSetCourseSubject.getObject("Schedule");
+                row[7] = facultyFullName;
+                
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 
     /**
@@ -36,7 +109,7 @@ public class step2_enroll extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Section A", "Section B", "Section C", "Section D" }));
         getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 140, 350, 30));
 
         jLabel3.setForeground(new java.awt.Color(204, 0, 0));
@@ -55,36 +128,59 @@ public class step2_enroll extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 590, -1, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 583, 140, 40));
 
         jTable1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "# CODE", "TITLE", "LEC", "LAB", "UNIT", "SCHEDULES", "FACULTY", "LIMIT", "SPL"
+                "#", "CODE", "TITLE", "LEC", "LAB", "UNIT", "SCHEDULE", "FACULTY"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
+        jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(1);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(10);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(140);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(1);
+            jTable1.getColumnModel().getColumn(4).setResizable(false);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(1);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(1);
+            jTable1.getColumnModel().getColumn(6).setResizable(false);
+            jTable1.getColumnModel().getColumn(7).setResizable(false);
+            jTable1.getColumnModel().getColumn(7).setPreferredWidth(45);
+        }
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 1180, -1));
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg_Step2Enroll.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -121,7 +217,7 @@ public class step2_enroll extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new step2_enroll().setVisible(true);
+                new step2_enroll(userSessionID, semesterNumber, selectedCourse, curriculum, campus, courseID, courseName).setVisible(true);
             }
         });
     }
