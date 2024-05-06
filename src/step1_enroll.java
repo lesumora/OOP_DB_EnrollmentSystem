@@ -26,10 +26,10 @@ public class step1_enroll extends javax.swing.JFrame {
     final String DB_URL = "jdbc:sqlserver://localhost\\DESKTOP-FT3D7QK:1433;databaseName=enrollment;encrypt=true;trustServerCertificate=true";
     final String USERNAME = "admin";
     final String PASSWORD = "admin";
-    static String semesterNumber, selectedCourse, curriculum, campus, courseID, courseName;
-    static int userSessionID;
+    static String semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, section;
+    static int userSessionID, yearLevel;
 
-    public step1_enroll(int userSessionID) {
+    public step1_enroll(int userSessionID){
         initComponents();
         this.userSessionID = userSessionID;
         {
@@ -42,7 +42,7 @@ public class step1_enroll extends javax.swing.JFrame {
                 preparedStatementStudent.setInt(1, userSessionID);
                 ResultSet resultSetStudent = preparedStatementStudent.executeQuery();
                 if (resultSetStudent.next()) {
-                    int yearLevel = resultSetStudent.getInt("YearLevel");
+                    yearLevel = resultSetStudent.getInt("YearLevel");
                     String status = resultSetStudent.getString("EnrollmentStatus");
                     jTextField1.setText("" + yearLevel);
                     jTextField7.setText("" + status);
@@ -55,14 +55,37 @@ public class step1_enroll extends javax.swing.JFrame {
         String textFieldText = jTextField3.getText();
         semesterNumber = textFieldText.substring(textFieldText.indexOf(' ') + 1, textFieldText.indexOf(' ', textFieldText.indexOf(' ') + 1));
         //Get campuszy
+
+        //Get value if user not click the bitch
+        campus = (String) jComboBox1.getSelectedItem();
         jComboBox1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (jComboBox1.getSelectedIndex() != -1) {
+                    // Get value if the user clicks the bitch
                     campus = (String) jComboBox1.getSelectedItem();
                 }
             }
         });
+    }
+    
+    public step1_enroll(int userSessionID, String semesterNumber, String selectedCourse, String curriculum, String campus, String courseID, String courseName, int yearLevel) {
+        initComponents();
+        this.userSessionID = userSessionID;
+        this.userSessionID = userSessionID;
+        this.semesterNumber = semesterNumber;
+        this.selectedCourse = selectedCourse;
+        this.curriculum = curriculum;
+        this.campus = campus;
+        this.courseID = courseID;
+        this.courseName = courseName;
+        
+        System.out.println(campus);
+        System.out.println(selectedCourse);
+        
+        jComboBox1.setSelectedItem(campus);
+        jTextField1.setText("" + yearLevel);
+        jTextField7.setText("unenrolled");
     }
 
     /**
@@ -96,6 +119,7 @@ public class step1_enroll extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -106,11 +130,6 @@ public class step1_enroll extends javax.swing.JFrame {
 
         jTextField1.setEditable(false);
         jTextField1.setFocusable(false);
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
         getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 390, 360, 30));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bulacan State University - BulSU - Main Campus", "Bustos", "Hagonoy", "Meneses", "San Rafael", "Sarmiento" }));
@@ -127,9 +146,15 @@ public class step1_enroll extends javax.swing.JFrame {
         jLabel6.setText("*");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 380, 30, 50));
 
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--" }));
         jComboBox2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jComboBox2MouseClicked(evt);
+            }
+        });
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
             }
         });
         getContentPane().add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 290, 360, 30));
@@ -149,22 +174,13 @@ public class step1_enroll extends javax.swing.JFrame {
         getContentPane().add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 190, 360, 30));
 
         jTextField5.setEditable(false);
+        jTextField5.setText("0.00");
         jTextField5.setFocusable(false);
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
-            }
-        });
         getContentPane().add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 490, 360, 30));
 
         jTextField6.setEditable(false);
         jTextField6.setFocusable(false);
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 340, 360, 30));
+        getContentPane().add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 350, 360, 30));
 
         jLabel9.setText("  Curriculum");
         getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 330, -1, 50));
@@ -177,11 +193,6 @@ public class step1_enroll extends javax.swing.JFrame {
 
         jTextField7.setEditable(false);
         jTextField7.setFocusable(false);
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
-            }
-        });
         getContentPane().add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 440, 360, 30));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -209,39 +220,34 @@ public class step1_enroll extends javax.swing.JFrame {
         jLabel16.setText("*");
         getContentPane().add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 180, 30, 50));
 
-        jButton2.setText("NEXT");
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/btnNext.png"))); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 630, -1, -1));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1075, 616, -1, -1));
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/btnBack.png"))); // NOI18N
+        jButton1.setOpaque(true);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 616, 40, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg_Step1Enroll.png"))); // NOI18N
         jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
-
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
-
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField7ActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        new step2_enroll(userSessionID, semesterNumber, selectedCourse, curriculum, campus, courseID, courseName).setVisible(true);
+        System.out.println(yearLevel);
+        new step2_enroll(userSessionID, semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, yearLevel).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -285,6 +291,15 @@ public class step1_enroll extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBox2MouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        new HomePage(userSessionID).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -311,16 +326,16 @@ public class step1_enroll extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(step1_enroll.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new step1_enroll(userSessionID).setVisible(true);
+                new step1_enroll(userSessionID, semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, yearLevel).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;

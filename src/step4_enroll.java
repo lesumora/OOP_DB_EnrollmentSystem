@@ -1,3 +1,7 @@
+
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -12,8 +16,27 @@ public class step4_enroll extends javax.swing.JFrame {
     /**
      * Creates new form step4_enroll
      */
-    public step4_enroll() {
+    
+    static String semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, section;
+    static int userSessionID;
+    static List<String> enrolledCode = new ArrayList<>();
+    
+    public step4_enroll(int userSessionID, String semesterNumber, String selectedCourse, String curriculum, String campus, String courseID, String courseName, String section, List<String> enrolledCode) {
         initComponents();
+        
+        this.userSessionID = userSessionID;
+        this.semesterNumber = semesterNumber;
+        this.selectedCourse = selectedCourse;
+        this.curriculum = curriculum;
+        this.campus = campus;
+        this.courseID = courseID;
+        this.courseName = courseName;
+        this.section = section;
+        this.enrolledCode = enrolledCode;
+        
+        jTextField3.setText("2024-2025" + semesterNumber + "Semester");
+        jTextField3.setText(campus);
+        
     }
 
     /**
@@ -100,7 +123,6 @@ public class step4_enroll extends javax.swing.JFrame {
         jLabel16.setText("*");
         getContentPane().add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 250, 70, 50));
 
-        jTextField3.setText("jTextField1");
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField3ActionPerformed(evt);
@@ -113,7 +135,6 @@ public class step4_enroll extends javax.swing.JFrame {
         jLabel3.setText("*");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 300, 70, 50));
 
-        jTextField4.setText("jTextField1");
         jTextField4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField4ActionPerformed(evt);
@@ -228,7 +249,7 @@ public class step4_enroll extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new step4_enroll().setVisible(true);
+                new step4_enroll(userSessionID, semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, section, enrolledCode).setVisible(true);
             }
         });
     }
