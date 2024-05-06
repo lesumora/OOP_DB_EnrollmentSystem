@@ -1,3 +1,7 @@
+
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -12,8 +16,22 @@ public class step3_enroll extends javax.swing.JFrame {
     /**
      * Creates new form step3_enroll
      */
-    public step3_enroll() {
+    
+    static String semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, section;
+    static int userSessionID;
+    static List<String> enrolledCode = new ArrayList<>();
+    
+    public step3_enroll(int userSessionID, String semesterNumber, String selectedCourse, String curriculum, String campus, String courseID, String courseName, String section, List<String> enrolledCode) {
         initComponents();
+        this.userSessionID = userSessionID;
+        this.semesterNumber = semesterNumber;
+        this.selectedCourse = selectedCourse;
+        this.curriculum = curriculum;
+        this.campus = campus;
+        this.courseID = courseID;
+        this.courseName = courseName;
+        this.section = section;
+        this.enrolledCode = enrolledCode;
     }
 
     /**
@@ -30,9 +48,8 @@ public class step3_enroll extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/26.png"))); // NOI18N
-        jLabel1.setText("jLabel1");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -70, 1200, 680));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg_Step3Enroll.png"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 680));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -67,7 +84,7 @@ public class step3_enroll extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new step3_enroll().setVisible(true);
+                new step3_enroll(userSessionID, semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, section, enrolledCode).setVisible(true);
             }
         });
     }

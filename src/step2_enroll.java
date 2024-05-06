@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,6 +28,7 @@ public class step2_enroll extends javax.swing.JFrame {
     final String PASSWORD = "admin";
     static String semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, section;
     static int userSessionID;
+    static List<String> enrolledCode = new ArrayList<>();
     String facultyFirstName, facultyLastName, facultyMiddleName, facultyFullName;
     DefaultTableModel model = new DefaultTableModel();
 
@@ -47,9 +50,9 @@ public class step2_enroll extends javax.swing.JFrame {
                 }
             }
         });
-        
+
         model = (DefaultTableModel) jTable1.getModel();
-        
+
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             // Succesfully connected to database...
@@ -81,12 +84,13 @@ public class step2_enroll extends javax.swing.JFrame {
                 row[5] = resultSetCourseSubject.getObject("Credit");
                 row[6] = resultSetCourseSubject.getObject("Schedule");
                 row[7] = facultyFullName;
-                
+
                 model.addRow(row);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
+
     }
 
     /**
@@ -184,7 +188,16 @@ public class step2_enroll extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+                    Boolean isSelected = (Boolean) jTable1.getValueAt(i, 0);
+                    if (isSelected != null && isSelected) {
+                        String subjectCode = (String) jTable1.getValueAt(i, 1);
+                        String enrolledSubject = subjectCode;
+                        enrolledCode.add(enrolledSubject);
+                    }
+                }
+        System.out.println("Code :" + enrolledCode );
+        new step3_enroll(userSessionID, semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, section, enrolledCode).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -214,6 +227,10 @@ public class step2_enroll extends javax.swing.JFrame {
         }
         //</editor-fold>
 
+        
+        
+        
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
