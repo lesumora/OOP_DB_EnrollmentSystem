@@ -28,7 +28,7 @@ public class step2_enroll extends javax.swing.JFrame {
     final String PASSWORD = "admin";
     static String semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, section;
     static int userSessionID, yearLevel;
-    static List<String> enrolledCode = new ArrayList<>();
+    List<String> enrolledCode = new ArrayList<>();
     String facultyFirstName, facultyLastName, facultyMiddleName, facultyFullName;
     DefaultTableModel model = new DefaultTableModel();
 
@@ -43,15 +43,6 @@ public class step2_enroll extends javax.swing.JFrame {
         this.courseName = courseName;
         this.yearLevel = yearLevel;
 
-        jComboBox1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (jComboBox1.getSelectedIndex() != -1) {
-                    section = (String) jComboBox1.getSelectedItem();
-                }
-            }
-        });
-
         model = (DefaultTableModel) jTable1.getModel();
 
         try {
@@ -65,7 +56,6 @@ public class step2_enroll extends javax.swing.JFrame {
 
             while (resultSetCourseSubject.next()) {
                 int faculty = resultSetCourseSubject.getInt("EmpID");
-
                 String sqlFaculty = "SELECT * FROM FACULTY WHERE EmpID = ?";
                 PreparedStatement preparedStatementFaculty = conn.prepareStatement(sqlFaculty);
                 preparedStatementFaculty.setInt(1, faculty);
@@ -91,7 +81,54 @@ public class step2_enroll extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
+    }
 
+    public step2_enroll(int userSessionID, String semesterNumber, String selectedCourse, String curriculum, String campus, String courseID, String courseName, String section, List<String> enrolledCode, int yearLevel) {
+        initComponents();
+
+        jComboBox1.setSelectedItem(section);
+
+        model = (DefaultTableModel) jTable1.getModel();
+
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            // Successfully connected to the database...
+
+            String sqlCourseSubject = "SELECT SubjectCode, SubjectTitle, Lecture, Lab, Credit, Schedule, EmpID FROM COURSE_SUBJECT WHERE CourseID = ?";
+            PreparedStatement preparedStatementCourseSubject = conn.prepareStatement(sqlCourseSubject);
+            preparedStatementCourseSubject.setString(1, courseID);
+            ResultSet resultSetCourseSubject = preparedStatementCourseSubject.executeQuery();
+
+            while (resultSetCourseSubject.next()) {
+                int faculty = resultSetCourseSubject.getInt("EmpID");
+
+                String sqlFaculty = "SELECT * FROM FACULTY WHERE EmpID = ?";
+                PreparedStatement preparedStatementFaculty = conn.prepareStatement(sqlFaculty);
+                preparedStatementFaculty.setInt(1, faculty);
+                ResultSet resultSetFaculty = preparedStatementFaculty.executeQuery();
+                if (resultSetFaculty.next()) {
+                    facultyFirstName = resultSetFaculty.getString("FName");
+                    facultyLastName = resultSetFaculty.getString("LName");
+                    facultyFullName = facultyFirstName + " " + facultyLastName;
+                }
+
+                Object[] row = new Object[8];
+                String subjectCode = resultSetCourseSubject.getString("SubjectCode");
+                boolean isSelected = enrolledCode.contains(subjectCode); // Check if the code is in enrolledCode list
+                row[0] = isSelected;
+                row[1] = subjectCode;
+                row[2] = resultSetCourseSubject.getObject("SubjectTitle");
+                row[3] = resultSetCourseSubject.getObject("Lecture");
+                row[4] = resultSetCourseSubject.getObject("Lab");
+                row[5] = resultSetCourseSubject.getObject("Credit");
+                row[6] = resultSetCourseSubject.getObject("Schedule");
+                row[7] = facultyFullName;
+
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 
     /**
@@ -116,6 +153,16 @@ public class step2_enroll extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Section A", "Section B", "Section C", "Section D" }));
+        jComboBox1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBox1MouseClicked(evt);
+            }
+        });
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 140, 350, 30));
 
         jLabel3.setForeground(new java.awt.Color(204, 0, 0));
@@ -129,6 +176,11 @@ public class step2_enroll extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(0, 153, 255));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Register selected");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -198,24 +250,39 @@ public class step2_enroll extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        for (int i = 0; i < jTable1.getRowCount(); i++) {
-                    Boolean isSelected = (Boolean) jTable1.getValueAt(i, 0);
-                    if (isSelected != null && isSelected) {
-                        String subjectCode = (String) jTable1.getValueAt(i, 1);
-                        String enrolledSubject = subjectCode;
-                        enrolledCode.add(enrolledSubject);
-                    }
-                }
-        System.out.println("Code :" + enrolledCode );
-        new step3_enroll(userSessionID, semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, section, enrolledCode, yearLevel).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         new step1_enroll(userSessionID, semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, yearLevel).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox1MouseClicked
+
+    }//GEN-LAST:event_jComboBox1MouseClicked
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        if (jComboBox1.getSelectedIndex() != -1) {
+            section = (String) jComboBox1.getSelectedItem();
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+            Boolean isSelected = (Boolean) jTable1.getValueAt(i, 0);
+            if (isSelected != null && isSelected) {
+                String subjectCode = (String) jTable1.getValueAt(i, 1);
+                String enrolledSubject = subjectCode;
+                enrolledCode.add(enrolledSubject);
+            }
+        }
+        System.out.println("Code :" + enrolledCode);
+        new step3_enroll(userSessionID, semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, section, enrolledCode, yearLevel).setVisible(true);
+        this.dispose();
+        System.out.println("Code :" + enrolledCode);
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -244,10 +311,6 @@ public class step2_enroll extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        
-        
-        
-        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

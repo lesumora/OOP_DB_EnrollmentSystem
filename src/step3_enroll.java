@@ -1,12 +1,18 @@
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author acer
@@ -16,11 +22,13 @@ public class step3_enroll extends javax.swing.JFrame {
     /**
      * Creates new form step3_enroll
      */
-    
+    final String DB_URL = "jdbc:sqlserver://localhost\\DESKTOP-FT3D7QK:1433;databaseName=enrollment;encrypt=true;trustServerCertificate=true";
+    final String USERNAME = "admin";
+    final String PASSWORD = "admin";
     static String semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, section;
     static int userSessionID, yearLevel;
     static List<String> enrolledCode = new ArrayList<>();
-    
+
     public step3_enroll(int userSessionID, String semesterNumber, String selectedCourse, String curriculum, String campus, String courseID, String courseName, String section, List<String> enrolledCode, int yearLevel) {
         initComponents();
         this.userSessionID = userSessionID;
@@ -33,6 +41,35 @@ public class step3_enroll extends javax.swing.JFrame {
         this.section = section;
         this.enrolledCode = enrolledCode;
         this.yearLevel = yearLevel;
+
+        System.out.println("step 3" + enrolledCode);
+
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            // Succesfully connected to database...
+
+            // Get the current date and time
+            LocalDateTime now = LocalDateTime.now();
+            // Convert LocalDateTime to java.sql.Timestamp
+            Timestamp currentTimestamp = Timestamp.valueOf(now);
+            
+            
+
+            String sqlStudent = "UPDATE STUDENT SET Semester = ?, Section = ?, Campus = ?, CourseID = ?, "
+                    + "EnrollmentStatus = ? WHERE UserID = ?";
+            PreparedStatement preparedStatementRegister = conn.prepareStatement(sqlStudent);
+            preparedStatementRegister.setString(1, semesterNumber);
+            preparedStatementRegister.setString(2, section);
+            preparedStatementRegister.setString(3, campus);
+            preparedStatementRegister.setString(4, courseID);
+            preparedStatementRegister.setString(5, "enrolled");
+            preparedStatementRegister.setInt(6, userSessionID);
+
+            int rowsUpdatedStudent = preparedStatementRegister.executeUpdate();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 
     /**
@@ -88,16 +125,16 @@ public class step3_enroll extends javax.swing.JFrame {
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 680));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new step2_enroll(userSessionID, semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, yearLevel).setVisible(true);
+        new step2_enroll(userSessionID, semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, section, enrolledCode, yearLevel).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        new step2_enroll(userSessionID, semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, yearLevel).setVisible(true);
-        this.dispose();
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

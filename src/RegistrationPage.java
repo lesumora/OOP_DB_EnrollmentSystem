@@ -175,7 +175,7 @@ public class RegistrationPage extends javax.swing.JFrame {
         if (!mName.isBlank()) {
             registerUser(fName, mName, lName, email, username, password, confirmPassword);
         } else {
-            registerUser(fName, "null", lName, email, username, password, confirmPassword);
+            registerUser(fName, "N/A", lName, email, username, password, confirmPassword);
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed

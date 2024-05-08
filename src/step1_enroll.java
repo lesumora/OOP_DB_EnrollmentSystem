@@ -28,6 +28,7 @@ public class step1_enroll extends javax.swing.JFrame {
     final String PASSWORD = "admin";
     static String semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, section;
     static int userSessionID, yearLevel;
+    
 
     public step1_enroll(int userSessionID){
         initComponents();
@@ -57,12 +58,13 @@ public class step1_enroll extends javax.swing.JFrame {
         //Get campuszy
 
         //Get value if user not click the bitch
-        campus = (String) jComboBox1.getSelectedItem();
         jComboBox1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (jComboBox1.getSelectedIndex() != -1) {
                     // Get value if the user clicks the bitch
+                    campus = (String) jComboBox1.getSelectedItem();
+                }else{
                     campus = (String) jComboBox1.getSelectedItem();
                 }
             }
@@ -82,6 +84,7 @@ public class step1_enroll extends javax.swing.JFrame {
         
         System.out.println(campus);
         System.out.println(selectedCourse);
+        System.out.println(courseID);
         
         jComboBox1.setSelectedItem(campus);
         jTextField1.setText("" + yearLevel);
@@ -134,6 +137,11 @@ public class step1_enroll extends javax.swing.JFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bulacan State University - BulSU - Main Campus", "Bustos", "Hagonoy", "Meneses", "San Rafael", "Sarmiento" }));
         jComboBox1.setToolTipText("");
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 240, 360, 30));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -299,6 +307,10 @@ public class step1_enroll extends javax.swing.JFrame {
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
