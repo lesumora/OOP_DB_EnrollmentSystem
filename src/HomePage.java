@@ -8,47 +8,56 @@
  * @author Jaden
  */
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 public class HomePage extends javax.swing.JFrame {
 
     /**
      * Creates new form HomePage
      */
+    final String DB_URL = "jdbc:sqlserver://localhost\\DESKTOP-FT3D7QK:1433;databaseName=enrollment;encrypt=true;trustServerCertificate=true";
+    final String USERNAME = "admin";
+    final String PASSWORD = "admin";
+    String enrollmentStatus;
     static int userSessionID;
-    
+
     public HomePage(int userSessionID) {
         initComponents();
         {
-        jButton1.setOpaque(false); // Make the button transparent
-        jButton1.setContentAreaFilled(false); // Don't fill the button area with background
-        jButton1.setBorderPainted(false); // Remove the default button border
-        jButton1.setForeground(Color.WHITE); // Set text color
-        jButton1.setFocusPainted(false); // Remove focus border
-        jButton1.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+            jButton1.setOpaque(false); // Make the button transparent
+            jButton1.setContentAreaFilled(false); // Don't fill the button area with background
+            jButton1.setBorderPainted(false); // Remove the default button border
+            jButton1.setForeground(Color.WHITE); // Set text color
+            jButton1.setFocusPainted(false); // Remove focus border
+            jButton1.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
         {
-        jButton3.setOpaque(false); // Make the button transparent
-        jButton3.setContentAreaFilled(false); // Don't fill the button area with background
-        jButton3.setBorderPainted(false); // Remove the default button border
-        jButton3.setForeground(Color.WHITE); // Set text color
-        jButton3.setFocusPainted(false); // Remove focus border
-        jButton3.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+            jButton3.setOpaque(false); // Make the button transparent
+            jButton3.setContentAreaFilled(false); // Don't fill the button area with background
+            jButton3.setBorderPainted(false); // Remove the default button border
+            jButton3.setForeground(Color.WHITE); // Set text color
+            jButton3.setFocusPainted(false); // Remove focus border
+            jButton3.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
         {
-        jButton4.setOpaque(false); // Make the button transparent
-        jButton4.setContentAreaFilled(false); // Don't fill the button area with background
-        jButton4.setBorderPainted(false); // Remove the default button border
-        jButton4.setForeground(Color.WHITE); // Set text color
-        jButton4.setFocusPainted(false); // Remove focus border
-        jButton4.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+            jButton4.setOpaque(false); // Make the button transparent
+            jButton4.setContentAreaFilled(false); // Don't fill the button area with background
+            jButton4.setBorderPainted(false); // Remove the default button border
+            jButton4.setForeground(Color.WHITE); // Set text color
+            jButton4.setFocusPainted(false); // Remove focus border
+            jButton4.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
         {
-        jButton5.setOpaque(false); // Make the button transparent
-        jButton5.setContentAreaFilled(false); // Don't fill the button area with background
-        jButton5.setBorderPainted(false); // Remove the default button border
-        jButton5.setForeground(Color.WHITE); // Set text color
-        jButton5.setFocusPainted(false); // Remove focus border
-        jButton5.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+            jButton5.setOpaque(false); // Make the button transparent
+            jButton5.setContentAreaFilled(false); // Don't fill the button area with background
+            jButton5.setBorderPainted(false); // Remove the default button border
+            jButton5.setForeground(Color.WHITE); // Set text color
+            jButton5.setFocusPainted(false); // Remove focus border
+            jButton5.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
         this.userSessionID = userSessionID;
         jLabel2.setText("ID IS " + HomePage.userSessionID);
@@ -130,8 +139,30 @@ public class HomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        new step1_enroll(userSessionID).setVisible(true);
-        this.dispose();
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+
+            String sqlEnrollmentStatus = "SELECT EnrollmentStatus FROM STUDENT WHERE UserID = ?";
+            PreparedStatement preparedStatementEnrollmentStatus = conn.prepareStatement(sqlEnrollmentStatus);
+            preparedStatementEnrollmentStatus.setInt(1, userSessionID);
+            ResultSet resultSetEnrollmentStatus = preparedStatementEnrollmentStatus.executeQuery();
+
+            if (resultSetEnrollmentStatus.next()) {
+                enrollmentStatus = resultSetEnrollmentStatus.getString("EnrollmentStatus");
+                if (!enrollmentStatus.equalsIgnoreCase("enrolled")) {
+                    new step1_enroll(userSessionID).setVisible(true);
+                    this.dispose();
+                }else{
+                    new step5_enroll(userSessionID).setVisible(true);
+                    this.dispose();
+                }
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
+        }
+
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -165,7 +196,7 @@ public class HomePage extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(HomePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

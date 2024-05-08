@@ -10,7 +10,6 @@ import javax.swing.JOptionPane;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author acer
@@ -23,17 +22,55 @@ public class step5_enroll extends javax.swing.JFrame {
     final String DB_URL = "jdbc:sqlserver://localhost\\DESKTOP-FT3D7QK:1433;databaseName=enrollment;encrypt=true;trustServerCertificate=true";
     final String USERNAME = "admin";
     final String PASSWORD = "admin";
-    String academicProgram, curriculum;
-    static String campus, status, courseId, section;
-    static int registrationId, yearLevel;
-    static Timestamp registrationDate;
+    String academicProgram, curriculum, campus, status, courseId, section;
+    static int userSessionID;
+    int registrationId, yearLevel, studId;
+    Timestamp registrationDate;
 
-    
-    public step5_enroll() {
+    public step5_enroll(int userSessionID) {
         initComponents();
+
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+
+            String sqlStudent = "SELECT * FROM STUDENT where UserID = ?";
+            PreparedStatement preparedStatementStudent = conn.prepareStatement(sqlStudent);
+            preparedStatementStudent.setInt(1, userSessionID);
+            ResultSet resultSetCourseSubject = preparedStatementStudent.executeQuery();
+
+            if (resultSetCourseSubject.next()) {
+                campus = resultSetCourseSubject.getString("Campus");
+                status = resultSetCourseSubject.getString("EnrollmentStatus");
+                courseId = resultSetCourseSubject.getString("CourseID");
+                yearLevel = resultSetCourseSubject.getInt("YearLevel");
+                section = resultSetCourseSubject.getString("Section");
+                studId = resultSetCourseSubject.getInt("StudID");
+
+                jTextField4.setText(campus);
+                jTextField1.setText(status);
+            }
+
+            String sqlAcademicProgram = "SELECT * FROM COURSE WHERE CourseID = ?";
+            PreparedStatement preparedStatementAcademicProgram = conn.prepareStatement(sqlAcademicProgram);
+            preparedStatementAcademicProgram.setString(1, courseId);
+            ResultSet resultSetAcademicProgram = preparedStatementAcademicProgram.executeQuery();
+
+            if (resultSetAcademicProgram.next()) {
+                academicProgram = resultSetAcademicProgram.getString("CourseName");
+                curriculum = resultSetAcademicProgram.getString("Curriculum");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
+        }
+
+        jTextField4.setText(campus);
+        jTextField2.setText(academicProgram);
+        jTextField6.setText(curriculum);
+        jTextField1.setText("" + yearLevel);
+        jTextField7.setText(section);
     }
-    
-    public step5_enroll(String campus, String status, int registrationId, Timestamp registrationDate, String courseId, int yearLevel, String section){
+
+    public step5_enroll(String campus, String status, int registrationId, Timestamp registrationDate, String courseId, int yearLevel, String section) {
         initComponents();
         this.campus = campus;
         this.status = status;
@@ -42,30 +79,30 @@ public class step5_enroll extends javax.swing.JFrame {
         this.courseId = courseId;
         this.yearLevel = yearLevel;
         this.section = section;
-        
+
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            
+
             String sqlAcademicProgram = "SELECT * FROM COURSE WHERE CourseID = ?";
             PreparedStatement preparedStatementAcademicProgram = conn.prepareStatement(sqlAcademicProgram);
             preparedStatementAcademicProgram.setString(1, courseId);
             ResultSet resultSetAcademicProgram = preparedStatementAcademicProgram.executeQuery();
-            
-            if(resultSetAcademicProgram.next()){
-               academicProgram = resultSetAcademicProgram.getString("CourseName");
-               curriculum = resultSetAcademicProgram.getString("Curriculum");
+
+            if (resultSetAcademicProgram.next()) {
+                academicProgram = resultSetAcademicProgram.getString("CourseName");
+                curriculum = resultSetAcademicProgram.getString("Curriculum");
             }
-            
-        } catch(Exception e){
+
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
         }
-        
+
         jTextField4.setText(campus);
         jTextField2.setText(academicProgram);
         jTextField6.setText(curriculum);
         jTextField1.setText("" + yearLevel);
         jTextField7.setText(section);
-        
+
     }
 
     /**
@@ -227,7 +264,7 @@ public class step5_enroll extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new step5_enroll().setVisible(true);
+                new step5_enroll(userSessionID).setVisible(true);
             }
         });
     }
