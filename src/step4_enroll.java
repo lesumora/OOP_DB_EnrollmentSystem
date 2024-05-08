@@ -1,12 +1,15 @@
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import javax.swing.JOptionPane;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author acer
@@ -16,10 +19,56 @@ public class step4_enroll extends javax.swing.JFrame {
     /**
      * Creates new form step4_enroll
      */
-    
-    public step4_enroll() {
+    final String DB_URL = "jdbc:sqlserver://localhost\\DESKTOP-FT3D7QK:1433;databaseName=enrollment;encrypt=true;trustServerCertificate=true";
+    final String USERNAME = "admin";
+    final String PASSWORD = "admin";
+    String campus, status, courseId, section;
+    static int userSessionId;
+    int studId, registrationId, yearLevel;
+    Timestamp registrationDate;
+
+    public step4_enroll(int userSessionID) {
         initComponents();
-        
+        this.userSessionId = userSessionID;
+
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            // Succesfully connected to database...
+
+            String sqlStudent = "SELECT * FROM STUDENT where UserID = ?";
+            PreparedStatement preparedStatementStudent = conn.prepareStatement(sqlStudent);
+            preparedStatementStudent.setInt(1, userSessionID);
+            ResultSet resultSetCourseSubject = preparedStatementStudent.executeQuery();
+
+            if (resultSetCourseSubject.next()) {
+                campus = resultSetCourseSubject.getString("Campus");
+                status = resultSetCourseSubject.getString("EnrollmentStatus");
+                courseId = resultSetCourseSubject.getString("CourseID");
+                yearLevel = resultSetCourseSubject.getInt("YearLevel");
+                section = resultSetCourseSubject.getString("Section");
+                studId = resultSetCourseSubject.getInt("StudID");
+
+                jTextField4.setText(campus);
+                jTextField1.setText(status);
+            }
+
+            String sqlEnrollment = "SELECT * FROM ENROLLMENT where StudID = ?";
+            PreparedStatement preparedStatementEnrollment = conn.prepareStatement(sqlEnrollment);
+            preparedStatementEnrollment.setInt(1, studId);
+            ResultSet resultSetEnrollment = preparedStatementEnrollment.executeQuery();
+
+            if (resultSetEnrollment.next()) {
+                registrationId = resultSetEnrollment.getInt("EnrollmentID");
+                registrationDate = resultSetEnrollment.getTimestamp("EnrollmentDate");
+
+                jTextField2.setText("" + registrationId);
+                jTextField6.setText("" + registrationDate);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
     }
 
     /**
@@ -55,6 +104,7 @@ public class step4_enroll extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
 
         jToolBar9.setBackground(new java.awt.Color(187, 15, 15));
@@ -106,15 +156,23 @@ public class step4_enroll extends javax.swing.JFrame {
         jLabel16.setForeground(new java.awt.Color(204, 0, 0));
         jLabel16.setText("*");
         getContentPane().add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 250, 70, 50));
+
+        jTextField3.setEditable(false);
+        jTextField3.setText("2024-2025 2nd Semester");
+        jTextField3.setFocusable(false);
         getContentPane().add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 260, 430, 30));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(204, 0, 0));
         jLabel3.setText("*");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 300, 70, 50));
+
+        jTextField4.setEditable(false);
+        jTextField4.setFocusable(false);
         getContentPane().add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 310, 430, 30));
 
-        jTextField2.setText("jTextField1");
+        jTextField2.setEditable(false);
+        jTextField2.setFocusable(false);
         getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 360, 430, 30));
 
         jLabel7.setText("Registration ID");
@@ -128,7 +186,8 @@ public class step4_enroll extends javax.swing.JFrame {
         jLabel9.setText("  Registration Date");
         getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 400, 140, 50));
 
-        jTextField6.setText("jTextField1");
+        jTextField6.setEditable(false);
+        jTextField6.setFocusable(false);
         getContentPane().add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 410, 430, 30));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -144,11 +203,20 @@ public class step4_enroll extends javax.swing.JFrame {
         jLabel6.setText("*");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 450, 70, 50));
 
-        jTextField1.setText("jTextField1");
+        jTextField1.setEditable(false);
+        jTextField1.setFocusable(false);
         getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 460, 430, 30));
 
         jLabel10.setText("Campus");
         getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 310, 90, 30));
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/btnNext.png"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 616, -1, -1));
 
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg_Step4Enroll.png"))); // NOI18N
         getContentPane().add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -156,6 +224,11 @@ public class step4_enroll extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        new step5_enroll(campus, status, registrationId, registrationDate, courseId, yearLevel, section).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -187,12 +260,13 @@ public class step4_enroll extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new step4_enroll().setVisible(true);
+                new step4_enroll(userSessionId).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;

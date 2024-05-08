@@ -26,16 +26,15 @@ public class step2_enroll extends javax.swing.JFrame {
     final String DB_URL = "jdbc:sqlserver://localhost\\DESKTOP-FT3D7QK:1433;databaseName=enrollment;encrypt=true;trustServerCertificate=true";
     final String USERNAME = "admin";
     final String PASSWORD = "admin";
-    static String semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, section;
+    static String selectedCourse, curriculum, campus, courseID, courseName, section;
     static int userSessionID, yearLevel;
     List<String> enrolledCode = new ArrayList<>();
     String facultyFirstName, facultyLastName, facultyMiddleName, facultyFullName;
     DefaultTableModel model = new DefaultTableModel();
 
-    public step2_enroll(int userSessionID, String semesterNumber, String selectedCourse, String curriculum, String campus, String courseID, String courseName, int yearLevel) {
+    public step2_enroll(int userSessionID, String selectedCourse, String curriculum, String campus, String courseID, String courseName, int yearLevel) {
         initComponents();
         this.userSessionID = userSessionID;
-        this.semesterNumber = semesterNumber;
         this.selectedCourse = selectedCourse;
         this.curriculum = curriculum;
         this.campus = campus;
@@ -86,7 +85,7 @@ public class step2_enroll extends javax.swing.JFrame {
         }
     }
 
-    public step2_enroll(int userSessionID, String semesterNumber, String selectedCourse, String curriculum, String campus, String courseID, String courseName, String section, List<String> enrolledCode, int yearLevel) {
+    public step2_enroll(int userSessionID, String selectedCourse, String curriculum, String campus, String courseID, String courseName, String section, List<String> enrolledCode, int yearLevel) {
         initComponents();
         jComboBox1.setSelectedItem(section);
         
@@ -254,7 +253,7 @@ public class step2_enroll extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        new step1_enroll(userSessionID, semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, yearLevel).setVisible(true);
+        new step1_enroll(userSessionID, selectedCourse, curriculum, campus, courseID, courseName, yearLevel).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -282,7 +281,7 @@ public class step2_enroll extends javax.swing.JFrame {
             }
         }
         System.out.println("Code :" + enrolledCode);
-        new step3_enroll(userSessionID, semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, section, enrolledCode, yearLevel).setVisible(true);
+        new step3_enroll(userSessionID, selectedCourse, curriculum, campus, courseID, courseName, section, enrolledCode, yearLevel).setVisible(true);
         this.dispose();
         System.out.println("Code :" + enrolledCode);
     }//GEN-LAST:event_jButton1MouseClicked
@@ -317,7 +316,7 @@ public class step2_enroll extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new step2_enroll(userSessionID, semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, yearLevel).setVisible(true);
+                new step2_enroll(userSessionID, selectedCourse, curriculum, campus, courseID, courseName, yearLevel).setVisible(true);
             }
         });
     }

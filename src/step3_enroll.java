@@ -25,14 +25,13 @@ public class step3_enroll extends javax.swing.JFrame {
     final String DB_URL = "jdbc:sqlserver://localhost\\DESKTOP-FT3D7QK:1433;databaseName=enrollment;encrypt=true;trustServerCertificate=true";
     final String USERNAME = "admin";
     final String PASSWORD = "admin";
-    static String semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, section;
+    static String selectedCourse, curriculum, campus, courseID, courseName, section;
     static int userSessionID, yearLevel, studentID;
     static List<String> enrolledCode = new ArrayList<>();
 
-    public step3_enroll(int userSessionID, String semesterNumber, String selectedCourse, String curriculum, String campus, String courseID, String courseName, String section, List<String> enrolledCode, int yearLevel) {
+    public step3_enroll(int userSessionID, String selectedCourse, String curriculum, String campus, String courseID, String courseName, String section, List<String> enrolledCode, int yearLevel) {
         initComponents();
         this.userSessionID = userSessionID;
-        this.semesterNumber = semesterNumber;
         this.selectedCourse = selectedCourse;
         this.curriculum = curriculum;
         this.campus = campus;
@@ -103,7 +102,7 @@ public class step3_enroll extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new step2_enroll(userSessionID, semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, section, enrolledCode, yearLevel).setVisible(true);
+        new step2_enroll(userSessionID, selectedCourse, curriculum, campus, courseID, courseName, section, enrolledCode, yearLevel).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -180,22 +179,21 @@ public class step3_enroll extends javax.swing.JFrame {
                 System.out.println("ENROLLMENT table success");
             }
 
-            String sqlStudent = "UPDATE STUDENT SET Semester = ?, Section = ?, Campus = ?, CourseID = ?, "
+            String sqlStudent = "UPDATE STUDENT SET Section = ?, Campus = ?, CourseID = ?, "
                     + "EnrollmentStatus = ? WHERE UserID = ?";
             PreparedStatement preparedStatementRegister = conn.prepareStatement(sqlStudent);
-            preparedStatementRegister.setString(1, semesterNumber);
-            preparedStatementRegister.setString(2, section);
-            preparedStatementRegister.setString(3, campus);
-            preparedStatementRegister.setString(4, courseID);
-            preparedStatementRegister.setString(5, "enrolled");
-            preparedStatementRegister.setInt(6, userSessionID);
+            preparedStatementRegister.setString(1, section);
+            preparedStatementRegister.setString(2, campus);
+            preparedStatementRegister.setString(3, courseID);
+            preparedStatementRegister.setString(4, "enrolled");
+            preparedStatementRegister.setInt(5, userSessionID);
 
             int rowsUpdatedStudent = preparedStatementRegister.executeUpdate();
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-        new step4_enroll().setVisible(true);
+        new step4_enroll(userSessionID).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -229,7 +227,7 @@ public class step3_enroll extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new step3_enroll(userSessionID, semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, section, enrolledCode, yearLevel).setVisible(true);
+                new step3_enroll(userSessionID, selectedCourse, curriculum, campus, courseID, courseName, section, enrolledCode, yearLevel).setVisible(true);
             }
         });
     }
