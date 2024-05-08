@@ -42,6 +42,9 @@ public class step2_enroll extends javax.swing.JFrame {
         this.courseID = courseID;
         this.courseName = courseName;
         this.yearLevel = yearLevel;
+        
+        section = (String) jComboBox1.getSelectedItem();
+        System.out.println(campus);
 
         model = (DefaultTableModel) jTable1.getModel();
 
@@ -85,8 +88,8 @@ public class step2_enroll extends javax.swing.JFrame {
 
     public step2_enroll(int userSessionID, String semesterNumber, String selectedCourse, String curriculum, String campus, String courseID, String courseName, String section, List<String> enrolledCode, int yearLevel) {
         initComponents();
-
         jComboBox1.setSelectedItem(section);
+        
 
         model = (DefaultTableModel) jTable1.getModel();
 

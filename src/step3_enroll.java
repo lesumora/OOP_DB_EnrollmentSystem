@@ -26,7 +26,7 @@ public class step3_enroll extends javax.swing.JFrame {
     final String USERNAME = "admin";
     final String PASSWORD = "admin";
     static String semesterNumber, selectedCourse, curriculum, campus, courseID, courseName, section;
-    static int userSessionID, yearLevel;
+    static int userSessionID, yearLevel, studentID;
     static List<String> enrolledCode = new ArrayList<>();
 
     public step3_enroll(int userSessionID, String semesterNumber, String selectedCourse, String curriculum, String campus, String courseID, String courseName, String section, List<String> enrolledCode, int yearLevel) {
@@ -43,33 +43,7 @@ public class step3_enroll extends javax.swing.JFrame {
         this.yearLevel = yearLevel;
 
         System.out.println("step 3" + enrolledCode);
-
-        try {
-            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            // Succesfully connected to database...
-
-            // Get the current date and time
-            LocalDateTime now = LocalDateTime.now();
-            // Convert LocalDateTime to java.sql.Timestamp
-            Timestamp currentTimestamp = Timestamp.valueOf(now);
-            
-            
-
-            String sqlStudent = "UPDATE STUDENT SET Semester = ?, Section = ?, Campus = ?, CourseID = ?, "
-                    + "EnrollmentStatus = ? WHERE UserID = ?";
-            PreparedStatement preparedStatementRegister = conn.prepareStatement(sqlStudent);
-            preparedStatementRegister.setString(1, semesterNumber);
-            preparedStatementRegister.setString(2, section);
-            preparedStatementRegister.setString(3, campus);
-            preparedStatementRegister.setString(4, courseID);
-            preparedStatementRegister.setString(5, "enrolled");
-            preparedStatementRegister.setInt(6, userSessionID);
-
-            int rowsUpdatedStudent = preparedStatementRegister.executeUpdate();
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
+        System.out.println(campus);
     }
 
     /**
@@ -134,7 +108,95 @@ public class step3_enroll extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            // Succesfully connected to database...
+            
+            String sqlStudentInfo = "SELECT * FROM STUDENT where UserID = ?";
+            PreparedStatement preparedStatementStudent = conn.prepareStatement(sqlStudentInfo);
+            preparedStatementStudent.setInt(1, userSessionID);
+            ResultSet resultSetStudentInfo = preparedStatementStudent.executeQuery();
+            
+            if(resultSetStudentInfo.next()){
+                studentID = resultSetStudentInfo.getInt("StudID");
+            }
+            
 
+            String sqlEnrolledSubject = "INSERT INTO ENROLLED_SUBJECT (StudID, SubjectCode, Section)"
+                    + "VALUES (?, ?, ?)";
+            for (String subjectCode : enrolledCode) {
+                PreparedStatement preparedStatementEnrolledSubject = conn.prepareStatement(sqlEnrolledSubject, new String[]{"EnrolledSubjectID"});
+                preparedStatementEnrolledSubject.setInt(1, studentID);
+                preparedStatementEnrolledSubject.setString(2, subjectCode);
+                preparedStatementEnrolledSubject.setString(3, section);
+
+                int rowsInserted = preparedStatementEnrolledSubject.executeUpdate();
+
+                if (rowsInserted > 0) {
+                    System.out.println("ENROLLMENT_SUBJECT table success" + subjectCode);
+                }
+            }
+
+            /*{String sqlEnrolledSubject = "INSERT INTO ENROLLED_SUBJECT (Section, StudID, SubjectCode)"
+                    + "VALUES (?, ?, ?)";
+            PreparedStatement preparedStatementEnrolledSubject = conn.prepareStatement(sqlEnrolledSubject, new String[]{"EnrolledSubjectID"});
+            preparedStatementEnrolledSubject.setString(1, section);
+            preparedStatementEnrolledSubject.setInt(2, userSessionID);
+            preparedStatementEnrolledSubject.setString(3, enrolledCode.getFirst());
+
+            int rowsInserted = preparedStatementEnrolledSubject.executeUpdate();
+            
+            if (rowsInserted > 0) {
+                ResultSet generatedKeys = preparedStatementEnrolledSubject.getGeneratedKeys();
+                System.out.println("Successful insertion of subject!@!@#");
+                if (generatedKeys.next()) {
+                    int enrollmentId = generatedKeys.getInt(1);
+                    String sqlName = "INSERT INTO ENROLLED_SUBJECT (EnrolledSubjectID, Section, StudID, SubjectCode)";
+                    for (int i = 1; i < enrolledCode.size(); i++) {
+                        String subjectCode = enrolledCode.get(i);
+                        
+                        preparedStatementEnrolledSubject.setInt(1, enrollmentId);
+                        preparedStatementEnrolledSubject.setString(2, section);
+                        preparedStatementEnrolledSubject.setInt(3, userSessionID);
+                        preparedStatementEnrolledSubject.setString(4, subjectCode);
+                    }
+                }
+            }*/
+            // Get the current date and time
+            LocalDateTime now = LocalDateTime.now();
+            // Convert LocalDateTime to java.sql.Timestamp
+            Timestamp currentTimestamp = Timestamp.valueOf(now);
+
+            String sqlEnrollmentStatus = "INSERT INTO ENROLLMENT (EnrollmentDate, StudID, CourseID)"
+                    + "VALUES (?, ?, ?)";
+            PreparedStatement preparedStatementEnrollmentStatus = conn.prepareStatement(sqlEnrollmentStatus);
+            preparedStatementEnrollmentStatus.setTimestamp(1, currentTimestamp);
+            preparedStatementEnrollmentStatus.setInt(2, studentID);
+            preparedStatementEnrollmentStatus.setString(3, courseID);
+
+            int rowsInserted = preparedStatementEnrollmentStatus.executeUpdate();
+
+            if (rowsInserted > 0) {
+                System.out.println("ENROLLMENT table success");
+            }
+
+            String sqlStudent = "UPDATE STUDENT SET Semester = ?, Section = ?, Campus = ?, CourseID = ?, "
+                    + "EnrollmentStatus = ? WHERE UserID = ?";
+            PreparedStatement preparedStatementRegister = conn.prepareStatement(sqlStudent);
+            preparedStatementRegister.setString(1, semesterNumber);
+            preparedStatementRegister.setString(2, section);
+            preparedStatementRegister.setString(3, campus);
+            preparedStatementRegister.setString(4, courseID);
+            preparedStatementRegister.setString(5, "enrolled");
+            preparedStatementRegister.setInt(6, userSessionID);
+
+            int rowsUpdatedStudent = preparedStatementRegister.executeUpdate();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        new step4_enroll().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
