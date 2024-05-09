@@ -11,48 +11,45 @@ import java.awt.Cursor;
  *
  * @author acer
  */
-public class aboutbulsu extends javax.swing.JFrame {
+public class AcademicsPage extends javax.swing.JFrame {
 
-    /**
-     * Creates new form aboutbulsu
-     */
     static int userSessionID;
     
-    public aboutbulsu(int userSessionID) {
+    public AcademicsPage(int userSessionID) {
         initComponents();
         this.userSessionID = userSessionID;
         
         {
-        btnHome.setOpaque(false); // Make the button transparent
-        btnHome.setContentAreaFilled(false); // Don't fill the button area with background
-        btnHome.setBorderPainted(false); // Remove the default button border
-        btnHome.setForeground(Color.WHITE); // Set text color
-        btnHome.setFocusPainted(false); // Remove focus border
-        btnHome.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+            btnHome.setOpaque(false); // Make the button transparent
+            btnHome.setContentAreaFilled(false); // Don't fill the button area with background
+            btnHome.setBorderPainted(false); // Remove the default button border
+            btnHome.setForeground(Color.WHITE); // Set text color
+            btnHome.setFocusPainted(false); // Remove focus border
+            btnHome.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
         {
-        btnAcademics.setOpaque(false); // Make the button transparent
-        btnAcademics.setContentAreaFilled(false); // Don't fill the button area with background
-        btnAcademics.setBorderPainted(false); // Remove the default button border
-        btnAcademics.setForeground(Color.WHITE); // Set text color
-        btnAcademics.setFocusPainted(false); // Remove focus border
-        btnAcademics.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+            btnLogout.setOpaque(false); // Make the button transparent
+            btnLogout.setContentAreaFilled(false); // Don't fill the button area with background
+            btnLogout.setBorderPainted(false); // Remove the default button border
+            btnLogout.setForeground(Color.WHITE); // Set text color
+            btnLogout.setFocusPainted(false); // Remove focus border
+            btnLogout.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
         {
-        btnAboutBulsu.setOpaque(false); // Make the button transparent
-        btnAboutBulsu.setContentAreaFilled(false); // Don't fill the button area with background
-        btnAboutBulsu.setBorderPainted(false); // Remove the default button border
-        btnAboutBulsu.setForeground(Color.WHITE); // Set text color
-        btnAboutBulsu.setFocusPainted(false); // Remove focus border
-        btnAboutBulsu.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+            btnAcademics.setOpaque(false); // Make the button transparent
+            btnAcademics.setContentAreaFilled(false); // Don't fill the button area with background
+            btnAcademics.setBorderPainted(false); // Remove the default button border
+            btnAcademics.setForeground(Color.WHITE); // Set text color
+            btnAcademics.setFocusPainted(false); // Remove focus border
+            btnAcademics.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
         {
-        btnLogout.setOpaque(false); // Make the button transparent
-        btnLogout.setContentAreaFilled(false); // Don't fill the button area with background
-        btnLogout.setBorderPainted(false); // Remove the default button border
-        btnLogout.setForeground(Color.WHITE); // Set text color
-        btnLogout.setFocusPainted(false); // Remove focus border
-        btnLogout.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+            btnAboutBulsu.setOpaque(false); // Make the button transparent
+            btnAboutBulsu.setContentAreaFilled(false); // Don't fill the button area with background
+            btnAboutBulsu.setBorderPainted(false); // Remove the default button border
+            btnAboutBulsu.setForeground(Color.WHITE); // Set text color
+            btnAboutBulsu.setFocusPainted(false); // Remove focus border
+            btnAboutBulsu.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
     }
 
@@ -65,26 +62,21 @@ public class aboutbulsu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jPanel2 = new javax.swing.JPanel();
         btnHome = new javax.swing.JButton();
         btnAcademics = new javax.swing.JButton();
         btnAboutBulsu = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1220, 715));
-        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jScrollPane1.setHorizontalScrollBar(null);
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(1250, 2652));
+        jScrollPane2.setHorizontalScrollBar(null);
 
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnHome.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         btnHome.setText("HOME");
@@ -93,7 +85,7 @@ public class aboutbulsu extends javax.swing.JFrame {
                 btnHomeActionPerformed(evt);
             }
         });
-        jPanel1.add(btnHome, new org.netbeans.lib.awtextra.AbsoluteConstraints(147, 98, -1, -1));
+        jPanel2.add(btnHome, new org.netbeans.lib.awtextra.AbsoluteConstraints(147, 98, -1, -1));
 
         btnAcademics.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         btnAcademics.setText("ACADEMICS");
@@ -102,7 +94,7 @@ public class aboutbulsu extends javax.swing.JFrame {
                 btnAcademicsActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAcademics, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 98, -1, -1));
+        jPanel2.add(btnAcademics, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 98, -1, -1));
 
         btnAboutBulsu.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         btnAboutBulsu.setText("ABOUT BULSU");
@@ -111,7 +103,7 @@ public class aboutbulsu extends javax.swing.JFrame {
                 btnAboutBulsuActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAboutBulsu, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 98, -1, -1));
+        jPanel2.add(btnAboutBulsu, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 98, -1, -1));
 
         btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         btnLogout.setText("LOGOUT");
@@ -120,23 +112,17 @@ public class aboutbulsu extends javax.swing.JFrame {
                 btnLogoutActionPerformed(evt);
             }
         });
-        jPanel1.add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 98, -1, -1));
+        jPanel2.add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 98, -1, -1));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg_AboutBulsu1.png"))); // NOI18N
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg_Academics.png"))); // NOI18N
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1190, 670));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg_AboutBulsu2.png"))); // NOI18N
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 660, -1, -1));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg_Academics2.png"))); // NOI18N
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 670, 1290, 640));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg_AboutBulsu3.png"))); // NOI18N
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 1330, -1, -1));
+        jScrollPane2.setViewportView(jPanel2);
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg_AboutBulsu4.png"))); // NOI18N
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 2030, -1, 620));
-
-        jScrollPane1.setViewportView(jPanel1);
-
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 680));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 680));
 
         pack();
         setLocationRelativeTo(null);
@@ -148,8 +134,7 @@ public class aboutbulsu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHomeActionPerformed
 
     private void btnAcademicsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcademicsActionPerformed
-        new AcademicsPage(userSessionID).setVisible(true);
-        this.dispose();
+
         /*try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
 
@@ -175,7 +160,8 @@ public class aboutbulsu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAcademicsActionPerformed
 
     private void btnAboutBulsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAboutBulsuActionPerformed
-        
+        new aboutbulsu(userSessionID).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnAboutBulsuActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
@@ -200,20 +186,23 @@ public class aboutbulsu extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(aboutbulsu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AcademicsPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(aboutbulsu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AcademicsPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(aboutbulsu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AcademicsPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(aboutbulsu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AcademicsPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new aboutbulsu(userSessionID).setVisible(true);
+                new AcademicsPage(userSessionID).setVisible(true);
             }
         });
     }
@@ -224,10 +213,8 @@ public class aboutbulsu extends javax.swing.JFrame {
     private javax.swing.JButton btnHome;
     private javax.swing.JButton btnLogout;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

@@ -28,36 +28,36 @@ public class HomePage extends javax.swing.JFrame {
     public HomePage(int userSessionID) {
         initComponents();
         {
-            jButton1.setOpaque(false); // Make the button transparent
-            jButton1.setContentAreaFilled(false); // Don't fill the button area with background
-            jButton1.setBorderPainted(false); // Remove the default button border
-            jButton1.setForeground(Color.WHITE); // Set text color
-            jButton1.setFocusPainted(false); // Remove focus border
-            jButton1.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+            btnDashboard.setOpaque(false); // Make the button transparent
+            btnDashboard.setContentAreaFilled(false); // Don't fill the button area with background
+            btnDashboard.setBorderPainted(false); // Remove the default button border
+            btnDashboard.setForeground(Color.WHITE); // Set text color
+            btnDashboard.setFocusPainted(false); // Remove focus border
+            btnDashboard.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
         {
-            jButton3.setOpaque(false); // Make the button transparent
-            jButton3.setContentAreaFilled(false); // Don't fill the button area with background
-            jButton3.setBorderPainted(false); // Remove the default button border
-            jButton3.setForeground(Color.WHITE); // Set text color
-            jButton3.setFocusPainted(false); // Remove focus border
-            jButton3.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+            btnLogout.setOpaque(false); // Make the button transparent
+            btnLogout.setContentAreaFilled(false); // Don't fill the button area with background
+            btnLogout.setBorderPainted(false); // Remove the default button border
+            btnLogout.setForeground(Color.WHITE); // Set text color
+            btnLogout.setFocusPainted(false); // Remove focus border
+            btnLogout.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
         {
-            jButton4.setOpaque(false); // Make the button transparent
-            jButton4.setContentAreaFilled(false); // Don't fill the button area with background
-            jButton4.setBorderPainted(false); // Remove the default button border
-            jButton4.setForeground(Color.WHITE); // Set text color
-            jButton4.setFocusPainted(false); // Remove focus border
-            jButton4.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+            btnAcademics.setOpaque(false); // Make the button transparent
+            btnAcademics.setContentAreaFilled(false); // Don't fill the button area with background
+            btnAcademics.setBorderPainted(false); // Remove the default button border
+            btnAcademics.setForeground(Color.WHITE); // Set text color
+            btnAcademics.setFocusPainted(false); // Remove focus border
+            btnAcademics.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
         {
-            jButton5.setOpaque(false); // Make the button transparent
-            jButton5.setContentAreaFilled(false); // Don't fill the button area with background
-            jButton5.setBorderPainted(false); // Remove the default button border
-            jButton5.setForeground(Color.WHITE); // Set text color
-            jButton5.setFocusPainted(false); // Remove focus border
-            jButton5.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+            btnAboutBulsu.setOpaque(false); // Make the button transparent
+            btnAboutBulsu.setContentAreaFilled(false); // Don't fill the button area with background
+            btnAboutBulsu.setBorderPainted(false); // Remove the default button border
+            btnAboutBulsu.setForeground(Color.WHITE); // Set text color
+            btnAboutBulsu.setFocusPainted(false); // Remove focus border
+            btnAboutBulsu.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
         this.userSessionID = userSessionID;
         jLabel2.setText("ID IS " + HomePage.userSessionID);
@@ -73,10 +73,10 @@ public class HomePage extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel2 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnAboutBulsu = new javax.swing.JButton();
+        btnLogout = new javax.swing.JButton();
+        btnDashboard = new javax.swing.JButton();
+        btnAcademics = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -86,41 +86,41 @@ public class HomePage extends javax.swing.JFrame {
         jLabel2.setText("jLabel2");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 170, -1, -1));
 
-        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
-        jButton5.setText("ACADEMICS");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnAboutBulsu.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
+        btnAboutBulsu.setText("ABOUT BULSU");
+        btnAboutBulsu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnAboutBulsuActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 98, -1, -1));
+        getContentPane().add(btnAboutBulsu, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 98, -1, -1));
 
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
-        jButton3.setText("ABOUT BULSU");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
+        btnLogout.setText("LOGOUT");
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnLogoutActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(705, 98, -1, -1));
+        getContentPane().add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 98, -1, -1));
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
-        jButton1.setText("DASHBOARD");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnDashboard.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
+        btnDashboard.setText("DASHBOARD");
+        btnDashboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnDashboardActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 98, -1, -1));
+        getContentPane().add(btnDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 98, -1, -1));
 
-        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
-        jButton4.setText("ENROLLMENT");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnAcademics.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
+        btnAcademics.setText("ACADEMICS");
+        btnAcademics.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnAcademicsActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 98, -1, -1));
+        getContentPane().add(btnAcademics, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 98, -1, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg_HomePage.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -129,17 +129,20 @@ public class HomePage extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboardActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnDashboardActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        new aboutbulsu(userSessionID).setVisible(true);
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        new LoginPage().setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnLogoutActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        try {
+    private void btnAcademicsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcademicsActionPerformed
+        new AcademicsPage(userSessionID).setVisible(true);
+        this.dispose();
+        
+        /*try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
 
             String sqlEnrollmentStatus = "SELECT EnrollmentStatus FROM STUDENT WHERE UserID = ?";
@@ -160,15 +163,13 @@ public class HomePage extends javax.swing.JFrame {
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
-        }
+        }*/
+    }//GEN-LAST:event_btnAcademicsActionPerformed
 
-
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        new academics(userSessionID).setVisible(true);
+    private void btnAboutBulsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAboutBulsuActionPerformed
+        new aboutbulsu(userSessionID).setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_btnAboutBulsuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -206,10 +207,10 @@ public class HomePage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton btnAboutBulsu;
+    private javax.swing.JButton btnAcademics;
+    private javax.swing.JButton btnDashboard;
+    private javax.swing.JButton btnLogout;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
