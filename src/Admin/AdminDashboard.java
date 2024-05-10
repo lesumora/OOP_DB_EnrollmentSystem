@@ -1,6 +1,7 @@
 package Admin;
 
 
+import Home.Dashboard;
 import java.awt.Cursor;
 
 /*
@@ -17,8 +18,18 @@ public class AdminDashboard extends javax.swing.JFrame {
     /**
      * Creates new form admin0
      */
-    public AdminDashboard() {
+    static int userSessionID;
+    
+    public AdminDashboard(int userSessionID) {
         initComponents();
+        this.userSessionID = userSessionID;
+        {
+            btnBack.setOpaque(false); // Make the button transparent
+            btnBack.setContentAreaFilled(false); // Don't fill the button area with background
+            btnBack.setBorderPainted(false); // Remove the default button border
+            btnBack.setFocusPainted(false); // Remove focus border
+            btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+        }
         {
             btnAdmins.setOpaque(false); // Make the button transparent
             btnAdmins.setContentAreaFilled(false); // Don't fill the button area with background
@@ -58,6 +69,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnBack = new javax.swing.JButton();
         btnAdmins = new javax.swing.JButton();
         btnSubjects = new javax.swing.JButton();
         btnUsers = new javax.swing.JButton();
@@ -66,6 +78,25 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnBack.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        btnBack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnBackMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnBackMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnBackMousePressed(evt);
+            }
+        });
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 73, 30, 30));
 
         btnAdmins.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 2, true));
         btnAdmins.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -151,7 +182,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAdminsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminsActionPerformed
-        new AdminInformation().setVisible(true);
+        new AdminInformation(userSessionID).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnAdminsActionPerformed
 
@@ -215,6 +246,23 @@ public class AdminDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSubjectsActionPerformed
 
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        new Dashboard(userSessionID).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnBackMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseEntered
+        btnBack.setBorderPainted(true);
+    }//GEN-LAST:event_btnBackMouseEntered
+
+    private void btnBackMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseExited
+        btnBack.setBorderPainted(false);
+    }//GEN-LAST:event_btnBackMouseExited
+
+    private void btnBackMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMousePressed
+        btnBack.setContentAreaFilled(true);
+    }//GEN-LAST:event_btnBackMousePressed
+
     /**
      * @param args the command line arguments
      */
@@ -245,13 +293,14 @@ public class AdminDashboard extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdminDashboard().setVisible(true);
+                new AdminDashboard(userSessionID).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdmins;
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnStudents;
     private javax.swing.JButton btnSubjects;
     private javax.swing.JButton btnUsers;

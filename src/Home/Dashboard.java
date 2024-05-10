@@ -1,9 +1,16 @@
 package Home;
 
 import Admin.AdminDashboard;
+import Enrollment.step1_enroll;
+import Enrollment.step5_enroll;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import javax.swing.JOptionPane;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -19,8 +26,15 @@ public class Dashboard extends javax.swing.JFrame {
     /**
      * Creates new form Dashboard
      */
-    public Dashboard() {
+    final String DB_URL = "jdbc:sqlserver://localhost\\DESKTOP-FT3D7QK:1433;databaseName=enrollment;encrypt=true;trustServerCertificate=true";
+    final String USERNAME = "admin";
+    final String PASSWORD = "admin";
+    static int userSessionID;
+    boolean isAdmin = false;
+    
+    public Dashboard(int userSessionID) {
         initComponents();
+        this.userSessionID = userSessionID;
         {
             btnAdmin.setOpaque(false); // Make the button transparent
             btnAdmin.setContentAreaFilled(false); // Don't fill the button area with background
@@ -44,6 +58,27 @@ public class Dashboard extends javax.swing.JFrame {
             btnFaculty.setForeground(Color.WHITE); // Set text color
             btnFaculty.setFocusPainted(false); // Remove focus border
             btnFaculty.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+        }
+        
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+
+            String sqlUserType = "SELECT UserType FROM ACCOUNT WHERE UserID = ?";
+            PreparedStatement preparedStatementUserType = conn.prepareStatement(sqlUserType);
+            preparedStatementUserType.setInt(1, userSessionID);
+            ResultSet resultSetUserType = preparedStatementUserType.executeQuery();
+
+            if (resultSetUserType.next()) {
+                if(resultSetUserType.getString("UserType").equalsIgnoreCase("administrator"))
+                    isAdmin = true;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
+        }
+        
+        if(!isAdmin){
+            btnAdmin.setEnabled(false);
+            btnAdmin.setFocusable(false);
         }
     }
 
@@ -129,12 +164,15 @@ public class Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
-        new AdminDashboard().setVisible(true);
-        this.dispose();
+        if(isAdmin){
+            new AdminDashboard(userSessionID).setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_btnAdminActionPerformed
 
     private void btnAdminMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdminMouseEntered
-        btnAdmin.setBorderPainted(true);
+        if(isAdmin)
+            btnAdmin.setBorderPainted(true);
     }//GEN-LAST:event_btnAdminMouseEntered
 
     private void btnAdminMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdminMouseExited
@@ -142,7 +180,8 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAdminMouseExited
 
     private void btnAdminMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdminMousePressed
-        btnAdmin.setContentAreaFilled(true);
+        if(isAdmin)
+            btnAdmin.setContentAreaFilled(true);
     }//GEN-LAST:event_btnAdminMousePressed
 
     private void btnStudentMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStudentMouseEntered
@@ -207,7 +246,7 @@ public class Dashboard extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Dashboard().setVisible(true);
+                new Dashboard(userSessionID).setVisible(true);
             }
         });
     }

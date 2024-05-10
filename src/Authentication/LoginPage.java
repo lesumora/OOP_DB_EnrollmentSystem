@@ -1,7 +1,8 @@
 package Authentication;
 
-
 import Home.HomePage;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.DriverManager;
@@ -21,7 +22,7 @@ import java.sql.Timestamp;
 public class LoginPage extends javax.swing.JFrame {
 
     /**
-     * Creates new form loginpage
+     * Creates new form LoginPage
      */
     private int loginAttempt = 0;
     private int userSessionID;
@@ -52,6 +53,11 @@ public class LoginPage extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -123,6 +129,10 @@ public class LoginPage extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel3MouseClicked
 
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        
+    }//GEN-LAST:event_formKeyPressed
+
     private void getAuthenticatedUser(String username, String password) {
         final String DB_URL = "jdbc:sqlserver://localhost\\DESKTOP-FT3D7QK:1433;databaseName=enrollment;encrypt=true;trustServerCertificate=true";
         final String USERNAME = "admin";
@@ -178,7 +188,7 @@ public class LoginPage extends javax.swing.JFrame {
 
             if (resultSetCredential.next()) {
                 Object isBlocked = resultSetCredential.getObject(4);
-                if (isBlocked.equals("false")) { 
+                if (isBlocked.equals("false")) {
                     userSessionID = resultSetCredential.getInt("UserID");
                     JOptionPane.showMessageDialog(null, "Login Successful.");
                     loginAttempt = 0;
@@ -222,7 +232,7 @@ public class LoginPage extends javax.swing.JFrame {
     public void setUserSessionID(int userSessionID) {
         this.userSessionID = userSessionID;
     }
-    
+
     public int getUserSessionID() {
         return userSessionID;
     }

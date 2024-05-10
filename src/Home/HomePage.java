@@ -80,6 +80,11 @@ public class HomePage extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                enterKey(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -130,7 +135,8 @@ public class HomePage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboardActionPerformed
-        // TODO add your handling code here:
+        new Dashboard(userSessionID).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnDashboardActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
@@ -170,6 +176,10 @@ public class HomePage extends javax.swing.JFrame {
         new AboutBulsuPage(userSessionID).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnAboutBulsuActionPerformed
+
+    private void enterKey(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_enterKey
+        // TODO add your handling code here:
+    }//GEN-LAST:event_enterKey
 
     /**
      * @param args the command line arguments

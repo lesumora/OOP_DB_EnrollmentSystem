@@ -1,13 +1,19 @@
 package Admin;
 
-
 import java.awt.Cursor;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author acer
@@ -17,7 +23,14 @@ public class AdminInformation extends javax.swing.JFrame {
     /**
      * Creates new form admin1
      */
-    public AdminInformation() {
+    final String DB_URL = "jdbc:sqlserver://localhost\\DESKTOP-FT3D7QK:1433;databaseName=enrollment;encrypt=true;trustServerCertificate=true";
+    final String USERNAME = "admin";
+    final String PASSWORD = "admin";
+    static int userSessionID, accountId;
+    DefaultTableModel model = new DefaultTableModel();
+    List<Boolean> multipleSelectedCheck = new ArrayList<>();
+
+    public AdminInformation(int userSessionID) {
         initComponents();
         {
             btnAdd.setOpaque(false); // Make the button transparent
@@ -40,6 +53,34 @@ public class AdminInformation extends javax.swing.JFrame {
             btnRemove.setFocusPainted(false); // Remove focus border
             btnRemove.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
+
+        model = (DefaultTableModel) jTable1.getModel();
+
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            // Succesfully connected to database...
+
+            String sqlUpdateAdmin = "select * from ACCOUNT where UserType = ? and UserDeleted = ? and not(UserID = ?)";
+            PreparedStatement preparedStatementUpdateAdmin = conn.prepareStatement(sqlUpdateAdmin);
+            preparedStatementUpdateAdmin.setString(1, "administrator");
+            preparedStatementUpdateAdmin.setString(2, "false");
+            preparedStatementUpdateAdmin.setInt(3, userSessionID);
+            ResultSet resultSetAdmin = preparedStatementUpdateAdmin.executeQuery();
+
+            while (resultSetAdmin.next()) {
+                Object[] row = new Object[7];
+                row[0] = false;
+                row[1] = resultSetAdmin.getObject("UserID");
+                row[2] = resultSetAdmin.getObject("Username");
+                row[3] = resultSetAdmin.getObject("UserPassword");
+                row[4] = resultSetAdmin.getObject("UserBlocked");
+                row[5] = resultSetAdmin.getObject("Email");
+                row[6] = resultSetAdmin.getObject("UserType");
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 
     /**
@@ -51,8 +92,12 @@ public class AdminInformation extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnBack = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         tfSearch = new javax.swing.JTextField();
+        btnRefresh = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnRemove = new javax.swing.JButton();
@@ -61,13 +106,69 @@ public class AdminInformation extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        btnBack.setText("BACK");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 67, -1, 40));
+
         jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        jLabel2.setText("Type in email to search.");
+        jLabel2.setText("Type in the username you want to search.");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 250, -1, -1));
 
         tfSearch.setToolTipText("email");
         tfSearch.setName(""); // NOI18N
         getContentPane().add(tfSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, 270, 30));
+
+        btnRefresh.setText("Refresh");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 230, -1, 30));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "", "UserID", "Username", "Password", "User Blocked", "Email", "User Type"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setRowHeight(25);
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable1.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(1);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(4).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
+            jTable1.getColumnModel().getColumn(6).setResizable(false);
+        }
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, 830, 360));
 
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
         btnAdd.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 2, true));
@@ -177,7 +278,26 @@ public class AdminInformation extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUpdateMousePressed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+            Boolean isSelected = (Boolean) jTable1.getValueAt(i, 0);
+            if (isSelected != null && isSelected) {
+                accountId = (int) jTable1.getValueAt(i, 1);
+                multipleSelectedCheck.add(isSelected);
+            }
+        }
+        System.out.println(multipleSelectedCheck);
+
+        int numberOfSelected = multipleSelectedCheck.size();
+        switch (numberOfSelected) {
+            case 1 ->
+                new AdminUpdateAdmin(accountId).setVisible(true);
+            case 0 ->
+                JOptionPane.showMessageDialog(this, "No account selected.");
+            default ->
+                JOptionPane.showMessageDialog(this, "Select only one (1) account to update.");
+        }
+        System.out.println(accountId);
+        multipleSelectedCheck.clear();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnRemoveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRemoveMouseEntered
@@ -193,7 +313,49 @@ public class AdminInformation extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRemoveMousePressed
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        // TODO add your handling code here:
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+            Boolean isSelected = (Boolean) jTable1.getValueAt(i, 0);
+            if (isSelected != null && isSelected) {
+                accountId = (int) jTable1.getValueAt(i, 1);
+                multipleSelectedCheck.add(isSelected);
+            }
+        }
+        System.out.println(multipleSelectedCheck);
+
+        int numberOfSelected = multipleSelectedCheck.size();
+        switch (numberOfSelected) {
+            case 1 -> {
+                int choice = JOptionPane.showConfirmDialog(null,
+                        "Deleting account\nDo you want to PROCEED?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                if (choice == JOptionPane.YES_OPTION) {
+                    try {
+                        Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+
+                        // Delete account from accounts table
+                        String deleteAccountSQL = "update ACCOUNT set UserDeleted = ? WHERE UserID = ?";
+                        PreparedStatement deleteAccountStatement = conn.prepareStatement(deleteAccountSQL);
+                        deleteAccountStatement.setString(1, "true");
+                        deleteAccountStatement.setInt(2, accountId);
+                        int accountsDeleted = deleteAccountStatement.executeUpdate();
+
+                        // Check if any records were deleted
+                        if (accountsDeleted > 0) {
+                            JOptionPane.showMessageDialog(this, "Account deleted successfully.");
+                        } else {
+                            JOptionPane.showMessageDialog(this, "No account found with ID: " + accountId);
+                        }
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Error deleting account: " + e.getMessage());
+                    }
+                }
+            }
+            case 0 ->
+                JOptionPane.showMessageDialog(this, "No account selected.");
+            default ->
+                JOptionPane.showMessageDialog(this, "Dangerous to delete multiple accounts.\nSelect only one (1) account to delete.");
+        }
+        System.out.println(accountId);
+        multipleSelectedCheck.clear();
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btnAddMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseReleased
@@ -207,6 +369,16 @@ public class AdminInformation extends javax.swing.JFrame {
     private void btnRemoveMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRemoveMouseReleased
         btnRemove.setContentAreaFilled(false);
     }//GEN-LAST:event_btnRemoveMouseReleased
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        new AdminInformation(userSessionID).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        new AdminDashboard(userSessionID).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -238,17 +410,21 @@ public class AdminInformation extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdminInformation().setVisible(true);
+                new AdminInformation(userSessionID).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnRemove;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField tfSearch;
     // End of variables declaration//GEN-END:variables
 }
