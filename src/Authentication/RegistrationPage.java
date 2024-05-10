@@ -294,7 +294,7 @@ public class RegistrationPage extends javax.swing.JFrame {
 
     private boolean isValidEmail(String email) {
         // Regular expression for email validation
-        String regex = "^[a-zA-Z0-9](\\\\.?[a-zA-Z0-9])*@gmail\\\\.com$";
+        String regex = "^[a-zA-Z0-9._!#$%&'*+/=?`{|}~-]+@(?:[a-zA-Z0-9-]+\\.)*gmail\\.com$";
         return email.matches(regex);
     }
 

@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -67,8 +68,6 @@ public class step1_enroll extends javax.swing.JFrame {
         this.campus = campus;
         this.courseID = courseID;
         this.courseName = courseName;
-        
-        campus = (String) jComboBox1.getSelectedItem();
 
         System.out.println(campus);
         System.out.println(selectedCourse);
@@ -78,6 +77,10 @@ public class step1_enroll extends javax.swing.JFrame {
         jComboBox2.setSelectedItem(selectedCourse);
         jTextField1.setText("" + yearLevel);
         jTextField7.setText("unenrolled");
+    }
+    
+    public step1_enroll(int userSessionID, String selectedCourse, String curriculum, String campus, String courseID, String courseName, String section, List<String> enrolledCode, int yearLevel){
+        
     }
 
     /**

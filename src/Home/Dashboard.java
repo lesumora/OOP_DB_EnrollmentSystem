@@ -1,8 +1,7 @@
 package Home;
 
 import Admin.AdminDashboard;
-import Enrollment.step1_enroll;
-import Enrollment.step5_enroll;
+import Student.StudentDashboard;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.DriverManager;
@@ -197,7 +196,8 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnStudentMousePressed
 
     private void btnStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudentActionPerformed
-        // TODO add your handling code here:
+        new StudentDashboard(userSessionID).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnStudentActionPerformed
 
     private void btnFacultyMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFacultyMouseEntered
