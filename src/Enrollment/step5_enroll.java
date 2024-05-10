@@ -1,6 +1,8 @@
 package Enrollment;
 
 
+import Home.Dashboard;
+import java.awt.Cursor;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -24,53 +26,10 @@ public class step5_enroll extends javax.swing.JFrame {
     final String DB_URL = "jdbc:sqlserver://localhost\\DESKTOP-FT3D7QK:1433;databaseName=enrollment;encrypt=true;trustServerCertificate=true";
     final String USERNAME = "admin";
     final String PASSWORD = "admin";
-    String academicProgram, curriculum, campus, status, courseId, section;
+    static String academicProgram, curriculum, campus, status, courseId, section;
     static int userSessionID;
-    int registrationId, yearLevel, studId;
-    Timestamp registrationDate;
-
-    public step5_enroll(int userSessionID) {
-        initComponents();
-
-        try {
-            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-
-            String sqlStudent = "SELECT * FROM STUDENT where UserID = ?";
-            PreparedStatement preparedStatementStudent = conn.prepareStatement(sqlStudent);
-            preparedStatementStudent.setInt(1, userSessionID);
-            ResultSet resultSetCourseSubject = preparedStatementStudent.executeQuery();
-
-            if (resultSetCourseSubject.next()) {
-                campus = resultSetCourseSubject.getString("Campus");
-                status = resultSetCourseSubject.getString("EnrollmentStatus");
-                courseId = resultSetCourseSubject.getString("CourseID");
-                yearLevel = resultSetCourseSubject.getInt("YearLevel");
-                section = resultSetCourseSubject.getString("Section");
-                studId = resultSetCourseSubject.getInt("StudID");
-
-                jTextField4.setText(campus);
-                jTextField1.setText(status);
-            }
-
-            String sqlAcademicProgram = "SELECT * FROM COURSE WHERE CourseID = ?";
-            PreparedStatement preparedStatementAcademicProgram = conn.prepareStatement(sqlAcademicProgram);
-            preparedStatementAcademicProgram.setString(1, courseId);
-            ResultSet resultSetAcademicProgram = preparedStatementAcademicProgram.executeQuery();
-
-            if (resultSetAcademicProgram.next()) {
-                academicProgram = resultSetAcademicProgram.getString("CourseName");
-                curriculum = resultSetAcademicProgram.getString("Curriculum");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e);
-        }
-
-        jTextField4.setText(campus);
-        jTextField2.setText(academicProgram);
-        jTextField6.setText(curriculum);
-        jTextField1.setText("" + yearLevel);
-        jTextField7.setText(section);
-    }
+    static int registrationId, yearLevel, studId;
+    static Timestamp registrationDate;
 
     public step5_enroll(String campus, String status, int registrationId, Timestamp registrationDate, String courseId, int yearLevel, String section) {
         initComponents();
@@ -82,6 +41,14 @@ public class step5_enroll extends javax.swing.JFrame {
         this.yearLevel = yearLevel;
         this.section = section;
 
+        {
+            btnGoDashboard.setOpaque(false); // Make the button transparent
+            btnGoDashboard.setContentAreaFilled(false); // Don't fill the button area with background
+            btnGoDashboard.setBorderPainted(false); // Remove the default button border
+            btnGoDashboard.setFocusPainted(false); // Remove focus border
+            btnGoDashboard.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+        }
+        
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
 
@@ -128,6 +95,8 @@ public class step5_enroll extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jTextField7 = new javax.swing.JTextField();
+        btnBack = new javax.swing.JButton();
+        btnGoDashboard = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -144,11 +113,6 @@ public class step5_enroll extends javax.swing.JFrame {
         jTextField4.setEditable(false);
         jTextField4.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jTextField4.setFocusable(false);
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
-            }
-        });
         getContentPane().add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 290, 360, 40));
 
         jLabel8.setText("Campus:");
@@ -160,22 +124,12 @@ public class step5_enroll extends javax.swing.JFrame {
         jTextField2.setEditable(false);
         jTextField2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jTextField2.setFocusable(false);
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
         getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 340, 360, 40));
 
         jTextField6.setEditable(false);
         jTextField6.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jTextField6.setFocusable(false);
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 390, 360, 40));
+        getContentPane().add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 380, 360, 50));
 
         jLabel9.setText(" Curriculum:");
         getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(385, 400, 70, 30));
@@ -186,11 +140,6 @@ public class step5_enroll extends javax.swing.JFrame {
         jTextField1.setEditable(false);
         jTextField1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jTextField1.setFocusable(false);
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
         getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 440, 360, 40));
 
         jLabel10.setText(" Section:");
@@ -199,12 +148,35 @@ public class step5_enroll extends javax.swing.JFrame {
         jTextField7.setEditable(false);
         jTextField7.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jTextField7.setFocusable(false);
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
+        getContentPane().add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 490, 360, 40));
+
+        btnBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/btnBack.png"))); // NOI18N
+        btnBack.setOpaque(true);
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
+                btnBackActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 490, 360, 40));
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 616, 40, -1));
+
+        btnGoDashboard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 0), 2, true));
+        btnGoDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnGoDashboardMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnGoDashboardMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnGoDashboardMousePressed(evt);
+            }
+        });
+        btnGoDashboard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGoDashboardActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnGoDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(971, 623, 199, 36));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg_Step5Enroll.png"))); // NOI18N
@@ -216,25 +188,27 @@ public class step5_enroll extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        new step4_enroll(userSessionID).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    private void btnGoDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoDashboardActionPerformed
+        new Dashboard(userSessionID).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnGoDashboardActionPerformed
 
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
+    private void btnGoDashboardMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGoDashboardMouseEntered
+        btnGoDashboard.setBorderPainted(true);
+    }//GEN-LAST:event_btnGoDashboardMouseEntered
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    private void btnGoDashboardMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGoDashboardMouseExited
+        btnGoDashboard.setBorderPainted(false);
+    }//GEN-LAST:event_btnGoDashboardMouseExited
 
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField7ActionPerformed
+    private void btnGoDashboardMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGoDashboardMousePressed
+        btnGoDashboard.setContentAreaFilled(true);
+    }//GEN-LAST:event_btnGoDashboardMousePressed
 
     /**
      * @param args the command line arguments
@@ -266,12 +240,14 @@ public class step5_enroll extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new step5_enroll(userSessionID).setVisible(true);
+                new step5_enroll(campus, status, registrationId, registrationDate, courseId, yearLevel, section).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnGoDashboard;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel4;

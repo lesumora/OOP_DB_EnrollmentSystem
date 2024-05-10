@@ -1,6 +1,8 @@
 package Student;
 
 import Enrollment.step1_enroll;
+import Enrollment.step4_enroll;
+import Home.Dashboard;
 import java.awt.Cursor;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -31,6 +33,13 @@ public class StudentDashboard extends javax.swing.JFrame {
     public StudentDashboard(int userSessionID) {
         initComponents();
         this.userSessionID = userSessionID;
+        {
+            btnBack.setOpaque(false); // Make the button transparent
+            btnBack.setContentAreaFilled(false); // Don't fill the button area with background
+            btnBack.setBorderPainted(false); // Remove the default button border
+            btnBack.setFocusPainted(false); // Remove focus border
+            btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+        }
         {
             btnPersonal.setOpaque(false); // Make the button transparent
             btnPersonal.setContentAreaFilled(false); // Don't fill the button area with background
@@ -79,6 +88,7 @@ public class StudentDashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnBack = new javax.swing.JButton();
         btnSubject = new javax.swing.JButton();
         btnPersonal = new javax.swing.JButton();
         btnEnroll = new javax.swing.JButton();
@@ -86,6 +96,25 @@ public class StudentDashboard extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnBack.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        btnBack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnBackMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnBackMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnBackMousePressed(evt);
+            }
+        });
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 73, 30, 30));
 
         btnSubject.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 0), 2, true));
         btnSubject.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -202,11 +231,12 @@ public class StudentDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEnrollMousePressed
 
     private void btnEnrollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnrollActionPerformed
-        if(!isEnrolled){
-            new step1_enroll(userSessionID).setVisible(true);
+        if(isEnrolled){
+            new step4_enroll(userSessionID).setVisible(true);
             this.dispose();
         }else{
-            JOptionPane.showMessageDialog(this, "Student already enrolled");
+            new step1_enroll(userSessionID).setVisible(true);
+            this.dispose();
         }      
     }//GEN-LAST:event_btnEnrollActionPerformed
 
@@ -217,6 +247,23 @@ public class StudentDashboard extends javax.swing.JFrame {
     private void btnEnrollMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEnrollMouseReleased
         btnEnroll.setContentAreaFilled(false);
     }//GEN-LAST:event_btnEnrollMouseReleased
+
+    private void btnBackMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseEntered
+        btnBack.setBorderPainted(true);
+    }//GEN-LAST:event_btnBackMouseEntered
+
+    private void btnBackMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseExited
+        btnBack.setBorderPainted(false);
+    }//GEN-LAST:event_btnBackMouseExited
+
+    private void btnBackMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMousePressed
+        btnBack.setContentAreaFilled(true);
+    }//GEN-LAST:event_btnBackMousePressed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        new Dashboard(userSessionID).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -254,6 +301,7 @@ public class StudentDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnEnroll;
     private javax.swing.JButton btnPersonal;
     private javax.swing.JButton btnSubject;

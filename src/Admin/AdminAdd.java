@@ -48,6 +48,7 @@ public class AdminAdd extends javax.swing.JFrame {
         btnAdd = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Add Admin Account");
         setIconImage(getIconImage());
         setResizable(false);
 

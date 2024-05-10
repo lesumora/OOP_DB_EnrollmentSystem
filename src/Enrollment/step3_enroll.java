@@ -1,6 +1,5 @@
 package Enrollment;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -59,7 +58,7 @@ public class step3_enroll extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
@@ -78,14 +77,14 @@ public class step3_enroll extends javax.swing.JFrame {
         jLabel4.setText("Please review your details now.");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 260, -1, -1));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/btnBack.png"))); // NOI18N
-        jButton1.setOpaque(true);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/btnBack.png"))); // NOI18N
+        btnBack.setOpaque(true);
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnBackActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 616, 40, -1));
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 616, 40, -1));
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/btnNext.png"))); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -103,25 +102,24 @@ public class step3_enroll extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         new step2_enroll(userSessionID, selectedCourse, curriculum, campus, courseID, courseName, section, enrolledCode, yearLevel).setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnBackActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             // Succesfully connected to database...
-            
+
             String sqlStudentInfo = "SELECT * FROM STUDENT where UserID = ?";
             PreparedStatement preparedStatementStudent = conn.prepareStatement(sqlStudentInfo);
             preparedStatementStudent.setInt(1, userSessionID);
             ResultSet resultSetStudentInfo = preparedStatementStudent.executeQuery();
-            
-            if(resultSetStudentInfo.next()){
+
+            if (resultSetStudentInfo.next()) {
                 studentID = resultSetStudentInfo.getInt("StudID");
             }
-            
 
             String sqlEnrolledSubject = "INSERT INTO ENROLLED_SUBJECT (StudID, SubjectCode, Section)"
                     + "VALUES (?, ?, ?)";
@@ -235,7 +233,7 @@ public class step3_enroll extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

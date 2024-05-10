@@ -1,6 +1,5 @@
 package Enrollment;
 
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -43,7 +42,7 @@ public class step2_enroll extends javax.swing.JFrame {
         this.courseID = courseID;
         this.courseName = courseName;
         this.yearLevel = yearLevel;
-        
+
         section = (String) jComboBox1.getSelectedItem();
         System.out.println(campus);
 
@@ -90,7 +89,13 @@ public class step2_enroll extends javax.swing.JFrame {
     public step2_enroll(int userSessionID, String selectedCourse, String curriculum, String campus, String courseID, String courseName, String section, List<String> enrolledCode, int yearLevel) {
         initComponents();
         jComboBox1.setSelectedItem(section);
+        this.enrolledCode.clear();
+        this.section = section;
+        this.enrolledCode = enrolledCode;
+        this.campus = campus;
+        this.yearLevel = yearLevel;
         
+        System.out.println(campus);
 
         model = (DefaultTableModel) jTable1.getModel();
 
@@ -147,10 +152,10 @@ public class step2_enroll extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnNext = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -177,20 +182,20 @@ public class step2_enroll extends javax.swing.JFrame {
         jLabel9.setText("Class Section");
         getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 140, -1, 30));
 
-        jButton1.setBackground(new java.awt.Color(0, 153, 255));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Register selected");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnNext.setBackground(new java.awt.Color(0, 153, 255));
+        btnNext.setForeground(new java.awt.Color(255, 255, 255));
+        btnNext.setText("Register selected");
+        btnNext.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+                btnNextMouseClicked(evt);
             }
         });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnNextActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 620, 140, 40));
+        getContentPane().add(btnNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 620, 140, 40));
 
         jTable1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -238,14 +243,14 @@ public class step2_enroll extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 1180, 410));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/btnBack.png"))); // NOI18N
-        jButton2.setOpaque(true);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/btnBack.png"))); // NOI18N
+        btnBack.setOpaque(true);
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnBackActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 616, 40, -1));
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 616, 40, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg_Step2Enroll.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -254,13 +259,23 @@ public class step2_enroll extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        new step1_enroll(userSessionID, selectedCourse, curriculum, campus, courseID, courseName, yearLevel).setVisible(true);
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        enrolledCode.clear();
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+            Boolean isSelected = (Boolean) jTable1.getValueAt(i, 0);
+            if (isSelected != null && isSelected) {
+                String subjectCode = (String) jTable1.getValueAt(i, 1);
+                String enrolledSubject = subjectCode;
+                enrolledCode.add(enrolledSubject);
+            }
+        }
+        new step1_enroll(userSessionID, selectedCourse, curriculum, campus, courseID, courseName, yearLevel, section, enrolledCode).setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+
+    }//GEN-LAST:event_btnBackActionPerformed
 
     private void jComboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox1MouseClicked
-
+        
     }//GEN-LAST:event_jComboBox1MouseClicked
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -269,11 +284,8 @@ public class step2_enroll extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        enrolledCode.clear();
         for (int i = 0; i < jTable1.getRowCount(); i++) {
             Boolean isSelected = (Boolean) jTable1.getValueAt(i, 0);
             if (isSelected != null && isSelected) {
@@ -286,7 +298,11 @@ public class step2_enroll extends javax.swing.JFrame {
         new step3_enroll(userSessionID, selectedCourse, curriculum, campus, courseID, courseName, section, enrolledCode, yearLevel).setVisible(true);
         this.dispose();
         System.out.println("Code :" + enrolledCode);
-    }//GEN-LAST:event_jButton1MouseClicked
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnNextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMouseClicked
+
+    }//GEN-LAST:event_btnNextMouseClicked
 
     /**
      * @param args the command line arguments
@@ -324,8 +340,8 @@ public class step2_enroll extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnNext;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
