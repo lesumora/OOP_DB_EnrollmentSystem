@@ -171,7 +171,7 @@ public class AdminInformation extends javax.swing.JFrame {
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, 830, 360));
 
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
-        btnAdd.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 2, true));
+        btnAdd.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
         btnAdd.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -192,10 +192,10 @@ public class AdminInformation extends javax.swing.JFrame {
                 btnAddActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(972, 486, 152, 32));
+        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(937, 370, 207, 46));
 
         btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
-        btnUpdate.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 2, true));
+        btnUpdate.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
         btnUpdate.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -216,10 +216,10 @@ public class AdminInformation extends javax.swing.JFrame {
                 btnUpdateActionPerformed(evt);
             }
         });
-        getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(972, 520, 152, 32));
+        getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(937, 425, 207, 46));
 
         btnRemove.setForeground(new java.awt.Color(255, 255, 255));
-        btnRemove.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 0), 2, true));
+        btnRemove.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 0, 0), 4, true));
         btnRemove.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnRemove.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -240,7 +240,7 @@ public class AdminInformation extends javax.swing.JFrame {
                 btnRemoveActionPerformed(evt);
             }
         });
-        getContentPane().add(btnRemove, new org.netbeans.lib.awtextra.AbsoluteConstraints(972, 555, 152, 32));
+        getContentPane().add(btnRemove, new org.netbeans.lib.awtextra.AbsoluteConstraints(936, 482, 209, 48));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg_AdminInformation.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));

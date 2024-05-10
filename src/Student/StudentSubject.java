@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -15,49 +17,74 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Jaden
  */
-public class StudentInformation extends javax.swing.JFrame {
+public class StudentSubject extends javax.swing.JFrame {
 
     /**
-     * Creates new form StudentInformation
+     * Creates new form StudentSubject
      */
     final String DB_URL = "jdbc:sqlserver://localhost\\DESKTOP-FT3D7QK:1433;databaseName=enrollment;encrypt=true;trustServerCertificate=true";
     final String USERNAME = "admin";
     final String PASSWORD = "admin";
-    static int userSessionID;
+    static int userSessionID, studentId;
     DefaultTableModel model = new DefaultTableModel();
-    
-    public StudentInformation(int userSessionID) {
+    static List<String> subjectCode = new ArrayList<>();
+
+    public StudentSubject(int userSessionID, int studentId) {
         initComponents();
+
         this.userSessionID = userSessionID;
-        
+        this.studentId = studentId;
+
         model = (DefaultTableModel) jTable1.getModel();
+
+        // Clear existing data in lists
+        subjectCode.clear();
         
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             // Succesfully connected to database...
 
-            String sqlUpdateAdmin = "select * from STUDENT where UserID = ?";
-            PreparedStatement preparedStatementUpdateAdmin = conn.prepareStatement(sqlUpdateAdmin);
-            preparedStatementUpdateAdmin.setInt(1, userSessionID);
-            ResultSet resultSetAdmin = preparedStatementUpdateAdmin.executeQuery();
+            String sqlEnrolledSubject = "select SubjectCode from ENROLLED_SUBJECT where StudID = ?";
+            PreparedStatement preparedStatementEnrolledSubject = conn.prepareStatement(sqlEnrolledSubject);
+            preparedStatementEnrolledSubject.setInt(1, studentId);
+            ResultSet resultSetEnrolledSubject = preparedStatementEnrolledSubject.executeQuery();
 
-            while (resultSetAdmin.next()) {
-                Object[] row = new Object[8];
-                row[0] = resultSetAdmin.getObject("StudID");
-                row[1] = resultSetAdmin.getObject("FName");
-                row[2] = resultSetAdmin.getObject("MName");
-                row[3] = resultSetAdmin.getObject("LName");
-                row[4] = resultSetAdmin.getObject("YearLevel");
-                // Check if Section is NULL and set to "unenrolled"
-                row[5] = resultSetAdmin.getObject("Section") == null ? "unenrolled" : resultSetAdmin.getObject("Section");
-                row[6] = resultSetAdmin.getObject("EnrollmentStatus");
-                // Check if Campus is NULL and set to "unenrolled"
-                row[7] = resultSetAdmin.getObject("Campus") == null ? "unenrolled" : resultSetAdmin.getObject("Campus");
-                model.addRow(row);
+            while (resultSetEnrolledSubject.next()) {
+                String subject = resultSetEnrolledSubject.getString("SubjectCode");
+                subjectCode.add(subject);
+            }
+
+            String sqlSubject = "select SubjectTitle, Lecture, Lab, Credit, Schedule from COURSE_SUBJECT where SubjectCode = ?";
+            PreparedStatement preparedStatementSubject = conn.prepareStatement(sqlSubject);
+
+            // Iterate through the subjectCode list and execute query for each subject code
+            for (String subject : subjectCode) {
+                preparedStatementSubject.setString(1, subject);
+                ResultSet resultSetSubject = preparedStatementSubject.executeQuery();
+
+                // Add retrieved data to the table model
+                while (resultSetSubject.next()) {
+                    String subjectTitle = resultSetSubject.getString("SubjectTitle");
+                    String lecture = resultSetSubject.getString("Lecture");
+                    String lab = resultSetSubject.getString("Lab");
+                    String credit = resultSetSubject.getString("Credit");
+                    String schedule = resultSetSubject.getString("Schedule");
+
+                    // Add a row to the table model with the retrieved data
+                    Object[] row = new Object[8];
+                    row[0] = subjectCode;
+                    row[1] = subjectTitle;
+                    row[2] = lecture;
+                    row[3] = lab;
+                    row[4] = credit;
+                    row[5] = schedule;
+                    model.addRow(row);
+                }
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(this, e);
         }
+        System.out.println(subjectCode);
     }
 
     /**
@@ -73,19 +100,18 @@ public class StudentInformation extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Student Information");
-        setResizable(false);
+        setTitle("Subjects Enrolled");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "StudID", "First Name", "Middle Name", "Last Name", "Year Level", "Section", "Enrollment Status", "Campus"
+                "Subject Code", "Subject Title", "Lecture", "Lab", "Credit", "Schedule"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -98,36 +124,31 @@ public class StudentInformation extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(0).setResizable(false);
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(1);
             jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(5);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(170);
             jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(5);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(1);
             jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(5);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(1);
             jTable1.getColumnModel().getColumn(4).setResizable(false);
             jTable1.getColumnModel().getColumn(4).setPreferredWidth(1);
             jTable1.getColumnModel().getColumn(5).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setPreferredWidth(1);
-            jTable1.getColumnModel().getColumn(6).setResizable(false);
-            jTable1.getColumnModel().getColumn(6).setPreferredWidth(1);
-            jTable1.getColumnModel().getColumn(7).setResizable(false);
-            jTable1.getColumnModel().getColumn(7).setPreferredWidth(170);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -151,20 +172,20 @@ public class StudentInformation extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StudentInformation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentSubject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StudentInformation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentSubject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StudentInformation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentSubject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StudentInformation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentSubject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StudentInformation(userSessionID).setVisible(true);
+                new StudentSubject(userSessionID, studentId).setVisible(true);
             }
         });
     }

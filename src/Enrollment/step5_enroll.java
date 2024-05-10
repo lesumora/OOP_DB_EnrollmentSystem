@@ -157,7 +157,7 @@ public class step5_enroll extends javax.swing.JFrame {
                 btnBackActionPerformed(evt);
             }
         });
-        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 616, 40, -1));
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 620, 40, -1));
 
         btnGoDashboard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 0), 2, true));
         btnGoDashboard.addMouseListener(new java.awt.event.MouseAdapter() {

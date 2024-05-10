@@ -155,7 +155,7 @@
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-            <LineBorder roundedCorners="true" thickness="2">
+            <LineBorder roundedCorners="true" thickness="4">
               <Color PropertyName="color" blue="ff" green="0" red="0" type="rgb"/>
             </LineBorder>
           </Border>
@@ -173,7 +173,7 @@
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="972" y="486" width="152" height="32"/>
+          <AbsoluteConstraints x="937" y="370" width="207" height="46"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -184,7 +184,7 @@
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-            <LineBorder roundedCorners="true" thickness="2">
+            <LineBorder roundedCorners="true" thickness="4">
               <Color PropertyName="color" blue="ff" green="0" red="0" type="rgb"/>
             </LineBorder>
           </Border>
@@ -202,7 +202,7 @@
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="972" y="520" width="152" height="32"/>
+          <AbsoluteConstraints x="937" y="425" width="207" height="46"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -213,8 +213,8 @@
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-            <LineBorder roundedCorners="true" thickness="2">
-              <Color PropertyName="color" blue="0" green="0" red="ff" type="rgb"/>
+            <LineBorder roundedCorners="true" thickness="4">
+              <Color PropertyName="color" blue="0" green="0" red="66" type="rgb"/>
             </LineBorder>
           </Border>
         </Property>
@@ -231,7 +231,7 @@
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="972" y="555" width="152" height="32"/>
+          <AbsoluteConstraints x="936" y="482" width="209" height="48"/>
         </Constraint>
       </Constraints>
     </Component>

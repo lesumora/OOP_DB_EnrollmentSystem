@@ -29,6 +29,7 @@ public class StudentDashboard extends javax.swing.JFrame {
     final String PASSWORD = "admin";
     static int userSessionID;
     boolean isEnrolled = false;
+    int studentId;
     
     public StudentDashboard(int userSessionID) {
         initComponents();
@@ -65,14 +66,16 @@ public class StudentDashboard extends javax.swing.JFrame {
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
 
-            String sqlEnroll = "select EnrollmentStatus from STUDENT where UserID = ?";
+            String sqlEnroll = "select StudID, EnrollmentStatus from STUDENT where UserID = ?";
             PreparedStatement preparedStatementEnroll = conn.prepareStatement(sqlEnroll);
             preparedStatementEnroll.setInt(1, userSessionID);
             ResultSet resultSetEnroll = preparedStatementEnroll.executeQuery();
 
             if (resultSetEnroll.next()) {
-                if(resultSetEnroll.getString("EnrollmentStatus").equalsIgnoreCase("enrolled"))
+                if(resultSetEnroll.getString("EnrollmentStatus").equalsIgnoreCase("enrolled")){
                     isEnrolled = true;
+                    studentId = resultSetEnroll.getInt("StudID");
+                }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
@@ -126,6 +129,9 @@ public class StudentDashboard extends javax.swing.JFrame {
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btnSubjectMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnSubjectMouseReleased(evt);
             }
         });
         btnSubject.addActionListener(new java.awt.event.ActionListener() {
@@ -199,7 +205,11 @@ public class StudentDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSubjectMousePressed
 
     private void btnSubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubjectActionPerformed
-        
+        if(isEnrolled){
+            new StudentSubject(userSessionID, studentId).setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(this, "Student not enrolled yet");
+        } 
     }//GEN-LAST:event_btnSubjectActionPerformed
 
     private void btnPersonalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPersonalMouseEntered
@@ -264,6 +274,10 @@ public class StudentDashboard extends javax.swing.JFrame {
         new Dashboard(userSessionID).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnSubjectMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSubjectMouseReleased
+        btnSubject.setContentAreaFilled(false);
+    }//GEN-LAST:event_btnSubjectMouseReleased
 
     /**
      * @param args the command line arguments
