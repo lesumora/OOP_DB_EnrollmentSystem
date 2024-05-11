@@ -1,6 +1,7 @@
 package Home;
 
 import Admin.AdminDashboard;
+import Faculty.DashboardFaculty;
 import Student.StudentDashboard;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -240,7 +241,8 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFacultyMousePressed
 
     private void btnFacultyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacultyActionPerformed
-        // TODO add your handling code here:
+        new DashboardFaculty(userSessionID).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnFacultyActionPerformed
 
     private void btnBackMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseEntered
