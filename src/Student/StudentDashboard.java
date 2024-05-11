@@ -28,7 +28,7 @@ public class StudentDashboard extends javax.swing.JFrame {
     final String USERNAME = "admin";
     final String PASSWORD = "admin";
     static int userSessionID;
-    boolean isEnrolled = false;
+    boolean isEnrolled = false, isStudent = false;
     int studentId;
     
     public StudentDashboard(int userSessionID) {
@@ -66,6 +66,17 @@ public class StudentDashboard extends javax.swing.JFrame {
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
 
+            String sqlIsStudent = "select UserType from ACCOUNT where UserID = ?";
+            PreparedStatement preparedStatementIsStudent = conn.prepareStatement(sqlIsStudent);
+            preparedStatementIsStudent.setInt(1, userSessionID);
+            ResultSet resultIsStudent = preparedStatementIsStudent.executeQuery();
+
+            if (resultIsStudent.next()) {
+                if(resultIsStudent.getString("UserType").equalsIgnoreCase("student")){
+                    isStudent = true;
+                }
+            }
+            
             String sqlEnroll = "select StudID, EnrollmentStatus from STUDENT where UserID = ?";
             PreparedStatement preparedStatementEnroll = conn.prepareStatement(sqlEnroll);
             preparedStatementEnroll.setInt(1, userSessionID);
@@ -205,6 +216,11 @@ public class StudentDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSubjectMousePressed
 
     private void btnSubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubjectActionPerformed
+        if(!isStudent){
+            JOptionPane.showMessageDialog(this, "User is not a student");
+            return;
+        }
+        
         if(isEnrolled){
             new StudentSubject(userSessionID, studentId).setVisible(true);
         }else{
@@ -225,7 +241,8 @@ public class StudentDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPersonalMousePressed
 
     private void btnPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonalActionPerformed
-        new StudentInformation(userSessionID).setVisible(true);
+        if(!isStudent)
+            JOptionPane.showMessageDialog(this, "User is not a student");
     }//GEN-LAST:event_btnPersonalActionPerformed
 
     private void btnEnrollMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEnrollMouseEntered
@@ -241,6 +258,11 @@ public class StudentDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEnrollMousePressed
 
     private void btnEnrollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnrollActionPerformed
+        if(!isStudent){
+            JOptionPane.showMessageDialog(this, "User is not a student");
+            return;
+        }
+        
         if(isEnrolled){
             new step4_enroll(userSessionID).setVisible(true);
             this.dispose();
