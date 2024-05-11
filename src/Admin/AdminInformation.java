@@ -27,11 +27,14 @@ public class AdminInformation extends javax.swing.JFrame {
     final String USERNAME = "admin";
     final String PASSWORD = "admin";
     static int userSessionID, accountId;
+    String search, username, password, userBlocked, email, userType;
+    int userId;
     DefaultTableModel model = new DefaultTableModel();
     List<Boolean> multipleSelectedCheck = new ArrayList<>();
 
     public AdminInformation(int userSessionID) {
         initComponents();
+        this.userSessionID = userSessionID;
         {
             btnAdd.setOpaque(false); // Make the button transparent
             btnAdd.setContentAreaFilled(false); // Don't fill the button area with background
@@ -82,6 +85,44 @@ public class AdminInformation extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
+    
+    public AdminInformation(int userSessionID, int userId, String username, String password, String userBlocked, String email, String userType){
+        initComponents();
+        this.userSessionID = userSessionID;
+        {
+            btnAdd.setOpaque(false); // Make the button transparent
+            btnAdd.setContentAreaFilled(false); // Don't fill the button area with background
+            btnAdd.setBorderPainted(false); // Remove the default button border
+            btnAdd.setFocusPainted(false); // Remove focus border
+            btnAdd.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+        }
+        {
+            btnUpdate.setOpaque(false); // Make the button transparent
+            btnUpdate.setContentAreaFilled(false); // Don't fill the button area with background
+            btnUpdate.setBorderPainted(false); // Remove the default button border
+            btnUpdate.setFocusPainted(false); // Remove focus border
+            btnUpdate.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+        }
+        {
+            btnRemove.setOpaque(false); // Make the button transparent
+            btnRemove.setContentAreaFilled(false); // Don't fill the button area with background
+            btnRemove.setBorderPainted(false); // Remove the default button border
+            btnRemove.setFocusPainted(false); // Remove focus border
+            btnRemove.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+        }
+        
+        model = (DefaultTableModel) jTable1.getModel();
+        
+        Object[] row = new Object[7];
+                row[0] = false;
+                row[1] = userId;
+                row[2] = username;
+                row[3] = password;
+                row[4] = userBlocked;
+                row[5] = email;
+                row[6] = userType;
+                model.addRow(row);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -95,6 +136,7 @@ public class AdminInformation extends javax.swing.JFrame {
         btnBack = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         tfSearch = new javax.swing.JTextField();
+        btnGo = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -120,7 +162,15 @@ public class AdminInformation extends javax.swing.JFrame {
 
         tfSearch.setToolTipText("email");
         tfSearch.setName(""); // NOI18N
-        getContentPane().add(tfSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, 270, 30));
+        getContentPane().add(tfSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, 280, 30));
+
+        btnGo.setText("GO");
+        btnGo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnGo, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 220, 60, 30));
 
         btnRefresh.setText("Refresh");
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
@@ -380,6 +430,44 @@ public class AdminInformation extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
+    private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
+        if (!tfSearch.getText().isBlank()){
+            search = tfSearch.getText();
+        } else {
+            JOptionPane.showMessageDialog(this, "Field is empty");
+            return;
+        }
+        
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            // Succesfully connected to database...
+
+            String sqlUsername = "select * from ACCOUNT where username = ? and UserType = ?";
+            PreparedStatement preparedStatementUsername = conn.prepareStatement(sqlUsername);
+            preparedStatementUsername.setString(1, search);
+            preparedStatementUsername.setString(2, "administrator");
+            ResultSet resultSetUsername = preparedStatementUsername.executeQuery();
+
+            if (resultSetUsername.next()) {
+                userId = resultSetUsername.getInt("UserID");
+                username = resultSetUsername.getString("Username");   
+                password = resultSetUsername.getString("UserPassword");
+                userBlocked = resultSetUsername.getString("UserBlocked");
+                email = resultSetUsername.getString("Email");
+                userType = resultSetUsername.getString("UserType");
+            }else {
+                JOptionPane.showMessageDialog(this, "User not found");
+                return;
+            }
+            new AdminInformation(userSessionID, userId, username, password, userBlocked, email, userType).setVisible(true);
+            this.dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
+        }
+        
+        
+    }//GEN-LAST:event_btnGoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -418,6 +506,7 @@ public class AdminInformation extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnGo;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnRemove;
     private javax.swing.JButton btnUpdate;

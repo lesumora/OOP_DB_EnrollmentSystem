@@ -31,8 +31,9 @@ public class step5_enroll extends javax.swing.JFrame {
     static int registrationId, yearLevel, studId;
     static Timestamp registrationDate;
 
-    public step5_enroll(String campus, String status, int registrationId, Timestamp registrationDate, String courseId, int yearLevel, String section) {
+    public step5_enroll(int userSessionID, String campus, String status, int registrationId, Timestamp registrationDate, String courseId, int yearLevel, String section) {
         initComponents();
+        this.userSessionID = userSessionID;
         this.campus = campus;
         this.status = status;
         this.registrationId = registrationId;
@@ -189,7 +190,7 @@ public class step5_enroll extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        new step4_enroll(campus, status, registrationId, registrationDate, courseId, yearLevel, section).setVisible(true);
+        new step4_enroll(userSessionID, campus, status, registrationId, registrationDate, courseId, yearLevel, section).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
@@ -240,7 +241,7 @@ public class step5_enroll extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new step5_enroll(campus, status, registrationId, registrationDate, courseId, yearLevel, section).setVisible(true);
+                new step5_enroll(userSessionID, campus, status, registrationId, registrationDate, courseId, yearLevel, section).setVisible(true);
             }
         });
     }
