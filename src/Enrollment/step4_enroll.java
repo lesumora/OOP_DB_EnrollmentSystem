@@ -29,10 +29,26 @@ public class step4_enroll extends javax.swing.JFrame {
     int studId, registrationId, yearLevel;
     Timestamp registrationDate;
 
+    public step4_enroll(String campus, String status, int registrationId, Timestamp registrationDate, String courseId, int yearLevel, String section){
+        initComponents();
+        this.campus = campus;
+        this.status = status;
+        this.registrationId = registrationId;
+        this.registrationDate = registrationDate;
+        this.courseId = courseId;
+        this.yearLevel = yearLevel;
+        this.section = section;
+        
+        jTextField4.setText(campus);
+        jTextField1.setText(status);
+        jTextField2.setText("" + registrationId);
+        jTextField6.setText("" + registrationDate);
+    }
+    
     public step4_enroll(int userSessionID) {
         initComponents();
         this.userSessionId = userSessionID;
-
+        
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             // Succesfully connected to database...
@@ -70,7 +86,6 @@ public class step4_enroll extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-
     }
 
     /**

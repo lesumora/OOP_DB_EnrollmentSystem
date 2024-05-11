@@ -189,7 +189,7 @@ public class step5_enroll extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        new step4_enroll(userSessionID).setVisible(true);
+        new step4_enroll(campus, status, registrationId, registrationDate, courseId, yearLevel, section).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
