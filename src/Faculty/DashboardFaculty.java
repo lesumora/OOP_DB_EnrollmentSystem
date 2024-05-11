@@ -147,7 +147,7 @@ public class DashboardFaculty extends javax.swing.JFrame {
     }//GEN-LAST:event_btnStudentMousePressed
 
     private void btnStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudentActionPerformed
-
+        
     }//GEN-LAST:event_btnStudentActionPerformed
 
     private void btnSubjectMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSubjectMouseEntered

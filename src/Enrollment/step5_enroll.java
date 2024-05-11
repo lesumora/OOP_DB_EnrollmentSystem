@@ -2,6 +2,7 @@ package Enrollment;
 
 
 import Home.Dashboard;
+import Student.StudentDashboard;
 import java.awt.Cursor;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -195,7 +196,7 @@ public class step5_enroll extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnGoDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoDashboardActionPerformed
-        new Dashboard(userSessionID).setVisible(true);
+        new StudentDashboard(userSessionID).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnGoDashboardActionPerformed
 

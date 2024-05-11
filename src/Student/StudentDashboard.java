@@ -241,8 +241,11 @@ public class StudentDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPersonalMousePressed
 
     private void btnPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonalActionPerformed
-        if(!isStudent)
+        if(!isStudent){
             JOptionPane.showMessageDialog(this, "User is not a student");
+        } else{
+            new StudentInformation(userSessionID).setVisible(true);
+        }
     }//GEN-LAST:event_btnPersonalActionPerformed
 
     private void btnEnrollMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEnrollMouseEntered

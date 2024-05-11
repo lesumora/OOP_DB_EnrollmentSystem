@@ -121,13 +121,12 @@ public class step3_enroll extends javax.swing.JFrame {
                 studentID = resultSetStudentInfo.getInt("StudID");
             }
 
-            String sqlEnrolledSubject = "INSERT INTO ENROLLED_SUBJECT (StudID, SubjectCode, Section)"
-                    + "VALUES (?, ?, ?)";
+            String sqlEnrolledSubject = "INSERT INTO ENROLLED_SUBJECT (StudID, SubjectCode)"
+                    + "VALUES (?, ?)";
             for (String subjectCode : enrolledCode) {
                 PreparedStatement preparedStatementEnrolledSubject = conn.prepareStatement(sqlEnrolledSubject, new String[]{"EnrolledSubjectID"});
                 preparedStatementEnrolledSubject.setInt(1, studentID);
                 preparedStatementEnrolledSubject.setString(2, subjectCode);
-                preparedStatementEnrolledSubject.setString(3, section);
 
                 int rowsInserted = preparedStatementEnrolledSubject.executeUpdate();
 

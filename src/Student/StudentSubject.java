@@ -72,7 +72,7 @@ public class StudentSubject extends javax.swing.JFrame {
 
                     // Add a row to the table model with the retrieved data
                     Object[] row = new Object[8];
-                    row[0] = subjectCode;
+                    row[0] = subject;
                     row[1] = subjectTitle;
                     row[2] = lecture;
                     row[3] = lab;
