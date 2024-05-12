@@ -50,7 +50,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="12" style="3"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Type in the username you want to search."/>
+        <Property name="text" type="java.lang.String" value="Type in the Subject Title you want to search."/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">

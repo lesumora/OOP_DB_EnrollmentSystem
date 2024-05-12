@@ -27,17 +27,18 @@ public class FacultyManagement extends javax.swing.JFrame {
     final String USERNAME = "admin";
     final String PASSWORD = "admin";
     DefaultTableModel model = new DefaultTableModel();
-    String colCode, empId;
+    String colCode, empId, search;
     static int userSessionId;
     int supervisorId, deleteUserId;
     List<Boolean> multipleSelectedCheck = new ArrayList<>();
-    
+    static String searchEmpId, firstName, middleName, lastName, position, employeeRank, collegeCode;
+
     public FacultyManagement(int userSessionId) {
         initComponents();
         this.userSessionId = userSessionId;
 
         model = (DefaultTableModel) jTable1.getModel();
-        
+
         {
             btnBack.setOpaque(false); // Make the button transparent
             btnBack.setContentAreaFilled(false); // Don't fill the button area with background
@@ -86,7 +87,7 @@ public class FacultyManagement extends javax.swing.JFrame {
             PreparedStatement preparedStatementFaculty = conn.prepareStatement(sqlFaculty);
             preparedStatementFaculty.setInt(1, userSessionId);
             preparedStatementFaculty.setString(2, colCode);
-            
+
             ResultSet resultSetFaculty = preparedStatementFaculty.executeQuery();
 
             while (resultSetFaculty.next()) {
@@ -108,6 +109,45 @@ public class FacultyManagement extends javax.swing.JFrame {
 
     }
 
+    public FacultyManagement(int userSessionId, String empId, String firstName, String middleName, String lastName, String position, String employeeRank, String collegeCode) {
+        initComponents();
+        this.userSessionId = userSessionId;
+        {
+            btnAdd.setOpaque(false); // Make the button transparent
+            btnAdd.setContentAreaFilled(false); // Don't fill the button area with background
+            btnAdd.setBorderPainted(false); // Remove the default button border
+            btnAdd.setFocusPainted(false); // Remove focus border
+            btnAdd.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+        }
+        {
+            btnUpdate.setOpaque(false); // Make the button transparent
+            btnUpdate.setContentAreaFilled(false); // Don't fill the button area with background
+            btnUpdate.setBorderPainted(false); // Remove the default button border
+            btnUpdate.setFocusPainted(false); // Remove focus border
+            btnUpdate.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+        }
+        {
+            btnRemove.setOpaque(false); // Make the button transparent
+            btnRemove.setContentAreaFilled(false); // Don't fill the button area with background
+            btnRemove.setBorderPainted(false); // Remove the default button border
+            btnRemove.setFocusPainted(false); // Remove focus border
+            btnRemove.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+        }
+
+        model = (DefaultTableModel) jTable1.getModel();
+
+        Object[] row = new Object[8];
+        row[0] = false;
+        row[1] = empId;
+        row[2] = firstName;
+        row[3] = middleName;
+        row[4] = lastName;
+        row[5] = position;
+        row[6] = employeeRank;
+        row[7] = collegeCode;
+        model.addRow(row);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -120,6 +160,7 @@ public class FacultyManagement extends javax.swing.JFrame {
         btnBack = new javax.swing.JButton();
         tfSearch = new javax.swing.JTextField();
         btnGo = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         btnRefresh = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -161,6 +202,10 @@ public class FacultyManagement extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnGo, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 220, 60, 30));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel2.setText("Type in a First name to search.");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 250, -1, -1));
 
         btnRefresh.setText("Refresh");
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
@@ -389,12 +434,12 @@ public class FacultyManagement extends javax.swing.JFrame {
                         String sqlFaculty = "select UserID from FACULTY where EmpID = ?";
                         PreparedStatement preparedStatementFaculty = conn.prepareStatement(sqlFaculty);
                         preparedStatementFaculty.setString(1, empId);
-                        
+
                         ResultSet resultSetFaculty = preparedStatementFaculty.executeQuery();
-                        if(resultSetFaculty.next()){
+                        if (resultSetFaculty.next()) {
                             deleteUserId = resultSetFaculty.getInt("UserID");
                         }
-                        
+
                         // Delete account from accounts table
                         String deleteAccountSQL = "update ACCOUNT set UserDeleted = ? WHERE UserID = ?";
                         PreparedStatement deleteAccountStatement = conn.prepareStatement(deleteAccountSQL);
@@ -440,10 +485,10 @@ public class FacultyManagement extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
-        /*if (!tfSearch.getText().isBlank()) {
+        if (!tfSearch.getText().isBlank()) {
             search = tfSearch.getText();
         } else {
-            JOptionPane.showMessageDialog(this, "Field is empty");
+            JOptionPane.showMessageDialog(this, "Search is empty");
             return;
         }
 
@@ -451,28 +496,29 @@ public class FacultyManagement extends javax.swing.JFrame {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             // Succesfully connected to database...
 
-            String sqlUsername = "select * from ACCOUNT where username = ? and UserType = ?";
-            PreparedStatement preparedStatementUsername = conn.prepareStatement(sqlUsername);
-            preparedStatementUsername.setString(1, search);
-            preparedStatementUsername.setString(2, "administrator");
-            ResultSet resultSetUsername = preparedStatementUsername.executeQuery();
+            String sqlFirstName = "select * from FACULTY where FName = ? and ColCode = ?";
+            PreparedStatement preparedStatementFirstName = conn.prepareStatement(sqlFirstName);
+            preparedStatementFirstName.setString(1, search);
+            preparedStatementFirstName.setString(2, "CICT");
+            ResultSet resultSetFirstName = preparedStatementFirstName.executeQuery();
 
-            if (resultSetUsername.next()) {
-                userId = resultSetUsername.getInt("UserID");
-                username = resultSetUsername.getString("Username");
-                password = resultSetUsername.getString("UserPassword");
-                userBlocked = resultSetUsername.getString("UserBlocked");
-                email = resultSetUsername.getString("Email");
-                userType = resultSetUsername.getString("UserType");
+            if (resultSetFirstName.next()) {
+                searchEmpId = resultSetFirstName.getString("EmpID");
+                firstName = resultSetFirstName.getString("FName");
+                middleName = resultSetFirstName.getString("MName");
+                lastName = resultSetFirstName.getString("LName");
+                position = resultSetFirstName.getString("Position");
+                employeeRank = resultSetFirstName.getString("EmpRank");
+                collegeCode = resultSetFirstName.getString("ColCode");
             } else {
                 JOptionPane.showMessageDialog(this, "User not found");
                 return;
             }
-            new AdminInformation(userSessionID, userId, username, password, userBlocked, email, userType).setVisible(true);
+            new FacultyManagement(userSessionId, empId, firstName, middleName, lastName, position, employeeRank, collegeCode).setVisible(true);
             this.dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
-        }*/
+        }
     }//GEN-LAST:event_btnGoActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
@@ -523,6 +569,7 @@ public class FacultyManagement extends javax.swing.JFrame {
     private javax.swing.JButton btnRemove;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField tfSearch;

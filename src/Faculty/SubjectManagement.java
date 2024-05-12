@@ -28,15 +28,15 @@ public class SubjectManagement extends javax.swing.JFrame {
     final String USERNAME = "admin";
     final String PASSWORD = "admin";
     static int userSessionID;
-    String search, username, password, userBlocked, email, userType, subjectCode;
-    int userId;
+    String subjectCode, subjectTitle, schedule, search, subjectCodeSearch;
+    int userId, lecture, lab, credit;
     DefaultTableModel model = new DefaultTableModel();
     List<Boolean> multipleSelectedCheck = new ArrayList<>();
 
     public SubjectManagement(int userSessionID) {
         initComponents();
         this.userSessionID = userSessionID;
-        
+
         {
             btnBack.setOpaque(false); // Make the button transparent
             btnBack.setContentAreaFilled(false); // Don't fill the button area with background
@@ -94,9 +94,9 @@ public class SubjectManagement extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    
+
     // Search button
-    public SubjectManagement(int userSessionID, int userId, String username, String password, String userBlocked, String email, String userType){
+    public SubjectManagement(String subjectCode, String subjectTitle, int lecture, int lab, int credit, String schedule) {
         initComponents();
         this.userSessionID = userSessionID;
         {
@@ -120,18 +120,18 @@ public class SubjectManagement extends javax.swing.JFrame {
             btnRemove.setFocusPainted(false); // Remove focus border
             btnRemove.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
-        
+
         model = (DefaultTableModel) jTable1.getModel();
-        
+
         Object[] row = new Object[7];
-                row[0] = false;
-                row[1] = userId;
-                row[2] = username;
-                row[3] = password;
-                row[4] = userBlocked;
-                row[5] = email;
-                row[6] = userType;
-                model.addRow(row);
+        row[0] = false;
+        row[1] = subjectCode;
+        row[2] = subjectTitle;
+        row[3] = lecture;
+        row[4] = lab;
+        row[5] = credit;
+        row[6] = schedule;
+        model.addRow(row);
     }
 
     /**
@@ -178,7 +178,7 @@ public class SubjectManagement extends javax.swing.JFrame {
         getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 73, 30, 30));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        jLabel2.setText("Type in the username you want to search.");
+        jLabel2.setText("Type in the Subject Title you want to search.");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 250, -1, -1));
 
         tfSearch.setToolTipText("email");
@@ -450,39 +450,38 @@ public class SubjectManagement extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
-        /*if (!tfSearch.getText().isBlank()){
+        if (!tfSearch.getText().isBlank()) {
             search = tfSearch.getText();
         } else {
-            JOptionPane.showMessageDialog(this, "Field is empty");
+            JOptionPane.showMessageDialog(this, "Search is empty");
             return;
         }
-        
+
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             // Succesfully connected to database...
 
-            String sqlUsername = "select * from ACCOUNT where username = ? and UserType = ?";
-            PreparedStatement preparedStatementUsername = conn.prepareStatement(sqlUsername);
-            preparedStatementUsername.setString(1, search);
-            preparedStatementUsername.setString(2, "administrator");
-            ResultSet resultSetUsername = preparedStatementUsername.executeQuery();
+            String sqlSubject = "select * from COURSE_SUBJECT where SubjectTitle like ? ";
+            PreparedStatement preparedStatementSubject = conn.prepareStatement(sqlSubject);
+            preparedStatementSubject.setString(1, "%" + search + "%");
+            ResultSet resultSetUsername = preparedStatementSubject.executeQuery();
 
             if (resultSetUsername.next()) {
-                userId = resultSetUsername.getInt("UserID");
-                username = resultSetUsername.getString("Username");   
-                password = resultSetUsername.getString("UserPassword");
-                userBlocked = resultSetUsername.getString("UserBlocked");
-                email = resultSetUsername.getString("Email");
-                userType = resultSetUsername.getString("UserType");
-            }else {
-                JOptionPane.showMessageDialog(this, "User not found");
+                subjectCodeSearch = resultSetUsername.getString("SubjectCode");
+                subjectTitle = resultSetUsername.getString("SubjectTitle");
+                lecture = resultSetUsername.getInt("Lecture");
+                lab = resultSetUsername.getInt("Lab");
+                credit = resultSetUsername.getInt("Credit");
+                schedule = resultSetUsername.getString("Schedule");
+            } else {
+                JOptionPane.showMessageDialog(this, "Subject not found");
                 return;
             }
-            new SubjectManagement(userSessionID, userId, username, password, userBlocked, email, userType).setVisible(true);
+            new SubjectManagement(subjectCode, subjectTitle, lecture, lab, credit, schedule).setVisible(true);
             this.dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
-        }*/
+        }
     }//GEN-LAST:event_btnGoActionPerformed
 
     private void btnBackMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseEntered
