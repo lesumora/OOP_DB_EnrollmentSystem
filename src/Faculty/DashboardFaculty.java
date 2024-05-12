@@ -4,6 +4,12 @@
  */
 package Faculty;
 
+import Home.Dashboard;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 import java.awt.Color;
 import java.awt.Cursor;
 
@@ -16,11 +22,24 @@ public class DashboardFaculty extends javax.swing.JFrame {
     /**
      * Creates new form DashboardFaculty
      */
+    final String DB_URL = "jdbc:sqlserver://localhost\\DESKTOP-FT3D7QK:1433;databaseName=enrollment;encrypt=true;trustServerCertificate=true";
+    final String USERNAME = "admin";
+    final String PASSWORD = "admin";
     static int userSessionId;
-    
+    boolean isDean = false;
+
     public DashboardFaculty(int userSessionId) {
         initComponents();
-        
+        this.userSessionId = userSessionId;
+
+        {
+            btnBack.setOpaque(false); // Make the button transparent
+            btnBack.setContentAreaFilled(false); // Don't fill the button area with background
+            btnBack.setBorderPainted(false); // Remove the default button border
+            btnBack.setForeground(Color.WHITE); // Set text color
+            btnBack.setFocusPainted(false); // Remove focus border
+            btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+        }
         {
             btnStudent.setOpaque(false); // Make the button transparent
             btnStudent.setContentAreaFilled(false); // Don't fill the button area with background
@@ -45,6 +64,29 @@ public class DashboardFaculty extends javax.swing.JFrame {
             btnDean.setFocusPainted(false); // Remove focus border
             btnDean.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
+
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            
+            String sqlUserType = "select UserType from ACCOUNT where UserID = ?";
+            PreparedStatement preparedStatementUserType = conn.prepareStatement(sqlUserType);
+            preparedStatementUserType.setInt(1, userSessionId);
+            ResultSet resultSetUserType =preparedStatementUserType.executeQuery();
+
+            if (resultSetUserType.next()) {
+                if(resultSetUserType.getString("UserType").equalsIgnoreCase("dean")){
+                    isDean = true;;
+                }
+            }
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error deleting account: " + e.getMessage());
+        }
+        
+        if(!isDean){
+            btnDean.setEnabled(false);
+            btnDean.setFocusable(false);
+        }
     }
 
     /**
@@ -56,9 +98,10 @@ public class DashboardFaculty extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnDean = new javax.swing.JButton();
-        btnSubject = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
         btnStudent = new javax.swing.JButton();
+        btnSubject = new javax.swing.JButton();
+        btnDean = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -66,6 +109,69 @@ public class DashboardFaculty extends javax.swing.JFrame {
         setTitle("Faculty Dashboard");
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnBack.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        btnBack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnBackMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnBackMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnBackMousePressed(evt);
+            }
+        });
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 73, 30, 30));
+
+        btnStudent.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 102, 0), 2, true));
+        btnStudent.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnStudentMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnStudentMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnStudentMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnStudentMouseReleased(evt);
+            }
+        });
+        btnStudent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStudentActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnStudent, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 270, 245, 271));
+
+        btnSubject.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 102), 2, true));
+        btnSubject.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnSubjectMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnSubjectMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnSubjectMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnSubjectMouseReleased(evt);
+            }
+        });
+        btnSubject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubjectActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnSubject, new org.netbeans.lib.awtextra.AbsoluteConstraints(478, 270, 245, 271));
 
         btnDean.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 0, 0), 2, true));
         btnDean.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -85,44 +191,6 @@ public class DashboardFaculty extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnDean, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 270, 245, 271));
-
-        btnSubject.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 102), 2, true));
-        btnSubject.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnSubjectMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnSubjectMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnSubjectMousePressed(evt);
-            }
-        });
-        btnSubject.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSubjectActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnSubject, new org.netbeans.lib.awtextra.AbsoluteConstraints(478, 270, 245, 271));
-
-        btnStudent.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 102, 0), 2, true));
-        btnStudent.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnStudentMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnStudentMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnStudentMousePressed(evt);
-            }
-        });
-        btnStudent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnStudentActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnStudent, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 270, 245, 271));
 
         jLabel2.setText("jLabel2");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 135, -1, 20));
@@ -147,7 +215,7 @@ public class DashboardFaculty extends javax.swing.JFrame {
     }//GEN-LAST:event_btnStudentMousePressed
 
     private void btnStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudentActionPerformed
-        
+
     }//GEN-LAST:event_btnStudentActionPerformed
 
     private void btnSubjectMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSubjectMouseEntered
@@ -163,11 +231,12 @@ public class DashboardFaculty extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSubjectMousePressed
 
     private void btnSubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubjectActionPerformed
-        // TODO add your handling code here:
+        new FacultySubject(userSessionId).setVisible(true);
     }//GEN-LAST:event_btnSubjectActionPerformed
 
     private void btnDeanMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeanMouseEntered
-        btnDean.setBorderPainted(true);
+        if(isDean)
+            btnDean.setBorderPainted(true);
     }//GEN-LAST:event_btnDeanMouseEntered
 
     private void btnDeanMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeanMouseExited
@@ -175,13 +244,41 @@ public class DashboardFaculty extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeanMouseExited
 
     private void btnDeanMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeanMousePressed
+        if(isDean)
         btnDean.setContentAreaFilled(true);
     }//GEN-LAST:event_btnDeanMousePressed
 
     private void btnDeanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeanActionPerformed
-        new DashboardDean(userSessionId).setVisible(true);
-        this.dispose();
+        if(isDean){
+            new DashboardDean(userSessionId).setVisible(true);
+            this.dispose();
+        }  
     }//GEN-LAST:event_btnDeanActionPerformed
+
+    private void btnBackMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseEntered
+        btnBack.setBorderPainted(true);
+    }//GEN-LAST:event_btnBackMouseEntered
+
+    private void btnBackMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseExited
+        btnBack.setBorderPainted(false);
+    }//GEN-LAST:event_btnBackMouseExited
+
+    private void btnBackMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMousePressed
+        btnBack.setContentAreaFilled(true);
+    }//GEN-LAST:event_btnBackMousePressed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        new Dashboard(userSessionId).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnSubjectMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSubjectMouseReleased
+        btnSubject.setContentAreaFilled(false);
+    }//GEN-LAST:event_btnSubjectMouseReleased
+
+    private void btnStudentMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStudentMouseReleased
+        btnStudent.setContentAreaFilled(false);
+    }//GEN-LAST:event_btnStudentMouseReleased
 
     /**
      * @param args the command line arguments
@@ -219,6 +316,7 @@ public class DashboardFaculty extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnDean;
     private javax.swing.JButton btnStudent;
     private javax.swing.JButton btnSubject;

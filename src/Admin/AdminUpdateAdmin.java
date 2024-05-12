@@ -163,20 +163,17 @@ public class AdminUpdateAdmin extends javax.swing.JFrame {
                 return;
             }
             
-            // Check if email is taken
             if (!email.isBlank() && isEmailTaken(email)) {
                 JOptionPane.showMessageDialog(this, "Email is already taken");
                 return;
             }
             
-            // Check if username is taken
             if (!username.isBlank() && isUsernameTaken(username)) {
                 JOptionPane.showMessageDialog(this, "Username is already taken");
                 return;
             }
             
-            // Prepare SQL statement for updating
-            StringBuilder sqlUpdateAdmin = new StringBuilder("UPDATE ACCOUNT SET ");
+            StringBuilder sqlUpdateAdmin = new StringBuilder("update account set ");
             if (!email.isBlank()) sqlUpdateAdmin.append("Email = ?, ");
             if (!username.isBlank()) sqlUpdateAdmin.append("Username = ?, ");
             sqlUpdateAdmin.append("UserBlocked = ? ");
@@ -188,11 +185,10 @@ public class AdminUpdateAdmin extends javax.swing.JFrame {
                     return;
                 }
             }
-            sqlUpdateAdmin.append("WHERE UserID = ?");
+            sqlUpdateAdmin.append("where UserID = ?");
 
             PreparedStatement preparedStatementUpdateAdmin = conn.prepareStatement(sqlUpdateAdmin.toString());
 
-            // Set parameters based on variables
             int parameterIndex = 1;
             if (!email.isBlank()) preparedStatementUpdateAdmin.setString(parameterIndex++, email);
             if (!username.isBlank()) preparedStatementUpdateAdmin.setString(parameterIndex++, username);
@@ -200,10 +196,9 @@ public class AdminUpdateAdmin extends javax.swing.JFrame {
             if (!password.isBlank()) preparedStatementUpdateAdmin.setString(parameterIndex++, password);
             preparedStatementUpdateAdmin.setInt(parameterIndex++, accountId);
 
-            // Execute the update
-            int rowsAffected = preparedStatementUpdateAdmin.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Rows affected: " + rowsAffected);
+            int rowsUpdated = preparedStatementUpdateAdmin.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Rows affected: " + rowsUpdated);
                 JOptionPane.showMessageDialog(this, "Successfully updated.");
             } else {
                 JOptionPane.showMessageDialog(this, "No rows updated.");

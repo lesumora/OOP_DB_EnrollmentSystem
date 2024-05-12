@@ -160,10 +160,11 @@ public class LoginPage extends javax.swing.JFrame {
                 // Convert LocalDateTime to java.sql.Timestamp
                 Timestamp currentTimestamp = Timestamp.valueOf(now);
 
-                String sqlLogs = "INSERT INTO USER_LOG (UserId, AttemptDate) VALUES (?,?)";
+                String sqlLogs = "INSERT INTO USER_LOG (UserId, UserAction, ActionDate) VALUES (?,?,?)";
                 PreparedStatement preparedStatementLogs = conn.prepareStatement(sqlLogs);
                 preparedStatementLogs.setInt(1, UserId);
-                preparedStatementLogs.setTimestamp(2, currentTimestamp);
+                preparedStatementLogs.setString(2, "Login");
+                preparedStatementLogs.setTimestamp(3, currentTimestamp);
 
                 int rowsInserted = preparedStatementLogs.executeUpdate();
                 if (rowsInserted > 0) {

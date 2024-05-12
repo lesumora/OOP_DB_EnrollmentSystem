@@ -16,7 +16,6 @@ import javax.swing.JOptionPane;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author Jaden
@@ -30,8 +29,8 @@ public class Dashboard extends javax.swing.JFrame {
     final String USERNAME = "admin";
     final String PASSWORD = "admin";
     static int userSessionID;
-    boolean isAdmin = false;
-    
+    boolean isAdmin = false, isFaculty = false;
+
     public Dashboard(int userSessionID) {
         initComponents();
         this.userSessionID = userSessionID;
@@ -64,9 +63,8 @@ public class Dashboard extends javax.swing.JFrame {
             btnFaculty.setBorderPainted(false); // Remove the default button border
             btnFaculty.setForeground(Color.WHITE); // Set text color
             btnFaculty.setFocusPainted(false); // Remove focus border
-            btnFaculty.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
-        
+
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
 
@@ -76,17 +74,30 @@ public class Dashboard extends javax.swing.JFrame {
             ResultSet resultSetUserType = preparedStatementUserType.executeQuery();
 
             if (resultSetUserType.next()) {
-                if(resultSetUserType.getString("UserType").equalsIgnoreCase("administrator"))
+                if (resultSetUserType.getString("UserType").equalsIgnoreCase("administrator")) {
                     isAdmin = true;
+                }
+                if (resultSetUserType.getString("UserType").equalsIgnoreCase("professor")
+                        || resultSetUserType.getString("UserType").equalsIgnoreCase("dean")) {
+                    isFaculty = true;
+                }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
         }
-        
-        if(!isAdmin){
+
+        if (!isAdmin) {
             btnAdmin.setEnabled(false);
             btnAdmin.setFocusable(false);
         }
+
+        if (!isFaculty) {
+            btnAdmin.setEnabled(false);
+            btnAdmin.setFocusable(false);
+        }
+        
+        if(isFaculty)
+                btnFaculty.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
     }
 
     /**
@@ -191,14 +202,14 @@ public class Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
-        if(isAdmin){
+        if (isAdmin) {
             new AdminDashboard(userSessionID).setVisible(true);
             this.dispose();
         }
     }//GEN-LAST:event_btnAdminActionPerformed
 
     private void btnAdminMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdminMouseEntered
-        if(isAdmin)
+        if (isAdmin)
             btnAdmin.setBorderPainted(true);
     }//GEN-LAST:event_btnAdminMouseEntered
 
@@ -207,7 +218,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAdminMouseExited
 
     private void btnAdminMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdminMousePressed
-        if(isAdmin)
+        if (isAdmin)
             btnAdmin.setContentAreaFilled(true);
     }//GEN-LAST:event_btnAdminMousePressed
 
@@ -229,20 +240,24 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnStudentActionPerformed
 
     private void btnFacultyMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFacultyMouseEntered
-        btnFaculty.setBorderPainted(true);
+        if (isFaculty)
+            btnFaculty.setBorderPainted(true);
     }//GEN-LAST:event_btnFacultyMouseEntered
 
     private void btnFacultyMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFacultyMouseExited
-        btnFaculty.setBorderPainted(false);
+            btnFaculty.setBorderPainted(false);
     }//GEN-LAST:event_btnFacultyMouseExited
 
     private void btnFacultyMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFacultyMousePressed
-        btnFaculty.setContentAreaFilled(true);
+        if (isFaculty)
+            btnFaculty.setContentAreaFilled(true);
     }//GEN-LAST:event_btnFacultyMousePressed
 
     private void btnFacultyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacultyActionPerformed
-        new DashboardFaculty(userSessionID).setVisible(true);
-        this.dispose();
+        if (isFaculty) {
+            new DashboardFaculty(userSessionID).setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_btnFacultyActionPerformed
 
     private void btnBackMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseEntered

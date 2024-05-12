@@ -20,6 +20,16 @@ public class DashboardDean extends javax.swing.JFrame {
     
     public DashboardDean(int userSessionId) {
         initComponents();
+        this.userSessionId = userSessionId;
+        
+        {
+            btnBack.setOpaque(false); // Make the button transparent
+            btnBack.setContentAreaFilled(false); // Don't fill the button area with background
+            btnBack.setBorderPainted(false); // Remove the default button border
+            btnBack.setForeground(Color.WHITE); // Set text color
+            btnBack.setFocusPainted(false); // Remove focus border
+            btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+        }
         {
             btnSubject.setOpaque(false); // Make the button transparent
             btnSubject.setContentAreaFilled(false); // Don't fill the button area with background
@@ -29,12 +39,12 @@ public class DashboardDean extends javax.swing.JFrame {
             btnSubject.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
         {
-            btnSubject.setOpaque(false); // Make the button transparent
-            btnSubject.setContentAreaFilled(false); // Don't fill the button area with background
-            btnSubject.setBorderPainted(false); // Remove the default button border
-            btnSubject.setForeground(Color.WHITE); // Set text color
-            btnSubject.setFocusPainted(false); // Remove focus border
-            btnSubject.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+            btnFaculty.setOpaque(false); // Make the button transparent
+            btnFaculty.setContentAreaFilled(false); // Don't fill the button area with background
+            btnFaculty.setBorderPainted(false); // Remove the default button border
+            btnFaculty.setForeground(Color.WHITE); // Set text color
+            btnFaculty.setFocusPainted(false); // Remove focus border
+            btnFaculty.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
     }
 
@@ -47,18 +57,61 @@ public class DashboardDean extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnBack = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        btnFaculty = new javax.swing.JButton();
         btnSubject = new javax.swing.JButton();
+        btnFaculty = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnBack.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        btnBack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnBackMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnBackMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnBackMousePressed(evt);
+            }
+        });
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 73, 30, 30));
 
         jLabel2.setText("jLabel2");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 135, -1, 20));
 
-        btnFaculty.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 0, 102), 2, true));
+        btnSubject.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 102), 3, true));
+        btnSubject.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnSubjectMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnSubjectMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnSubjectMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnSubjectMouseReleased(evt);
+            }
+        });
+        btnSubject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubjectActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnSubject, new org.netbeans.lib.awtextra.AbsoluteConstraints(266, 270, 245, 271));
+
+        btnFaculty.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 0, 102), 3, true));
         btnFaculty.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnFacultyMouseEntered(evt);
@@ -77,29 +130,11 @@ public class DashboardDean extends javax.swing.JFrame {
         });
         getContentPane().add(btnFaculty, new org.netbeans.lib.awtextra.AbsoluteConstraints(677, 270, 245, 271));
 
-        btnSubject.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 102), 2, true));
-        btnSubject.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnSubjectMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnSubjectMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnSubjectMousePressed(evt);
-            }
-        });
-        btnSubject.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSubjectActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnSubject, new org.netbeans.lib.awtextra.AbsoluteConstraints(266, 270, 245, 271));
-
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg_DashboardDean.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSubjectMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSubjectMouseEntered
@@ -115,24 +150,46 @@ public class DashboardDean extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSubjectMousePressed
 
     private void btnSubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubjectActionPerformed
-
+        
     }//GEN-LAST:event_btnSubjectActionPerformed
 
     private void btnFacultyMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFacultyMouseEntered
-        // TODO add your handling code here:
+        btnFaculty.setBorderPainted(true);
     }//GEN-LAST:event_btnFacultyMouseEntered
 
     private void btnFacultyMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFacultyMouseExited
-        // TODO add your handling code here:
+        btnFaculty.setBorderPainted(false);
     }//GEN-LAST:event_btnFacultyMouseExited
 
     private void btnFacultyMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFacultyMousePressed
-        // TODO add your handling code here:
+        btnFaculty.setContentAreaFilled(true);
     }//GEN-LAST:event_btnFacultyMousePressed
 
     private void btnFacultyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacultyActionPerformed
-        // TODO add your handling code here:
+        new FacultyManagement(userSessionId).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnFacultyActionPerformed
+
+    private void btnBackMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseEntered
+        btnBack.setBorderPainted(true);
+    }//GEN-LAST:event_btnBackMouseEntered
+
+    private void btnBackMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseExited
+        btnBack.setBorderPainted(false);
+    }//GEN-LAST:event_btnBackMouseExited
+
+    private void btnBackMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMousePressed
+        btnBack.setContentAreaFilled(true);
+    }//GEN-LAST:event_btnBackMousePressed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        new DashboardFaculty(userSessionId).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnSubjectMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSubjectMouseReleased
+        btnBack.setContentAreaFilled(false);
+    }//GEN-LAST:event_btnSubjectMouseReleased
 
     /**
      * @param args the command line arguments
@@ -170,6 +227,7 @@ public class DashboardDean extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnFaculty;
     private javax.swing.JButton btnSubject;
     private javax.swing.JLabel jLabel1;
