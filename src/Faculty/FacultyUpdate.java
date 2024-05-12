@@ -11,12 +11,11 @@ import javax.swing.JOptionPane;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author Jaden
  */
-public class FacultyUpdateFaculty extends javax.swing.JFrame {
+public class FacultyUpdate extends javax.swing.JFrame {
 
     /**
      * Creates new form AdminAdd
@@ -26,11 +25,12 @@ public class FacultyUpdateFaculty extends javax.swing.JFrame {
     final String PASSWORD = "admin";
     String firstName, middleName, lastName, position, employeeRank;
     static String empId;
-    public FacultyUpdateFaculty(String empId) {
+
+    public FacultyUpdate(String empId) {
         initComponents();
         this.empId = empId;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -156,50 +156,81 @@ public class FacultyUpdateFaculty extends javax.swing.JFrame {
         lastName = tfLastName.getText();
         position = (String) cbPosition.getSelectedItem();
         employeeRank = (String) cbEmployeeRank.getSelectedItem();
-        
-        if(middleName.isBlank()){
+
+        if (middleName.isBlank()) {
             middleName = "N/A";
         }
-        
+
+        boolean valuesUpdated = false;
+
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            
-            StringBuilder sqlUpdateFaculty= new StringBuilder("update faculty set ");
-            if (!firstName.isBlank()) sqlUpdateFaculty.append("FName = ?, ");
-            if (!middleName.isBlank()) sqlUpdateFaculty.append("MName = ?, ");
-            if (!lastName.isBlank()) sqlUpdateFaculty.append("LName = ?, ");
-            if (!position.equalsIgnoreCase("no change")) sqlUpdateFaculty.append("Position = ?, ");
-            if (!employeeRank.equalsIgnoreCase("no change")) sqlUpdateFaculty.append("EmpRank = ?, ");
-            
-            if (sqlUpdateFaculty.lastIndexOf(", ") == sqlUpdateFaculty.length() - 2) {
-                sqlUpdateFaculty.delete(sqlUpdateFaculty.length() - 2, sqlUpdateFaculty.length());
+
+            StringBuilder sqlUpdateFaculty = new StringBuilder("update faculty set ");
+            if (!firstName.isBlank()) {
+                sqlUpdateFaculty.append("FName = ?, ");
+                valuesUpdated = true;
             }
-            
-            sqlUpdateFaculty.append("where EmpID = ?");
+            if (!middleName.isBlank()) {
+                sqlUpdateFaculty.append("MName = ?, ");
+                valuesUpdated = true;
+            }
+            if (!lastName.isBlank()) {
+                sqlUpdateFaculty.append("LName = ?, ");
+                valuesUpdated = true;
+            }
+            if (!position.equalsIgnoreCase("no change")) {
+                sqlUpdateFaculty.append("Position = ?, ");
+                valuesUpdated = true;
+            }
+            if (!employeeRank.equalsIgnoreCase("no change")) {
+                sqlUpdateFaculty.append("EmpRank = ?, ");
+                valuesUpdated = true;
+            }
 
-            PreparedStatement preparedStatementUpdateAdmin = conn.prepareStatement(sqlUpdateFaculty.toString());
+            if (valuesUpdated) {
+                if (sqlUpdateFaculty.lastIndexOf(", ") == sqlUpdateFaculty.length() - 2) {
+                    sqlUpdateFaculty.delete(sqlUpdateFaculty.length() - 2, sqlUpdateFaculty.length());
+                }
 
-            int parameterIndex = 1;
-            if (!firstName.isBlank()) preparedStatementUpdateAdmin.setString(parameterIndex++, firstName);
-            if (!middleName.isBlank()) preparedStatementUpdateAdmin.setString(parameterIndex++, middleName);
-            if (!lastName.isBlank()) preparedStatementUpdateAdmin.setString(parameterIndex++, lastName);
-            if (!position.equalsIgnoreCase("no change")) preparedStatementUpdateAdmin.setString(parameterIndex++, position);
-            if (!employeeRank.equalsIgnoreCase("no change")) preparedStatementUpdateAdmin.setString(parameterIndex++, employeeRank);
-            preparedStatementUpdateAdmin.setString(parameterIndex++, empId);
+                sqlUpdateFaculty.append("where EmpID = ?");
 
-            int rowsUpdated = preparedStatementUpdateAdmin.executeUpdate();
-            if (rowsUpdated > 0) {
-                System.out.println("Rows affected: " + rowsUpdated);
-                JOptionPane.showMessageDialog(this, "Successfully updated.");
+                PreparedStatement preparedStatementUpdateAdmin = conn.prepareStatement(sqlUpdateFaculty.toString());
+
+                int parameterIndex = 1;
+                if (!firstName.isBlank()) {
+                    preparedStatementUpdateAdmin.setString(parameterIndex++, firstName);
+                }
+                if (!middleName.isBlank()) {
+                    preparedStatementUpdateAdmin.setString(parameterIndex++, middleName);
+                }
+                if (!lastName.isBlank()) {
+                    preparedStatementUpdateAdmin.setString(parameterIndex++, lastName);
+                }
+                if (!position.equalsIgnoreCase("no change")) {
+                    preparedStatementUpdateAdmin.setString(parameterIndex++, position);
+                }
+                if (!employeeRank.equalsIgnoreCase("no change")) {
+                    preparedStatementUpdateAdmin.setString(parameterIndex++, employeeRank);
+                }
+                preparedStatementUpdateAdmin.setString(parameterIndex++, empId);
+
+                int rowsUpdated = preparedStatementUpdateAdmin.executeUpdate();
+                if (rowsUpdated > 0) {
+                    System.out.println("Rows affected: " + rowsUpdated);
+                    JOptionPane.showMessageDialog(this, "Successfully updated");
+                } else {
+                    JOptionPane.showMessageDialog(this, "No rows updated");
+                }
             } else {
-                JOptionPane.showMessageDialog(this, "No rows updated.");
+                JOptionPane.showMessageDialog(this, "Nothing updated");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-    
+
     /**
      * @param args the command line arguments
      */
@@ -217,14 +248,30 @@ public class FacultyUpdateFaculty extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FacultyUpdateFaculty.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FacultyUpdate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FacultyUpdateFaculty.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FacultyUpdate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FacultyUpdateFaculty.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FacultyUpdate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FacultyUpdateFaculty.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FacultyUpdate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -245,7 +292,7 @@ public class FacultyUpdateFaculty extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FacultyUpdateFaculty(empId).setVisible(true);
+                new FacultyUpdate(empId).setVisible(true);
             }
         });
     }

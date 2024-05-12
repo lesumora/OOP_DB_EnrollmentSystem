@@ -150,7 +150,8 @@ public class DashboardDean extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSubjectMousePressed
 
     private void btnSubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubjectActionPerformed
-        
+        new SubjectManagement(userSessionId).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnSubjectActionPerformed
 
     private void btnFacultyMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFacultyMouseEntered

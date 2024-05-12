@@ -30,7 +30,7 @@ public class AdminInformation extends javax.swing.JFrame {
     String search, username, password, userBlocked, email, userType;
     int userId;
     DefaultTableModel model = new DefaultTableModel();
-    List<Boolean> multipleSelectedCheck = new ArrayList<>();
+     List<Boolean> multipleSelectedCheck = new ArrayList<>();
 
     public AdminInformation(int userSessionID) {
         initComponents();
@@ -86,6 +86,7 @@ public class AdminInformation extends javax.swing.JFrame {
         }
     }
     
+    // Search button
     public AdminInformation(int userSessionID, int userId, String username, String password, String userBlocked, String email, String userType){
         initComponents();
         this.userSessionID = userSessionID;

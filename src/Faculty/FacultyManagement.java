@@ -341,7 +341,7 @@ public class FacultyManagement extends javax.swing.JFrame {
         int numberOfSelected = multipleSelectedCheck.size();
         switch (numberOfSelected) {
             case 1 ->
-                new FacultyUpdateFaculty(empId).setVisible(true);
+                new FacultyUpdate(empId).setVisible(true);
             case 0 ->
                 JOptionPane.showMessageDialog(this, "No account selected.");
             default ->
@@ -409,14 +409,14 @@ public class FacultyManagement extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(this, "No account found with ID: " + deleteUserId);
                         }
                     } catch (Exception e) {
-                        JOptionPane.showMessageDialog(this, "Error deleting account: " + e.getMessage());
+                        JOptionPane.showMessageDialog(this, e);
                     }
                 }
             }
             case 0 ->
-                JOptionPane.showMessageDialog(this, "No account selected.");
+                JOptionPane.showMessageDialog(this, "No faculty selected.");
             default ->
-                JOptionPane.showMessageDialog(this, "Dangerous to delete multiple accounts.\nSelect only one (1) account to delete.");
+                JOptionPane.showMessageDialog(this, "Dangerous to delete multiple faculties.\nSelect only one (1) account to delete.");
         }
         System.out.println(deleteUserId);
         multipleSelectedCheck.clear();
