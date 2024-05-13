@@ -54,6 +54,7 @@ public class FacultyUpdate extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Update Faculty Info");
+        setAlwaysOnTop(true);
         setIconImage(getIconImage());
         setResizable(false);
 

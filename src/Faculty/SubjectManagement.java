@@ -209,7 +209,7 @@ public class SubjectManagement extends javax.swing.JFrame {
         jLabel2.setText("Type in the Subject Title you want to search.");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 250, -1, -1));
 
-        tfSearch.setToolTipText("email");
+        tfSearch.setToolTipText("");
         tfSearch.setName(""); // NOI18N
         getContentPane().add(tfSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, 280, 30));
 

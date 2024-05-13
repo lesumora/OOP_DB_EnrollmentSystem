@@ -60,13 +60,14 @@ public class FacultyAdd extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         tfLastName = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        tfPosition = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        tfEmpRank = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
+        cbPosition = new javax.swing.JComboBox<>();
+        cbEmployeeRank = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Add Faculty Member");
+        setAlwaysOnTop(true);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel7.setText("SETUP THE ACCOUNT FOR NEW FACULTY");
@@ -99,13 +100,17 @@ public class FacultyAdd extends javax.swing.JFrame {
             }
         });
 
+        cbPosition.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Faculty", "Asst Dean", " " }));
+
+        cbEmployeeRank.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Instructor I", "Instructor II", "Instructor III", "Instructor IV", "Prof I", "Prof II", "Prof III", "Prof IIII" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(22, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(99, 99, 99)
@@ -127,23 +132,26 @@ public class FacultyAdd extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tfFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfPosition, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
                         .addGap(36, 36, 36)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(tfMiddleName, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
-                                    .addComponent(tfLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(tfLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addComponent(jLabel6)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(tfEmpRank, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnAdd)
-                                .addGap(9, 9, 9))))
-                    .addComponent(jLabel6))
+                                .addComponent(cbPosition, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(145, 145, 145))
+                            .addComponent(cbEmployeeRank, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAdd)
+                        .addGap(9, 9, 9)))
                 .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
@@ -189,8 +197,8 @@ public class FacultyAdd extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tfPosition, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfEmpRank, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(cbEmployeeRank, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbPosition, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -210,8 +218,8 @@ public class FacultyAdd extends javax.swing.JFrame {
         firstName = tfFirstName.getText();
         middleName = tfMiddleName.getText();
         lastName = tfLastName.getText();
-        position = tfPosition.getText();
-        empRank = tfEmpRank.getText();
+        position = (String )cbPosition.getSelectedItem();
+        empRank = (String) cbEmployeeRank.getSelectedItem();
         
         
         try {
@@ -372,6 +380,8 @@ public class FacultyAdd extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JComboBox<String> cbEmployeeRank;
+    private javax.swing.JComboBox<String> cbPosition;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -386,11 +396,9 @@ public class FacultyAdd extends javax.swing.JFrame {
     private javax.swing.JPasswordField pfConfirmPassword;
     private javax.swing.JPasswordField pfPassword;
     private javax.swing.JTextField tfEmail;
-    private javax.swing.JTextField tfEmpRank;
     private javax.swing.JTextField tfFirstName;
     private javax.swing.JTextField tfLastName;
     private javax.swing.JTextField tfMiddleName;
-    private javax.swing.JTextField tfPosition;
     private javax.swing.JTextField tfUsername;
     // End of variables declaration//GEN-END:variables
 }

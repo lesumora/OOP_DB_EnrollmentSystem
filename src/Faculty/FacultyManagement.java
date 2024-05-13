@@ -113,6 +113,13 @@ public class FacultyManagement extends javax.swing.JFrame {
         initComponents();
         this.userSessionId = userSessionId;
         {
+            btnBack.setOpaque(false); // Make the button transparent
+            btnBack.setContentAreaFilled(false); // Don't fill the button area with background
+            btnBack.setBorderPainted(false); // Remove the default button border
+            btnBack.setFocusPainted(false); // Remove focus border
+            btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+        }
+        {
             btnAdd.setOpaque(false); // Make the button transparent
             btnAdd.setContentAreaFilled(false); // Don't fill the button area with background
             btnAdd.setBorderPainted(false); // Remove the default button border
@@ -440,14 +447,21 @@ public class FacultyManagement extends javax.swing.JFrame {
                             deleteUserId = resultSetFaculty.getInt("UserID");
                         }
 
-                        // Delete account from accounts table
+                        String sqlDelete = "delete from FACULTY where UserID = ?";
+                        PreparedStatement preparedStatementDelete = conn.prepareStatement(sqlDelete);
+                        preparedStatementDelete.setInt(1, deleteUserId);
+
+                        int delete = preparedStatementDelete.executeUpdate();
+                        if (delete > 0) {
+                            System.out.println("User deleted from faculty");
+                        }
+
                         String deleteAccountSQL = "update ACCOUNT set UserDeleted = ? WHERE UserID = ?";
                         PreparedStatement deleteAccountStatement = conn.prepareStatement(deleteAccountSQL);
                         deleteAccountStatement.setString(1, "true");
                         deleteAccountStatement.setInt(2, deleteUserId);
                         int accountsDeleted = deleteAccountStatement.executeUpdate();
 
-                        // Check if any records were deleted
                         if (accountsDeleted > 0) {
                             JOptionPane.showMessageDialog(this, "Account deleted successfully.");
                         } else {
@@ -496,9 +510,9 @@ public class FacultyManagement extends javax.swing.JFrame {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             // Succesfully connected to database...
 
-            String sqlFirstName = "select * from FACULTY where FName = ? and ColCode = ?";
+            String sqlFirstName = "select * from FACULTY where FName like ? and ColCode = ?";
             PreparedStatement preparedStatementFirstName = conn.prepareStatement(sqlFirstName);
-            preparedStatementFirstName.setString(1, search);
+            preparedStatementFirstName.setString(1, "%" + search + "%");
             preparedStatementFirstName.setString(2, "CICT");
             ResultSet resultSetFirstName = preparedStatementFirstName.executeQuery();
 

@@ -58,6 +58,7 @@ public class SubjectUpdate extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Update Subject");
+        setAlwaysOnTop(true);
         setIconImage(getIconImage());
         setResizable(false);
 
