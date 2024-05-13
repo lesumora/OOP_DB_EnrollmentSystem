@@ -28,8 +28,8 @@ public class SubjectManagement extends javax.swing.JFrame {
     final String USERNAME = "admin";
     final String PASSWORD = "admin";
     static int userSessionID;
-    String subjectCode, subjectTitle, schedule, search, subjectCodeSearch;
-    int userId, lecture, lab, credit;
+    String subjectCode, subjectTitle, schedule, search, subjectCodeSearch, courseId;
+    int userId, lecture, lab, credit, empId;
     DefaultTableModel model = new DefaultTableModel();
     List<Boolean> multipleSelectedCheck = new ArrayList<>();
 
@@ -71,11 +71,39 @@ public class SubjectManagement extends javax.swing.JFrame {
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             // Succesfully connected to database...
+            
+            String sqlEmpId = "select EmpID from FACULTY where UserID = ?";
+            PreparedStatement preparedStatementEmpId = conn.prepareStatement(sqlEmpId);
+            preparedStatementEmpId.setInt(1, userSessionID);
+            
+            ResultSet resultSetEmpId = preparedStatementEmpId.executeQuery();
+            if(resultSetEmpId.next()){
+                empId = resultSetEmpId.getInt("EmpID");
+            }
+            
+            String sqlCourse = "select CourseID from "
+                    + "COURSE_SUBJECT CS inner join FACULTY_SUBJECT FS "
+                    + "on CS.SubjectCode = FS.SubjectCode inner join FACULTY FA "
+                    + "on FS.EmpID = FA.EmpID "
+                    + "where FS.SupervisorID = ? and FA.UserID = ?";
+            PreparedStatement preparedStatementCourse = conn.prepareStatement(sqlCourse);
+            preparedStatementCourse.setInt(1, empId);
+            preparedStatementCourse.setInt(2, userSessionID);
+            
+            ResultSet resultSetCourse = preparedStatementCourse.executeQuery();
+            if(resultSetCourse.next()){
+                courseId = resultSetCourse.getString("CourseID");
+            }
 
-            String sqlSubject = "select * from COURSE_SUBJECT where "
-                    + "SupervisorID = (select EmpID from FACULTY where UserID = ?)";
+            String sqlSubject = "select distinct CS.SubjectCode, CS.SubjectTitle, CS.Lecture, CS.Lab, CS.Credit, CS.Schedule from "
+                    + "COURSE_SUBJECT CS inner join FACULTY_SUBJECT FS "
+                    + "on CS.SubjectCode = FS.SubjectCode inner join FACULTY FA "
+                    + "on FS.SupervisorID = FA.EmpID "
+                    + "where CS.CourseID = ? "
+                    + "AND FA.EmpID = ?";
             PreparedStatement preparedStatementSubject = conn.prepareStatement(sqlSubject);
-            preparedStatementSubject.setInt(1, userSessionID);
+            preparedStatementSubject.setString(1, courseId);
+            preparedStatementSubject.setInt(2, empId);
 
             ResultSet resultSetSubject = preparedStatementSubject.executeQuery();
 
@@ -325,7 +353,7 @@ public class SubjectManagement extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        new AdminAdd().setVisible(true);
+        new SubjectAdd(userSessionID, courseId, empId).setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseEntered

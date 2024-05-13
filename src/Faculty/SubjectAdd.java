@@ -23,30 +23,24 @@ public class SubjectAdd extends javax.swing.JFrame {
     final String DB_URL = "jdbc:sqlserver://localhost\\DESKTOP-FT3D7QK:1433;databaseName=enrollment;encrypt=true;trustServerCertificate=true";
     final String USERNAME = "admin";
     final String PASSWORD = "admin";
-    static int userSessionID;
+    static int userSessionID, empId;
     String subjectCode, subjectTitle, schedule;
     String lectureText, labText, creditText;
     int lecture, lab, credit;
-    String courseId;
+    static String courseId;
     int supervisorId;
 
-    public SubjectAdd(int userSessionID) {
+    public SubjectAdd(int userSessionID, String courseId, int empId) {
         initComponents();
         this.userSessionID = userSessionID;
+        this.courseId = courseId;
+        this.empId = empId;
         
+        System.out.println(courseId);
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             
-            String sqlCourse = "select CourseID, SupervisorID from COURSE_SUBJECT where "
-                    + "SupervisorID = (select EmpID from FACULTY where UserID = ?)";
-            PreparedStatement preparedStatementCourse = conn.prepareStatement(sqlCourse);
-            preparedStatementCourse.setInt(1, userSessionID);
             
-            ResultSet resultSetCourse = preparedStatementCourse.executeQuery();
-            if(resultSetCourse.next()){
-                courseId = resultSetCourse.getString("CourseID");
-                supervisorId = resultSetCourse.getInt("SupervisorID");
-            }
         } catch(Exception e){
             JOptionPane.showMessageDialog(this, e);
         }
@@ -77,6 +71,7 @@ public class SubjectAdd extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Add Subject");
+        setAlwaysOnTop(true);
         setIconImage(getIconImage());
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -147,7 +142,7 @@ public class SubjectAdd extends javax.swing.JFrame {
                 }
             }
 
-            String sqlSubjectAdd = "insert into COURSE_SUBJECT values (?, ?, ?, ?, ?, ?, ?, ?)";
+            String sqlSubjectAdd = "insert into COURSE_SUBJECT values (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatementSubjectAdd = conn.prepareStatement(sqlSubjectAdd);
             preparedStatementSubjectAdd.setString(1, subjectCode);
             preparedStatementSubjectAdd.setString(2, subjectTitle);
@@ -156,11 +151,22 @@ public class SubjectAdd extends javax.swing.JFrame {
             preparedStatementSubjectAdd.setInt(5, credit);
             preparedStatementSubjectAdd.setString(6, schedule);
             preparedStatementSubjectAdd.setString(7, courseId);
-            preparedStatementSubjectAdd.setInt(8, supervisorId);
-            int rowsInserted = preparedStatementSubjectAdd.executeUpdate();
-            if (rowsInserted > 0) {
+            int rowsInsertedSubject = preparedStatementSubjectAdd.executeUpdate();
+            if (rowsInsertedSubject > 0) {
                 JOptionPane.showMessageDialog(this, "Successfully added new subject");
             }
+            
+            String sqlFacultySubject = "insert into FACULTY_SUBJECT values (?, ?, ?)";
+            PreparedStatement preparedStatementFacultySubject = conn.prepareStatement(sqlFacultySubject);
+            preparedStatementFacultySubject.setInt(1, empId);
+            preparedStatementFacultySubject.setString(2, subjectCode);
+            preparedStatementFacultySubject.setInt(3, empId);
+            
+            int rowsInsertedFacultySubject = preparedStatementFacultySubject.executeUpdate();
+            if (rowsInsertedFacultySubject > 0) {
+                System.out.println("Successfully added new faculty subject");
+            }
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
         }
@@ -198,7 +204,7 @@ public class SubjectAdd extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SubjectAdd(userSessionID).setVisible(true);
+                new SubjectAdd(userSessionID, courseId, empId).setVisible(true);
             }
         });
     }
