@@ -173,7 +173,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 btnSubjectsActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSubjects, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 150, 171, 185));
+        getContentPane().add(btnSubjects, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 145, 203, 220));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg_AdminDashboard.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -229,7 +229,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLogsMousePressed
 
     private void btnLogsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogsActionPerformed
-        // TODO add your handling code here:
+        new LogView(userSessionID).setVisible(true);
     }//GEN-LAST:event_btnLogsActionPerformed
 
     private void btnSubjectsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSubjectsMouseEntered
