@@ -220,8 +220,6 @@ public class FacultyUpdate extends javax.swing.JFrame {
                 if (rowsUpdated > 0) {
                     System.out.println("Rows affected: " + rowsUpdated);
                     JOptionPane.showMessageDialog(this, "Successfully updated");
-                } else {
-                    JOptionPane.showMessageDialog(this, "No rows updated");
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Nothing updated");

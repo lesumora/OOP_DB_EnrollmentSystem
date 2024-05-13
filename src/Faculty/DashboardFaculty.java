@@ -4,6 +4,7 @@
  */
 package Faculty;
 
+import Dean.DashboardDean;
 import Home.Dashboard;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -39,14 +40,6 @@ public class DashboardFaculty extends javax.swing.JFrame {
             btnBack.setForeground(Color.WHITE); // Set text color
             btnBack.setFocusPainted(false); // Remove focus border
             btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
-        }
-        {
-            btnStudent.setOpaque(false); // Make the button transparent
-            btnStudent.setContentAreaFilled(false); // Don't fill the button area with background
-            btnStudent.setBorderPainted(false); // Remove the default button border
-            btnStudent.setForeground(Color.WHITE); // Set text color
-            btnStudent.setFocusPainted(false); // Remove focus border
-            btnStudent.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
         {
             btnSubject.setOpaque(false); // Make the button transparent
@@ -99,7 +92,6 @@ public class DashboardFaculty extends javax.swing.JFrame {
     private void initComponents() {
 
         btnBack = new javax.swing.JButton();
-        btnStudent = new javax.swing.JButton();
         btnSubject = new javax.swing.JButton();
         btnDean = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -129,28 +121,6 @@ public class DashboardFaculty extends javax.swing.JFrame {
         });
         getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 73, 30, 30));
 
-        btnStudent.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 102, 0), 2, true));
-        btnStudent.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnStudentMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnStudentMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnStudentMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnStudentMouseReleased(evt);
-            }
-        });
-        btnStudent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnStudentActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnStudent, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 270, 245, 271));
-
         btnSubject.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 102), 2, true));
         btnSubject.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -171,7 +141,7 @@ public class DashboardFaculty extends javax.swing.JFrame {
                 btnSubjectActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSubject, new org.netbeans.lib.awtextra.AbsoluteConstraints(478, 270, 245, 271));
+        getContentPane().add(btnSubject, new org.netbeans.lib.awtextra.AbsoluteConstraints(286, 270, 245, 271));
 
         btnDean.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 0, 0), 2, true));
         btnDean.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -190,7 +160,7 @@ public class DashboardFaculty extends javax.swing.JFrame {
                 btnDeanActionPerformed(evt);
             }
         });
-        getContentPane().add(btnDean, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 270, 245, 271));
+        getContentPane().add(btnDean, new org.netbeans.lib.awtextra.AbsoluteConstraints(653, 270, 245, 271));
 
         jLabel2.setText("jLabel2");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 135, -1, 20));
@@ -201,22 +171,6 @@ public class DashboardFaculty extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnStudentMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStudentMouseEntered
-        btnStudent.setBorderPainted(true);
-    }//GEN-LAST:event_btnStudentMouseEntered
-
-    private void btnStudentMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStudentMouseExited
-        btnStudent.setBorderPainted(false);
-    }//GEN-LAST:event_btnStudentMouseExited
-
-    private void btnStudentMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStudentMousePressed
-        btnStudent.setContentAreaFilled(true);
-    }//GEN-LAST:event_btnStudentMousePressed
-
-    private void btnStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudentActionPerformed
-
-    }//GEN-LAST:event_btnStudentActionPerformed
 
     private void btnSubjectMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSubjectMouseEntered
         btnSubject.setBorderPainted(true);
@@ -276,10 +230,6 @@ public class DashboardFaculty extends javax.swing.JFrame {
         btnSubject.setContentAreaFilled(false);
     }//GEN-LAST:event_btnSubjectMouseReleased
 
-    private void btnStudentMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStudentMouseReleased
-        btnStudent.setContentAreaFilled(false);
-    }//GEN-LAST:event_btnStudentMouseReleased
-
     /**
      * @param args the command line arguments
      */
@@ -318,7 +268,6 @@ public class DashboardFaculty extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnDean;
-    private javax.swing.JButton btnStudent;
     private javax.swing.JButton btnSubject;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

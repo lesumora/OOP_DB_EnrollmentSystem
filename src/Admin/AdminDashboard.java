@@ -1,6 +1,7 @@
 package Admin;
 
 
+import Admin.AdminFunctions.AdminInformation;
 import Home.Dashboard;
 import java.awt.Cursor;
 
@@ -45,11 +46,11 @@ public class AdminDashboard extends javax.swing.JFrame {
             btnStudents.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
         {
-            btnUsers.setOpaque(false); // Make the button transparent
-            btnUsers.setContentAreaFilled(false); // Don't fill the button area with background
-            btnUsers.setBorderPainted(false); // Remove the default button border
-            btnUsers.setFocusPainted(false); // Remove focus border
-            btnUsers.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+            btnLogs.setOpaque(false); // Make the button transparent
+            btnLogs.setContentAreaFilled(false); // Don't fill the button area with background
+            btnLogs.setBorderPainted(false); // Remove the default button border
+            btnLogs.setFocusPainted(false); // Remove focus border
+            btnLogs.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
         {
             btnSubjects.setOpaque(false); // Make the button transparent
@@ -71,9 +72,9 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         btnBack = new javax.swing.JButton();
         btnAdmins = new javax.swing.JButton();
-        btnSubjects = new javax.swing.JButton();
-        btnUsers = new javax.swing.JButton();
         btnStudents = new javax.swing.JButton();
+        btnLogs = new javax.swing.JButton();
+        btnSubjects = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -115,45 +116,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 btnAdminsActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAdmins, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 326, 171, 185));
-
-        btnSubjects.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 2, true));
-        btnSubjects.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnSubjectsMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnSubjectsMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnSubjectsMousePressed(evt);
-            }
-        });
-        btnSubjects.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSubjectsActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnSubjects, new org.netbeans.lib.awtextra.AbsoluteConstraints(898, 326, 171, 185));
-
-        btnUsers.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 2, true));
-        btnUsers.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnUsersMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnUsersMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnUsersMousePressed(evt);
-            }
-        });
-        btnUsers.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUsersActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnUsers, new org.netbeans.lib.awtextra.AbsoluteConstraints(642, 326, 171, 185));
+        getContentPane().add(btnAdmins, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 145, 203, 220));
 
         btnStudents.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 2, true));
         btnStudents.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -172,7 +135,45 @@ public class AdminDashboard extends javax.swing.JFrame {
                 btnStudentsActionPerformed(evt);
             }
         });
-        getContentPane().add(btnStudents, new org.netbeans.lib.awtextra.AbsoluteConstraints(387, 326, 171, 185));
+        getContentPane().add(btnStudents, new org.netbeans.lib.awtextra.AbsoluteConstraints(366, 145, 203, 220));
+
+        btnLogs.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 2, true));
+        btnLogs.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnLogsMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnLogsMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnLogsMousePressed(evt);
+            }
+        });
+        btnLogs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogsActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnLogs, new org.netbeans.lib.awtextra.AbsoluteConstraints(636, 145, 203, 220));
+
+        btnSubjects.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 2, true));
+        btnSubjects.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnSubjectsMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnSubjectsMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnSubjectsMousePressed(evt);
+            }
+        });
+        btnSubjects.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubjectsActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnSubjects, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 150, 171, 185));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg_AdminDashboard.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -211,24 +212,25 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnStudentsMousePressed
 
     private void btnStudentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudentsActionPerformed
-        // TODO add your handling code here:
+        new StudentInformation(userSessionID).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnStudentsActionPerformed
 
-    private void btnUsersMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsersMouseEntered
-        btnUsers.setBorderPainted(true);
-    }//GEN-LAST:event_btnUsersMouseEntered
+    private void btnLogsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogsMouseEntered
+        btnLogs.setBorderPainted(true);
+    }//GEN-LAST:event_btnLogsMouseEntered
 
-    private void btnUsersMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsersMouseExited
-        btnUsers.setBorderPainted(false);
-    }//GEN-LAST:event_btnUsersMouseExited
+    private void btnLogsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogsMouseExited
+        btnLogs.setBorderPainted(false);
+    }//GEN-LAST:event_btnLogsMouseExited
 
-    private void btnUsersMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsersMousePressed
-        btnUsers.setContentAreaFilled(true);
-    }//GEN-LAST:event_btnUsersMousePressed
+    private void btnLogsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogsMousePressed
+        btnLogs.setContentAreaFilled(true);
+    }//GEN-LAST:event_btnLogsMousePressed
 
-    private void btnUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsersActionPerformed
+    private void btnLogsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnUsersActionPerformed
+    }//GEN-LAST:event_btnLogsActionPerformed
 
     private void btnSubjectsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSubjectsMouseEntered
         btnSubjects.setBorderPainted(true);
@@ -301,9 +303,9 @@ public class AdminDashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdmins;
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnLogs;
     private javax.swing.JButton btnStudents;
     private javax.swing.JButton btnSubjects;
-    private javax.swing.JButton btnUsers;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

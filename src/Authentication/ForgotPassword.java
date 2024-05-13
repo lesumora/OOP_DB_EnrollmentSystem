@@ -44,9 +44,8 @@ public class ForgotPassword extends javax.swing.JFrame {
         tfAnswer = new javax.swing.JTextField();
         btnFinish = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Security Question");
-        setAlwaysOnTop(true);
         setFocusCycleRoot(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -116,7 +115,6 @@ public class ForgotPassword extends javax.swing.JFrame {
             int rowsInserted = preparedStatementRegister.executeUpdate();
             if(rowsInserted > 0){
                 JOptionPane.showMessageDialog(this, "Successfully added a new account");
-                new LoginPage().setVisible(true);
                 this.dispose();
             }
 
@@ -132,10 +130,11 @@ public class ForgotPassword extends javax.swing.JFrame {
         if (choice == JOptionPane.YES_OPTION) {
             try {
                 Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-                String sqlDelete = "delete from ACCOUNT "
+                String sqlDelete = "update ACCOUNT set UserDeleted = ? "
                         + "where UserID = ?";
                 PreparedStatement preparedStatementRegister = conn.prepareStatement(sqlDelete);
-                preparedStatementRegister.setInt(1, userId);
+                preparedStatementRegister.setString(1, "true");
+                preparedStatementRegister.setInt(2, userId);
 
                 int rowsDeleted = preparedStatementRegister.executeUpdate();
                 if(rowsDeleted > 0 ){
