@@ -1,11 +1,10 @@
 package Enrollment;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -30,6 +29,8 @@ public class step2_enroll extends javax.swing.JFrame {
     static String selectedCourse, curriculum, campus, courseID, courseName, section;
     static int userSessionID, yearLevel;
     List<String> enrolledCode = new ArrayList<>();
+    List<String> subjectCode = new ArrayList<>();
+    List<String> faculty = new ArrayList<>();
     String facultyFirstName, facultyLastName, facultyMiddleName, facultyFullName;
     DefaultTableModel model = new DefaultTableModel();
 
@@ -52,22 +53,12 @@ public class step2_enroll extends javax.swing.JFrame {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             // Succesfully connected to database...
 
-            String sqlCourseSubject = "SELECT SubjectCode, SubjectTitle, Lecture, Lab, Credit, Schedule, EmpID FROM COURSE_SUBJECT WHERE CourseID = ?";
+            String sqlCourseSubject = "SELECT SubjectCode, SubjectTitle, Lecture, Lab, Credit, Schedule FROM COURSE_SUBJECT WHERE CourseID = ?";
             PreparedStatement preparedStatementCourseSubject = conn.prepareStatement(sqlCourseSubject);
             preparedStatementCourseSubject.setString(1, courseID);
             ResultSet resultSetCourseSubject = preparedStatementCourseSubject.executeQuery();
 
             while (resultSetCourseSubject.next()) {
-                int faculty = resultSetCourseSubject.getInt("EmpID");
-                String sqlFaculty = "SELECT * FROM FACULTY WHERE EmpID = ?";
-                PreparedStatement preparedStatementFaculty = conn.prepareStatement(sqlFaculty);
-                preparedStatementFaculty.setInt(1, faculty);
-                ResultSet resultSetFaculty = preparedStatementFaculty.executeQuery();
-                if (resultSetFaculty.next()) {
-                    facultyFirstName = resultSetFaculty.getString("FName");
-                    facultyLastName = resultSetFaculty.getString("LName");
-                    facultyFullName = facultyFirstName + " " + facultyLastName;
-                }
 
                 Object[] row = new Object[8];
                 row[0] = false;
@@ -94,7 +85,7 @@ public class step2_enroll extends javax.swing.JFrame {
         this.enrolledCode = enrolledCode;
         this.campus = campus;
         this.yearLevel = yearLevel;
-        
+
         System.out.println(campus);
 
         model = (DefaultTableModel) jTable1.getModel();
@@ -103,24 +94,12 @@ public class step2_enroll extends javax.swing.JFrame {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             // Successfully connected to the database...
 
-            String sqlCourseSubject = "SELECT SubjectCode, SubjectTitle, Lecture, Lab, Credit, Schedule, EmpID FROM COURSE_SUBJECT WHERE CourseID = ?";
-            PreparedStatement preparedStatementCourseSubject = conn.prepareStatement(sqlCourseSubject);
+            String sqlCourseSubject = "SELECT SubjectCode, SubjectTitle, Lecture, Lab, Credit, Schedule FROM COURSE_SUBJECT WHERE CourseID = ?";
+            PreparedStatement preparedStatementCourseSubject = conn.prepareStatement(sqlCourseSubject, Statement.RETURN_GENERATED_KEYS);
             preparedStatementCourseSubject.setString(1, courseID);
             ResultSet resultSetCourseSubject = preparedStatementCourseSubject.executeQuery();
 
             while (resultSetCourseSubject.next()) {
-                int faculty = resultSetCourseSubject.getInt("EmpID");
-
-                String sqlFaculty = "SELECT * FROM FACULTY WHERE EmpID = ?";
-                PreparedStatement preparedStatementFaculty = conn.prepareStatement(sqlFaculty);
-                preparedStatementFaculty.setInt(1, faculty);
-                ResultSet resultSetFaculty = preparedStatementFaculty.executeQuery();
-                if (resultSetFaculty.next()) {
-                    facultyFirstName = resultSetFaculty.getString("FName");
-                    facultyLastName = resultSetFaculty.getString("LName");
-                    facultyFullName = facultyFirstName + " " + facultyLastName;
-                }
-
                 Object[] row = new Object[8];
                 String subjectCode = resultSetCourseSubject.getString("SubjectCode");
                 boolean isSelected = enrolledCode.contains(subjectCode); // Check if the code is in enrolledCode list
@@ -203,14 +182,14 @@ public class step2_enroll extends javax.swing.JFrame {
 
             },
             new String [] {
-                "#", "CODE", "TITLE", "LEC", "LAB", "UNIT", "SCHEDULE", "FACULTY"
+                "#", "CODE", "TITLE", "LEC", "LAB", "UNIT", "SCHEDULE"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false, false, false
+                true, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -237,8 +216,6 @@ public class step2_enroll extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(5).setResizable(false);
             jTable1.getColumnModel().getColumn(5).setPreferredWidth(1);
             jTable1.getColumnModel().getColumn(6).setResizable(false);
-            jTable1.getColumnModel().getColumn(7).setResizable(false);
-            jTable1.getColumnModel().getColumn(7).setPreferredWidth(45);
         }
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 1180, 410));
@@ -275,7 +252,7 @@ public class step2_enroll extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void jComboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox1MouseClicked
-        
+
     }//GEN-LAST:event_jComboBox1MouseClicked
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed

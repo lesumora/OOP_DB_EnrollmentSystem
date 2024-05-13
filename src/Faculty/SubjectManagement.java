@@ -128,6 +128,13 @@ public class SubjectManagement extends javax.swing.JFrame {
         initComponents();
         this.userSessionID = userSessionID;
         {
+            btnBack.setOpaque(false); // Make the button transparent
+            btnBack.setContentAreaFilled(false); // Don't fill the button area with background
+            btnBack.setBorderPainted(false); // Remove the default button border
+            btnBack.setFocusPainted(false); // Remove focus border
+            btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+        }
+        {
             btnAdd.setOpaque(false); // Make the button transparent
             btnAdd.setContentAreaFilled(false); // Don't fill the button area with background
             btnAdd.setBorderPainted(false); // Remove the default button border

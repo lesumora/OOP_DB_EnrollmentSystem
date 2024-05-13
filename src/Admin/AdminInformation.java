@@ -443,9 +443,9 @@ public class AdminInformation extends javax.swing.JFrame {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             // Succesfully connected to database...
 
-            String sqlUsername = "select * from ACCOUNT where username = ? and UserType = ?";
+            String sqlUsername = "select * from ACCOUNT where username like ? and UserType = ?";
             PreparedStatement preparedStatementUsername = conn.prepareStatement(sqlUsername);
-            preparedStatementUsername.setString(1, search);
+            preparedStatementUsername.setString(1, "%" + search + "%");
             preparedStatementUsername.setString(2, "administrator");
             ResultSet resultSetUsername = preparedStatementUsername.executeQuery();
 
