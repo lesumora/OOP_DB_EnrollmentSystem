@@ -22,6 +22,8 @@ public class RegistrationPage extends javax.swing.JFrame {
     /**
      * Creates new form Registration
      */
+    int userID;
+    
     public RegistrationPage() {
         initComponents();
     }
@@ -264,10 +266,10 @@ public class RegistrationPage extends javax.swing.JFrame {
             if (rowsInserted > 0) {
                 ResultSet generatedKeys = preparedStatementRegister.getGeneratedKeys();
                 if (generatedKeys.next()) {
-                    int userID = generatedKeys.getInt(1);
+                    userID = generatedKeys.getInt(1);
 
                     String sqlName = "INSERT INTO STUDENT (FName, MName, LName, UserID) VALUES (?, ?, ?, ?)";
-                    PreparedStatement preparedStatementName = conn.prepareStatement(sqlName);
+                    PreparedStatement preparedStatementName = conn.prepareStatement(sqlName, java.sql.Statement.RETURN_GENERATED_KEYS);
                     preparedStatementName.setString(1, fName);
                     preparedStatementName.setString(2, mName);
                     preparedStatementName.setString(3, lName);
@@ -275,8 +277,8 @@ public class RegistrationPage extends javax.swing.JFrame {
 
                     int secondRowsInserted = preparedStatementName.executeUpdate();
                     if (secondRowsInserted > 0) {
-                        JOptionPane.showMessageDialog(null, "Registration Successful.");
-                        new LoginPage().setVisible(true);
+                        JOptionPane.showMessageDialog(null, "Setup account security question.");
+                        new ForgotPassword(userID).setVisible(true);
                         this.dispose();
                     } else {
                         JOptionPane.showMessageDialog(null, "Failed to insert student information.");

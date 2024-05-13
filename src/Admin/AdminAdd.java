@@ -1,9 +1,11 @@
 package Admin;
 
+import Authentication.ForgotPassword;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import javax.swing.JOptionPane;
 
 /*
@@ -157,7 +159,7 @@ public class AdminAdd extends javax.swing.JFrame {
             }
 
             String sqlAdminAdd = "insert into ACCOUNT (Username, UserPassword, Email, UserType) values (?, ?, ?, ?)";
-            PreparedStatement preparedStatementAdminAdd = conn.prepareStatement(sqlAdminAdd);
+            PreparedStatement preparedStatementAdminAdd = conn.prepareStatement(sqlAdminAdd, Statement.RETURN_GENERATED_KEYS);
             preparedStatementAdminAdd.setString(1, username);
             preparedStatementAdminAdd.setString(2, password);
             preparedStatementAdminAdd.setString(3, email);
@@ -165,7 +167,12 @@ public class AdminAdd extends javax.swing.JFrame {
 
             int rowsInserted = preparedStatementAdminAdd.executeUpdate();
             if (rowsInserted > 0) {
-                JOptionPane.showMessageDialog(this, "Successfully added new admin");
+                ResultSet generatedKeys = preparedStatementAdminAdd.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int userId = generatedKeys.getInt(1);
+                    new ForgotPassword(userId).setVisible(true);
+                    this.dispose();
+                }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);

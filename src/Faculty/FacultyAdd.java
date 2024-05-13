@@ -4,6 +4,7 @@
  */
 package Faculty;
 
+import Authentication.ForgotPassword;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -311,7 +312,8 @@ public class FacultyAdd extends javax.swing.JFrame {
             
             int rowsUpdatedFaculty = preparedStatementFacultyUpdate.executeUpdate();
             if(rowsUpdatedFaculty > 0){
-                JOptionPane.showMessageDialog(this, "Successfully added a new faculty");
+                new ForgotPassword(userId).setVisible(true);
+                this.dispose();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
