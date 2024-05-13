@@ -134,6 +134,8 @@ public class RecoverPage extends javax.swing.JFrame {
                     if(updatedRow > 0){
                         JOptionPane.showMessageDialog(this, "Successfully updated password");
                     }
+                }else{
+                    JOptionPane.showMessageDialog(this, "Answer is wrong");
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Username not found");
