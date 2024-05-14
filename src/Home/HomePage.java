@@ -6,13 +6,17 @@ package Home;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author Jaden
  */
 import Authentication.LoginPage;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class HomePage extends javax.swing.JFrame {
 
@@ -140,6 +144,28 @@ public class HomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDashboardActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            
+            // Get the current date and time
+            LocalDateTime now = LocalDateTime.now();
+
+            // Convert LocalDateTime to java.sql.Timestamp
+            Timestamp currentTimestamp = Timestamp.valueOf(now);
+            String sqlInsertLog = "insert into USER_LOG (UserID, UserAction, ActionDate) values (?,?,?)";
+            PreparedStatement preparedStatementInsertLog = conn.prepareStatement(sqlInsertLog);
+            preparedStatementInsertLog.setInt(1, userSessionID);
+            preparedStatementInsertLog.setString(2, "User logged out");
+            preparedStatementInsertLog.setTimestamp(3, currentTimestamp);
+
+            int insertedRow = preparedStatementInsertLog.executeUpdate();
+            if (insertedRow > 0) {
+                System.out.println("User log updated");
+            }
+        } catch (Exception e) {
+
+        }
+
         new LoginPage().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnLogoutActionPerformed
@@ -147,7 +173,7 @@ public class HomePage extends javax.swing.JFrame {
     private void btnAcademicsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcademicsActionPerformed
         new AcademicsPage(userSessionID).setVisible(true);
         this.dispose();
-        
+
         /*try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
 

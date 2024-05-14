@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 
 /*
@@ -26,10 +28,11 @@ public class SubjectUpdate extends javax.swing.JFrame {
     String subjectCode, subjectTitle, schedule, lectureText, labText, creditText;
     static String subjectCodeToUpdate;
     int lecture, lab, credit;
-    static int accountId;
+    static int userSessionId, accountId;
 
-    public SubjectUpdate(String subjectCodeToUpdate) {
+    public SubjectUpdate(int userSessionId, String subjectCodeToUpdate) {
         initComponents();
+        this.userSessionId = userSessionId;
         this.subjectCodeToUpdate = subjectCodeToUpdate;
     }
 
@@ -74,7 +77,7 @@ public class SubjectUpdate extends javax.swing.JFrame {
 
         jLabel3.setText("Schedule");
 
-        btnUpdate.setText("ADD");
+        btnUpdate.setText("UPDATE");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateActionPerformed(evt);
@@ -220,6 +223,22 @@ public class SubjectUpdate extends javax.swing.JFrame {
                 if (rowsUpdated > 0) {
                     System.out.println("Rows affected: " + rowsUpdated);
                     JOptionPane.showMessageDialog(this, "Successfully updated subject");
+
+                    // Get the current date and time
+                    LocalDateTime now = LocalDateTime.now();
+
+                    // Convert LocalDateTime to java.sql.Timestamp
+                    Timestamp currentTimestamp = Timestamp.valueOf(now);
+                    String sqlInsertLog = "insert into USER_LOG (UserID, UserAction, ActionDate) values (?,?,?)";
+                    PreparedStatement preparedStatementInsertLog = conn.prepareStatement(sqlInsertLog);
+                    preparedStatementInsertLog.setInt(1, userSessionId);
+                    preparedStatementInsertLog.setString(2, "Updated Subject");
+                    preparedStatementInsertLog.setTimestamp(3, currentTimestamp);
+
+                    int insertedRow = preparedStatementInsertLog.executeUpdate();
+                    if (insertedRow > 0) {
+                        System.out.println("User log updated");
+                    }
                 } else {
                     JOptionPane.showMessageDialog(this, "No rows updated");
                 }
@@ -279,7 +298,7 @@ public class SubjectUpdate extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SubjectUpdate(subjectCodeToUpdate).setVisible(true);
+                new SubjectUpdate(userSessionId, subjectCodeToUpdate).setVisible(true);
             }
         });
     }

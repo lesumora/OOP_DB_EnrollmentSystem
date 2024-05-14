@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -393,6 +395,35 @@ public class AdminInformation extends javax.swing.JFrame {
                         // Check if any records were deleted
                         if (accountsDeleted > 0) {
                             JOptionPane.showMessageDialog(this, "Account deleted successfully.");
+                            try {
+                                String sqlStudent = "select UserID from ACCOUNT where UserID = (select UserID from STUDENT where StudID = ?)";
+                                PreparedStatement preparedStatementStudent = conn.prepareStatement(sqlStudent);
+                                preparedStatementStudent.setInt(1, accountId);
+
+                                ResultSet resultSetStudent = preparedStatementStudent.executeQuery();
+                                if (resultSetStudent.next()) {
+                                    userId = resultSetStudent.getInt("UserID");
+                                }
+
+                            } catch (Exception e) {
+                                JOptionPane.showMessageDialog(this, e);
+                            }
+
+                            // Get the current date and time
+                            LocalDateTime now = LocalDateTime.now();
+
+                            // Convert LocalDateTime to java.sql.Timestamp
+                            Timestamp currentTimestamp = Timestamp.valueOf(now);
+                            String sqlInsertLog = "insert into USER_LOG (UserID, UserAction, ActionDate) values (?,?,?)";
+                            PreparedStatement preparedStatementInsertLog = conn.prepareStatement(sqlInsertLog);
+                            preparedStatementInsertLog.setInt(1, userSessionID);
+                            preparedStatementInsertLog.setString(2, "Deleted Admin");
+                            preparedStatementInsertLog.setTimestamp(3, currentTimestamp);
+
+                            int insertedRow = preparedStatementInsertLog.executeUpdate();
+                            if (insertedRow > 0) {
+                                System.out.println("User log updated");
+                            }
                         } else {
                             JOptionPane.showMessageDialog(this, "No account found with ID: " + accountId);
                         }

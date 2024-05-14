@@ -4,13 +4,13 @@
  */
 package Dean;
 
-import Faculty.FacultyAdd;
-import Faculty.FacultyUpdate;
 import java.awt.Cursor;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -395,7 +395,7 @@ public class FacultyManagement extends javax.swing.JFrame {
         int numberOfSelected = multipleSelectedCheck.size();
         switch (numberOfSelected) {
             case 1 ->
-                new FacultyUpdate(empId).setVisible(true);
+                new FacultyUpdate(userSessionId, empId).setVisible(true);
             case 0 ->
                 JOptionPane.showMessageDialog(this, "No account selected.");
             default ->
@@ -466,6 +466,23 @@ public class FacultyManagement extends javax.swing.JFrame {
 
                         if (accountsDeleted > 0) {
                             JOptionPane.showMessageDialog(this, "Account deleted successfully.");
+                            
+                            // Get the current date and time
+                            LocalDateTime now = LocalDateTime.now();
+
+                            // Convert LocalDateTime to java.sql.Timestamp
+                            Timestamp currentTimestamp = Timestamp.valueOf(now);
+                            String sqlInsertLog = "insert into USER_LOG (UserID, UserAction, ActionDate) values (?,?,?)";
+                            PreparedStatement preparedStatementInsertLog = conn.prepareStatement(sqlInsertLog);
+                            preparedStatementInsertLog.setInt(1, deleteUserId);
+                            preparedStatementInsertLog.setString(2, "Deleted faculty");
+                            preparedStatementInsertLog.setTimestamp(3, currentTimestamp);
+
+                            int insertedRow = preparedStatementInsertLog.executeUpdate();
+                            if (insertedRow > 0) {
+                                System.out.println("User log updated");
+                            }
+                            
                         } else {
                             JOptionPane.showMessageDialog(this, "No account found with ID: " + deleteUserId);
                         }

@@ -176,6 +176,17 @@ public class step3_enroll extends javax.swing.JFrame {
 
             if (rowsInserted > 0) {
                 System.out.println("ENROLLMENT table success");
+
+                String sqlInsertLog = "insert into USER_LOG (UserID, UserAction, ActionDate) values (?,?,?)";
+                PreparedStatement preparedStatementInsertLog = conn.prepareStatement(sqlInsertLog);
+                preparedStatementInsertLog.setInt(1, userSessionID);
+                preparedStatementInsertLog.setString(2, "Student enrolled");
+                preparedStatementInsertLog.setTimestamp(3, currentTimestamp);
+
+                int insertedRow = preparedStatementInsertLog.executeUpdate();
+                if (insertedRow > 0) {
+                    System.out.println("User log updated");
+                }
             }
 
             String sqlStudent = "UPDATE STUDENT SET Section = ?, Campus = ?, CourseID = ?, "

@@ -279,7 +279,6 @@ public class RegistrationPage extends javax.swing.JFrame {
                     if (secondRowsInserted > 0) {
                         JOptionPane.showMessageDialog(null, "Setup account security question.");
                         new ForgotPassword(userID).setVisible(true);
-                        this.dispose();
                     }
                 }
             } else {

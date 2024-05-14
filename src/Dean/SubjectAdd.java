@@ -1,10 +1,11 @@
 package Dean;
 
-import Admin.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 
 /*
@@ -164,6 +165,24 @@ public class SubjectAdd extends javax.swing.JFrame {
             int rowsInsertedFacultySubject = preparedStatementFacultySubject.executeUpdate();
             if (rowsInsertedFacultySubject > 0) {
                 System.out.println("Successfully added new faculty subject");
+                
+                JOptionPane.showMessageDialog(this, "Successfully updated subject");
+
+                    // Get the current date and time
+                    LocalDateTime now = LocalDateTime.now();
+
+                    // Convert LocalDateTime to java.sql.Timestamp
+                    Timestamp currentTimestamp = Timestamp.valueOf(now);
+                    String sqlInsertLog = "insert into USER_LOG (UserID, UserAction, ActionDate) values (?,?,?)";
+                    PreparedStatement preparedStatementInsertLog = conn.prepareStatement(sqlInsertLog);
+                    preparedStatementInsertLog.setInt(1, userSessionID);
+                    preparedStatementInsertLog.setString(2, "Updated Subject");
+                    preparedStatementInsertLog.setTimestamp(3, currentTimestamp);
+
+                    int insertedRow = preparedStatementInsertLog.executeUpdate();
+                    if (insertedRow > 0) {
+                        System.out.println("User log updated");
+                    }
             }
             
         } catch (Exception e) {

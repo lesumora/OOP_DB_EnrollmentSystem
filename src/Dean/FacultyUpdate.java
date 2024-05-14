@@ -1,10 +1,12 @@
-package Faculty;
+package Dean;
 
 import Admin.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 
 /*
@@ -25,9 +27,11 @@ public class FacultyUpdate extends javax.swing.JFrame {
     final String PASSWORD = "admin";
     String firstName, middleName, lastName, position, employeeRank;
     static String empId;
+    static int userSessionId;
 
-    public FacultyUpdate(String empId) {
+    public FacultyUpdate(int userSessionId, String empId) {
         initComponents();
+        this.userSessionId = userSessionId;
         this.empId = empId;
     }
 
@@ -220,6 +224,22 @@ public class FacultyUpdate extends javax.swing.JFrame {
                 if (rowsUpdated > 0) {
                     System.out.println("Rows affected: " + rowsUpdated);
                     JOptionPane.showMessageDialog(this, "Successfully updated");
+
+                    // Get the current date and time
+                    LocalDateTime now = LocalDateTime.now();
+
+                    // Convert LocalDateTime to java.sql.Timestamp
+                    Timestamp currentTimestamp = Timestamp.valueOf(now);
+                    String sqlInsertLog = "insert into USER_LOG (UserID, UserAction, ActionDate) values (?,?,?)";
+                    PreparedStatement preparedStatementInsertLog = conn.prepareStatement(sqlInsertLog);
+                    preparedStatementInsertLog.setInt(1, userSessionId);
+                    preparedStatementInsertLog.setString(2, "Updated Faculty");
+                    preparedStatementInsertLog.setTimestamp(3, currentTimestamp);
+
+                    int insertedRow = preparedStatementInsertLog.executeUpdate();
+                    if (insertedRow > 0) {
+                        System.out.println("User log updated");
+                    }
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Nothing updated");
@@ -291,7 +311,7 @@ public class FacultyUpdate extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FacultyUpdate(empId).setVisible(true);
+                new FacultyUpdate(userSessionId, empId).setVisible(true);
             }
         });
     }

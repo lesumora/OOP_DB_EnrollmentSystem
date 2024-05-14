@@ -3,11 +3,14 @@ package Admin;
 import Admin.AdminFunctions.AdminAdd;
 import Admin.AdminFunctions.AdminInformation;
 import Admin.AdminFunctions.AdminUpdateAdmin;
+import static Admin.StudentUpdate.studentId;
 import java.awt.Cursor;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -33,7 +36,7 @@ public class StudentInformation extends javax.swing.JFrame {
     DefaultTableModel model = new DefaultTableModel();
     List<Boolean> multipleSelectedCheck = new ArrayList<>();
     List<Integer> activeAccounts = new ArrayList<>();
-    int studentId;
+    int studentId, userId;
     String search;
 
     public StudentInformation(int userSessionID) {
@@ -98,7 +101,7 @@ public class StudentInformation extends javax.swing.JFrame {
             String sqlStudent = "SELECT StudID, FName, MName, LName, YearLevel, Section, EnrollmentStatus, Campus, CourseID FROM STUDENT "
                     + "WHERE UserID IN (" + inClause.toString() + ")";
             PreparedStatement preparedStatementStudent = conn.prepareStatement(sqlStudent);
-            
+
             for (int i = 0; i < activeAccounts.size(); i++) {
                 preparedStatementStudent.setInt(i + 1, activeAccounts.get(i));
             }
@@ -419,11 +422,11 @@ public class StudentInformation extends javax.swing.JFrame {
         int numberOfSelected = multipleSelectedCheck.size();
         switch (numberOfSelected) {
             case 1 ->
-            new StudentUpdate(studentId).setVisible(true);
+                new StudentUpdate(studentId).setVisible(true);
             case 0 ->
-            JOptionPane.showMessageDialog(this, "No account selected.");
+                JOptionPane.showMessageDialog(this, "No account selected.");
             default ->
-            JOptionPane.showMessageDialog(this, "Select only one (1) account to update.");
+                JOptionPane.showMessageDialog(this, "Select only one (1) account to update.");
         }
         System.out.println(studentId);
         multipleSelectedCheck.clear();
@@ -459,11 +462,11 @@ public class StudentInformation extends javax.swing.JFrame {
         switch (numberOfSelected) {
             case 1 -> {
                 int choice = JOptionPane.showConfirmDialog(null,
-                    "Deleting account\nDo you want to PROCEED?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                        "Deleting account\nDo you want to PROCEED?", "Confirmation", JOptionPane.YES_NO_OPTION);
                 if (choice == JOptionPane.YES_OPTION) {
                     try {
                         Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-                        
+
                         // Delete account from accounts table
                         String deleteAccountSQL = "update ACCOUNT set UserDeleted = ? "
                                 + "WHERE UserID = (select UserID from STUDENT where StudID = ?)";
@@ -475,6 +478,36 @@ public class StudentInformation extends javax.swing.JFrame {
                         // Check if any records were deleted
                         if (accountsDeleted > 0) {
                             JOptionPane.showMessageDialog(this, "Account deleted successfully.");
+                            try {
+                                String sqlStudent = "select UserID from ACCOUNT where UserID = (select UserID from STUDENT where StudID = ?)";
+                                PreparedStatement preparedStatementStudent = conn.prepareStatement(sqlStudent);
+                                preparedStatementStudent.setInt(1, studentId);
+
+                                ResultSet resultSetStudent = preparedStatementStudent.executeQuery();
+                                if (resultSetStudent.next()) {
+                                    userId = resultSetStudent.getInt("UserID");
+                                }
+
+                            } catch (Exception e) {
+                                JOptionPane.showMessageDialog(this, e);
+                            }
+
+                            // Get the current date and time
+                            LocalDateTime now = LocalDateTime.now();
+
+                            // Convert LocalDateTime to java.sql.Timestamp
+                            Timestamp currentTimestamp = Timestamp.valueOf(now);
+                            String sqlInsertLog = "insert into USER_LOG (UserID, UserAction, ActionDate) values (?,?,?)";
+                            PreparedStatement preparedStatementInsertLog = conn.prepareStatement(sqlInsertLog);
+                            preparedStatementInsertLog.setInt(1, userId);
+                            preparedStatementInsertLog.setString(2, "Deleted student");
+                            preparedStatementInsertLog.setTimestamp(3, currentTimestamp);
+
+                            int insertedRow = preparedStatementInsertLog.executeUpdate();
+                            if (insertedRow > 0) {
+                                System.out.println("User log updated");
+                            }
+
                         } else {
                             JOptionPane.showMessageDialog(this, "No account found with ID: " + studentId);
                         }
@@ -484,9 +517,9 @@ public class StudentInformation extends javax.swing.JFrame {
                 }
             }
             case 0 ->
-            JOptionPane.showMessageDialog(this, "No account selected.");
+                JOptionPane.showMessageDialog(this, "No account selected.");
             default ->
-            JOptionPane.showMessageDialog(this, "Dangerous to delete multiple accounts.\nSelect only one (1) account to delete.");
+                JOptionPane.showMessageDialog(this, "Dangerous to delete multiple accounts.\nSelect only one (1) account to delete.");
         }
         System.out.println(studentId);
         multipleSelectedCheck.clear();

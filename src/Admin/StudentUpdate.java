@@ -5,6 +5,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /*
@@ -24,28 +28,33 @@ public class StudentUpdate extends javax.swing.JFrame {
     final String USERNAME = "admin";
     final String PASSWORD = "admin";
     String firstName, middleName, lastName, section, enrollmentStatus, campus, courseId;
-    int yearLevel;
+    int yearLevel, userId;
     static int studentId;
+    List<String> courseIdList = new ArrayList<>();
 
     public StudentUpdate(int studentId) {
         initComponents();
         this.studentId = studentId;
 
-        /*try {
+        try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            // Succesfully connected to database...
 
-            String sqlId = "select StudID from STUDENT where UserID = ?";
-            PreparedStatement preparedStatementId = conn.prepareStatement(sqlId);
-            preparedStatementId.setInt(1, userId);
-
-            ResultSet resultSetId = preparedStatementId.executeQuery();
-            if(resultSetId.next()){
-                studentId = resultSetId.getInt("StudID");
+            String sqlCourse = "select CourseID from COURSE";
+            PreparedStatement preparedStatementCourse = conn.prepareStatement(sqlCourse);
+            ResultSet resultSetCourse = preparedStatementCourse.executeQuery();
+            
+            while(resultSetCourse.next()){
+                String cId = resultSetCourse.getString("CourseID");
+                courseIdList.add(cId);
             }
             
+            for (String cId : courseIdList){
+                cbCourse.addItem(cId);
+            }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e);
-        }*/
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 
     /**
@@ -319,6 +328,36 @@ public class StudentUpdate extends javax.swing.JFrame {
                 if (rowsUpdated > 0) {
                     System.out.println("Rows affected: " + rowsUpdated);
                     JOptionPane.showMessageDialog(this, "Successfully updated.");
+                    
+                    try{
+                        String sqlStudent = "select UserID from ACCOUNT where UserID = (select UserID from STUDENT where StudID = ?)";
+                        PreparedStatement preparedStatementStudent = conn.prepareStatement(sqlStudent);
+                        preparedStatementStudent.setInt(1, studentId);
+                        
+                        ResultSet resultSetStudent = preparedStatementStudent.executeQuery();
+                        if(resultSetStudent.next()){
+                            userId = resultSetStudent.getInt("UserID");
+                        }
+                        
+                    } catch (Exception e){
+                        JOptionPane.showMessageDialog(this, e);
+                    }
+                    
+                    // Get the current date and time
+                    LocalDateTime now = LocalDateTime.now();
+                    
+                    // Convert LocalDateTime to java.sql.Timestamp
+                    Timestamp currentTimestamp = Timestamp.valueOf(now);
+                    String sqlInsertLog = "insert into USER_LOG (UserID, UserAction, ActionDate) values (?,?,?)";
+                    PreparedStatement preparedStatementInsertLog= conn.prepareStatement(sqlInsertLog);
+                    preparedStatementInsertLog.setInt(1, userId);
+                    preparedStatementInsertLog.setString(2, "Updated student");
+                    preparedStatementInsertLog.setTimestamp(3, currentTimestamp);
+                        
+                        int insertedRow = preparedStatementInsertLog.executeUpdate();
+                        if(insertedRow > 0){
+                            System.out.println("User log updated");
+                        }
                 } else {
                     JOptionPane.showMessageDialog(this, "No rows updated.");
                 }

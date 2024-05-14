@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 
 /*
@@ -200,6 +202,20 @@ public class AdminUpdateAdmin extends javax.swing.JFrame {
             if (rowsUpdated > 0) {
                 System.out.println("Rows affected: " + rowsUpdated);
                 JOptionPane.showMessageDialog(this, "Successfully updated.");
+                // Get the current date and time
+                LocalDateTime now = LocalDateTime.now();
+                // Convert LocalDateTime to java.sql.Timestamp
+                Timestamp currentTimestamp = Timestamp.valueOf(now);
+                        
+                String sqlInsertLog = "insert into USER_LOG (UserID, UserAction, ActionDate) values (?,?,?)";
+                PreparedStatement preparedStatementInsertLog= conn.prepareStatement(sqlInsertLog);
+                preparedStatementInsertLog.setInt(1, accountId);
+                preparedStatementInsertLog.setString(2, "Updated admin account");
+                preparedStatementInsertLog.setTimestamp(3, currentTimestamp);
+                int insertedRow = preparedStatementInsertLog.executeUpdate();
+                if(insertedRow > 0){
+                    System.out.println("User log updated");
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "No rows updated.");
             }

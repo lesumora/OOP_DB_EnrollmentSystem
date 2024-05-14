@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -400,7 +402,7 @@ public class SubjectManagement extends javax.swing.JFrame {
         int numberOfSelected = multipleSelectedCheck.size();
         switch (numberOfSelected) {
             case 1 ->
-                new SubjectUpdate(subjectCode).setVisible(true);
+                new SubjectUpdate(userSessionID, subjectCode).setVisible(true);
             case 0 ->
                 JOptionPane.showMessageDialog(this, "No account selected.");
             default ->
@@ -450,6 +452,22 @@ public class SubjectManagement extends javax.swing.JFrame {
                         // Check if any records were deleted
                         if (subjectDeleted > 0) {
                             JOptionPane.showMessageDialog(this, "Subject deleted successfully.");
+
+                            // Get the current date and time
+                            LocalDateTime now = LocalDateTime.now();
+
+                            // Convert LocalDateTime to java.sql.Timestamp
+                            Timestamp currentTimestamp = Timestamp.valueOf(now);
+                            String sqlInsertLog = "insert into USER_LOG (UserID, UserAction, ActionDate) values (?,?,?)";
+                            PreparedStatement preparedStatementInsertLog = conn.prepareStatement(sqlInsertLog);
+                            preparedStatementInsertLog.setInt(1, userSessionID);
+                            preparedStatementInsertLog.setString(2, "Updated subject");
+                            preparedStatementInsertLog.setTimestamp(3, currentTimestamp);
+
+                            int insertedRow = preparedStatementInsertLog.executeUpdate();
+                            if (insertedRow > 0) {
+                                System.out.println("User log updated");
+                            }
                         } else {
                             JOptionPane.showMessageDialog(this, "No Subject Code found with ID: " + subjectCode);
                         }

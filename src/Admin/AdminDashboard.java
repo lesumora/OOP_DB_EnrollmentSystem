@@ -66,6 +66,28 @@ public class AdminDashboard extends javax.swing.JFrame {
             btnCourse.setFocusPainted(false); // Remove focus border
             btnCourse.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
+        {
+            btnCollege.setOpaque(false); // Make the button transparent
+            btnCollege.setContentAreaFilled(false); // Don't fill the button area with background
+            btnCollege.setBorderPainted(false); // Remove the default button border
+            btnCollege.setFocusPainted(false); // Remove focus border
+            btnCollege.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+        }
+        {
+            btnEnrolledSubject.setOpaque(false); // Make the button transparent
+            btnEnrolledSubject.setContentAreaFilled(false); // Don't fill the button area with background
+            btnEnrolledSubject.setBorderPainted(false); // Remove the default button border
+            btnEnrolledSubject.setFocusPainted(false); // Remove focus border
+            btnEnrolledSubject.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+        }
+        {
+            btnCourseSubject.setOpaque(false); // Make the button transparent
+            btnCourseSubject.setContentAreaFilled(false); // Don't fill the button area with background
+            btnCourseSubject.setBorderPainted(false); // Remove the default button border
+            btnCourseSubject.setFocusPainted(false); // Remove focus border
+            btnCourseSubject.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+        }
+        
     }
 
     /**
@@ -83,8 +105,8 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnLogs = new javax.swing.JButton();
         btnFaculty = new javax.swing.JButton();
         btnCourse = new javax.swing.JButton();
-        btnEnrolledSubject = new javax.swing.JButton();
         btnCollege = new javax.swing.JButton();
+        btnEnrolledSubject = new javax.swing.JButton();
         btnCourseSubject = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
@@ -214,28 +236,6 @@ public class AdminDashboard extends javax.swing.JFrame {
         });
         getContentPane().add(btnCourse, new org.netbeans.lib.awtextra.AbsoluteConstraints(93, 398, 203, 220));
 
-        btnEnrolledSubject.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 2, true));
-        btnEnrolledSubject.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnEnrolledSubjectMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnEnrolledSubjectMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnEnrolledSubjectMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnEnrolledSubjectMouseReleased(evt);
-            }
-        });
-        btnEnrolledSubject.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEnrolledSubjectActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnEnrolledSubject, new org.netbeans.lib.awtextra.AbsoluteConstraints(636, 398, 203, 220));
-
         btnCollege.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 2, true));
         btnCollege.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -257,6 +257,28 @@ public class AdminDashboard extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnCollege, new org.netbeans.lib.awtextra.AbsoluteConstraints(365, 398, 203, 220));
+
+        btnEnrolledSubject.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 2, true));
+        btnEnrolledSubject.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnEnrolledSubjectMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnEnrolledSubjectMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnEnrolledSubjectMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnEnrolledSubjectMouseReleased(evt);
+            }
+        });
+        btnEnrolledSubject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnrolledSubjectActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnEnrolledSubject, new org.netbeans.lib.awtextra.AbsoluteConstraints(636, 398, 203, 220));
 
         btnCourseSubject.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 2, true));
         btnCourseSubject.addMouseListener(new java.awt.event.MouseAdapter() {
