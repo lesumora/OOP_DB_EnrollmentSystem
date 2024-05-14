@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -133,6 +135,22 @@ public class RecoverPage extends javax.swing.JFrame {
                     int updatedRow = preparedStatementNewPassword.executeUpdate();
                     if(updatedRow > 0){
                         JOptionPane.showMessageDialog(this, "Successfully updated password");
+                        
+                        // Get the current date and time
+                        LocalDateTime now = LocalDateTime.now();
+                        // Convert LocalDateTime to java.sql.Timestamp
+                        Timestamp currentTimestamp = Timestamp.valueOf(now);
+                        
+                        String sqlInsertLog = "insert into USER_LOG (UserID, UserAction, ActionDate) values (?,?,?)";
+                        PreparedStatement preparedStatementInsertLog= conn.prepareStatement(sqlInsertLog);
+                        preparedStatementInsertLog.setInt(1, userId);
+                        preparedStatementInsertLog.setString(2, "Updated password");
+                        preparedStatementInsertLog.setTimestamp(3, currentTimestamp);
+                        
+                        int insertedRow = preparedStatementInsertLog.executeUpdate();
+                        if(insertedRow > 0){
+                            System.out.println("User log updated");
+                        }
                     }
                 }else{
                     JOptionPane.showMessageDialog(this, "Answer is wrong");

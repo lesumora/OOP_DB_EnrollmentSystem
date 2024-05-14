@@ -7,6 +7,8 @@ package Authentication;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 
 /**
@@ -115,6 +117,23 @@ public class ForgotPassword extends javax.swing.JFrame {
             int rowsInserted = preparedStatementRegister.executeUpdate();
             if(rowsInserted > 0){
                 JOptionPane.showMessageDialog(this, "Successfully added a new account");
+                
+                // Get the current date and time
+                        LocalDateTime now = LocalDateTime.now();
+                        // Convert LocalDateTime to java.sql.Timestamp
+                        Timestamp currentTimestamp = Timestamp.valueOf(now);
+                        
+                        String sqlInsertLog = "insert into USER_LOG (UserID, UserAction, ActionDate) values (?,?,?)";
+                        PreparedStatement preparedStatementInsertLog= conn.prepareStatement(sqlInsertLog);
+                        preparedStatementInsertLog.setInt(1, userId);
+                        preparedStatementInsertLog.setString(2, "Added new account");
+                        preparedStatementInsertLog.setTimestamp(3, currentTimestamp);
+                        
+                        int insertedRow = preparedStatementInsertLog.executeUpdate();
+                        if(insertedRow > 0){
+                            System.out.println("User log updated");
+                        }
+                
                 this.dispose();
             }
 

@@ -280,11 +280,7 @@ public class RegistrationPage extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Setup account security question.");
                         new ForgotPassword(userID).setVisible(true);
                         this.dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Failed to insert student information.");
                     }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Failed to retrieve generated UserID.");
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Failed to register account.");
