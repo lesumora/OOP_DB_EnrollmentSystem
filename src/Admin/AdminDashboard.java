@@ -53,11 +53,18 @@ public class AdminDashboard extends javax.swing.JFrame {
             btnLogs.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
         {
-            btnSubjects.setOpaque(false); // Make the button transparent
-            btnSubjects.setContentAreaFilled(false); // Don't fill the button area with background
-            btnSubjects.setBorderPainted(false); // Remove the default button border
-            btnSubjects.setFocusPainted(false); // Remove focus border
-            btnSubjects.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+            btnFaculty.setOpaque(false); // Make the button transparent
+            btnFaculty.setContentAreaFilled(false); // Don't fill the button area with background
+            btnFaculty.setBorderPainted(false); // Remove the default button border
+            btnFaculty.setFocusPainted(false); // Remove focus border
+            btnFaculty.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
+        }
+        {
+            btnCourse.setOpaque(false); // Make the button transparent
+            btnCourse.setContentAreaFilled(false); // Don't fill the button area with background
+            btnCourse.setBorderPainted(false); // Remove the default button border
+            btnCourse.setFocusPainted(false); // Remove focus border
+            btnCourse.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
     }
 
@@ -74,7 +81,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnAdmins = new javax.swing.JButton();
         btnStudents = new javax.swing.JButton();
         btnLogs = new javax.swing.JButton();
-        btnSubjects = new javax.swing.JButton();
+        btnFaculty = new javax.swing.JButton();
+        btnCourse = new javax.swing.JButton();
+        btnEnrolledSubject = new javax.swing.JButton();
+        btnCollege = new javax.swing.JButton();
+        btnCourseSubject = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -148,6 +159,9 @@ public class AdminDashboard extends javax.swing.JFrame {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btnLogsMousePressed(evt);
             }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnLogsMouseReleased(evt);
+            }
         });
         btnLogs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -156,24 +170,115 @@ public class AdminDashboard extends javax.swing.JFrame {
         });
         getContentPane().add(btnLogs, new org.netbeans.lib.awtextra.AbsoluteConstraints(636, 145, 203, 220));
 
-        btnSubjects.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 2, true));
-        btnSubjects.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnFaculty.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 2, true));
+        btnFaculty.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnSubjectsMouseEntered(evt);
+                btnFacultyMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnSubjectsMouseExited(evt);
+                btnFacultyMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnSubjectsMousePressed(evt);
+                btnFacultyMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnFacultyMouseReleased(evt);
             }
         });
-        btnSubjects.addActionListener(new java.awt.event.ActionListener() {
+        btnFaculty.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSubjectsActionPerformed(evt);
+                btnFacultyActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSubjects, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 145, 203, 220));
+        getContentPane().add(btnFaculty, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 145, 203, 220));
+
+        btnCourse.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 2, true));
+        btnCourse.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCourseMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCourseMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnCourseMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCourseMouseReleased(evt);
+            }
+        });
+        btnCourse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCourseActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnCourse, new org.netbeans.lib.awtextra.AbsoluteConstraints(93, 398, 203, 220));
+
+        btnEnrolledSubject.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 2, true));
+        btnEnrolledSubject.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnEnrolledSubjectMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnEnrolledSubjectMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnEnrolledSubjectMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnEnrolledSubjectMouseReleased(evt);
+            }
+        });
+        btnEnrolledSubject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnrolledSubjectActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnEnrolledSubject, new org.netbeans.lib.awtextra.AbsoluteConstraints(636, 398, 203, 220));
+
+        btnCollege.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 2, true));
+        btnCollege.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCollegeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCollegeMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnCollegeMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCollegeMouseReleased(evt);
+            }
+        });
+        btnCollege.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCollegeActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnCollege, new org.netbeans.lib.awtextra.AbsoluteConstraints(365, 398, 203, 220));
+
+        btnCourseSubject.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 2, true));
+        btnCourseSubject.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCourseSubjectMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCourseSubjectMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnCourseSubjectMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCourseSubjectMouseReleased(evt);
+            }
+        });
+        btnCourseSubject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCourseSubjectActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnCourseSubject, new org.netbeans.lib.awtextra.AbsoluteConstraints(908, 398, 203, 220));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg_AdminDashboard.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -230,23 +335,25 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void btnLogsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogsActionPerformed
         new LogView(userSessionID).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnLogsActionPerformed
 
-    private void btnSubjectsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSubjectsMouseEntered
-        btnSubjects.setBorderPainted(true);
-    }//GEN-LAST:event_btnSubjectsMouseEntered
+    private void btnFacultyMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFacultyMouseEntered
+        btnFaculty.setBorderPainted(true);
+    }//GEN-LAST:event_btnFacultyMouseEntered
 
-    private void btnSubjectsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSubjectsMouseExited
-        btnSubjects.setBorderPainted(false);
-    }//GEN-LAST:event_btnSubjectsMouseExited
+    private void btnFacultyMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFacultyMouseExited
+        btnFaculty.setBorderPainted(false);
+    }//GEN-LAST:event_btnFacultyMouseExited
 
-    private void btnSubjectsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSubjectsMousePressed
-        btnSubjects.setContentAreaFilled(true);
-    }//GEN-LAST:event_btnSubjectsMousePressed
+    private void btnFacultyMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFacultyMousePressed
+        btnFaculty.setContentAreaFilled(true);
+    }//GEN-LAST:event_btnFacultyMousePressed
 
-    private void btnSubjectsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubjectsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSubjectsActionPerformed
+    private void btnFacultyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacultyActionPerformed
+        new FacultyView(userSessionID).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnFacultyActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         new Dashboard(userSessionID).setVisible(true);
@@ -264,6 +371,98 @@ public class AdminDashboard extends javax.swing.JFrame {
     private void btnBackMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMousePressed
         btnBack.setContentAreaFilled(true);
     }//GEN-LAST:event_btnBackMousePressed
+
+    private void btnCourseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCourseMouseEntered
+        btnCourse.setBorderPainted(true);
+    }//GEN-LAST:event_btnCourseMouseEntered
+
+    private void btnCourseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCourseMouseExited
+        btnCourse.setBorderPainted(false);
+    }//GEN-LAST:event_btnCourseMouseExited
+
+    private void btnCourseMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCourseMousePressed
+        btnCourse.setContentAreaFilled(true);
+    }//GEN-LAST:event_btnCourseMousePressed
+
+    private void btnCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCourseActionPerformed
+        new CourseView(userSessionID).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCourseActionPerformed
+
+    private void btnCollegeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCollegeMouseEntered
+        btnCollege.setBorderPainted(true);
+    }//GEN-LAST:event_btnCollegeMouseEntered
+
+    private void btnCollegeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCollegeMouseExited
+        btnCollege.setBorderPainted(false);
+    }//GEN-LAST:event_btnCollegeMouseExited
+
+    private void btnCollegeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCollegeMousePressed
+        btnCollege.setContentAreaFilled(true);
+    }//GEN-LAST:event_btnCollegeMousePressed
+
+    private void btnCollegeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCollegeActionPerformed
+        new CollegeView(userSessionID).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCollegeActionPerformed
+
+    private void btnCourseSubjectMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCourseSubjectMouseEntered
+        btnCourseSubject.setBorderPainted(true);
+    }//GEN-LAST:event_btnCourseSubjectMouseEntered
+
+    private void btnCourseSubjectMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCourseSubjectMouseExited
+        btnCourseSubject.setBorderPainted(false);
+    }//GEN-LAST:event_btnCourseSubjectMouseExited
+
+    private void btnCourseSubjectMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCourseSubjectMousePressed
+        btnCourseSubject.setContentAreaFilled(true);
+    }//GEN-LAST:event_btnCourseSubjectMousePressed
+
+    private void btnCourseSubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCourseSubjectActionPerformed
+        new CourseSubjectView(userSessionID).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCourseSubjectActionPerformed
+
+    private void btnEnrolledSubjectMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEnrolledSubjectMouseEntered
+        btnEnrolledSubject.setBorderPainted(true);
+    }//GEN-LAST:event_btnEnrolledSubjectMouseEntered
+
+    private void btnEnrolledSubjectMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEnrolledSubjectMouseExited
+        btnEnrolledSubject.setBorderPainted(false);
+    }//GEN-LAST:event_btnEnrolledSubjectMouseExited
+
+    private void btnEnrolledSubjectMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEnrolledSubjectMousePressed
+        btnEnrolledSubject.setContentAreaFilled(true);
+    }//GEN-LAST:event_btnEnrolledSubjectMousePressed
+
+    private void btnEnrolledSubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnrolledSubjectActionPerformed
+        new EnrolledSubjectView(userSessionID).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnEnrolledSubjectActionPerformed
+
+    private void btnLogsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogsMouseReleased
+        btnLogs.setContentAreaFilled(false);
+    }//GEN-LAST:event_btnLogsMouseReleased
+
+    private void btnFacultyMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFacultyMouseReleased
+        btnFaculty.setContentAreaFilled(false);
+    }//GEN-LAST:event_btnFacultyMouseReleased
+
+    private void btnCourseMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCourseMouseReleased
+        btnCourse.setContentAreaFilled(false);
+    }//GEN-LAST:event_btnCourseMouseReleased
+
+    private void btnCollegeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCollegeMouseReleased
+        btnCollege.setContentAreaFilled(false);
+    }//GEN-LAST:event_btnCollegeMouseReleased
+
+    private void btnEnrolledSubjectMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEnrolledSubjectMouseReleased
+        btnEnrolledSubject.setContentAreaFilled(false);
+    }//GEN-LAST:event_btnEnrolledSubjectMouseReleased
+
+    private void btnCourseSubjectMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCourseSubjectMouseReleased
+        btnCourseSubject.setContentAreaFilled(false);
+    }//GEN-LAST:event_btnCourseSubjectMouseReleased
 
     /**
      * @param args the command line arguments
@@ -303,9 +502,13 @@ public class AdminDashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdmins;
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnCollege;
+    private javax.swing.JButton btnCourse;
+    private javax.swing.JButton btnCourseSubject;
+    private javax.swing.JButton btnEnrolledSubject;
+    private javax.swing.JButton btnFaculty;
     private javax.swing.JButton btnLogs;
     private javax.swing.JButton btnStudents;
-    private javax.swing.JButton btnSubjects;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
