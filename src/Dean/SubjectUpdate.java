@@ -30,6 +30,7 @@ public class SubjectUpdate extends javax.swing.JFrame {
     int lecture, lab, credit;
     static int userSessionId, accountId;
 
+    // Get subjet to update
     public SubjectUpdate(int userSessionId, String subjectCodeToUpdate) {
         initComponents();
         this.userSessionId = userSessionId;
@@ -154,6 +155,8 @@ public class SubjectUpdate extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        
+        // Get field values
         subjectCode = tfSubjectCode.getText();
         subjectTitle = tfSubjectTitle.getText();
         schedule = tfSchedule.getText();
@@ -161,6 +164,7 @@ public class SubjectUpdate extends javax.swing.JFrame {
         labText = tfLab.getText();
         creditText = tfCredit.getText();
 
+        // Validate fields
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
 
@@ -191,7 +195,8 @@ public class SubjectUpdate extends javax.swing.JFrame {
                 sqlUpdateSubject.append("Credit = ?, ");
                 hasUpdates = true;
             }
-
+            
+            // Check if has changes
             if (hasUpdates) {
                 sqlUpdateSubject.delete(sqlUpdateSubject.length() - 2, sqlUpdateSubject.length());
                 sqlUpdateSubject.append(" where SubjectCode = ?");

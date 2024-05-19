@@ -47,7 +47,7 @@ public class LoginPage extends javax.swing.JFrame {
         pf_password = new javax.swing.JPasswordField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnLogin = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -68,12 +68,6 @@ public class LoginPage extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Username");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 340, -1, -1));
-
-        txt_username.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_usernameActionPerformed(evt);
-            }
-        });
         getContentPane().add(txt_username, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 360, 270, 37));
         getContentPane().add(pf_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 430, 270, 37));
 
@@ -92,16 +86,16 @@ public class LoginPage extends javax.swing.JFrame {
         });
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 470, -1, -1));
 
-        jButton1.setBackground(new java.awt.Color(204, 0, 51));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("SIGN IN");
-        jButton1.setBorder(null);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnLogin.setBackground(new java.awt.Color(204, 0, 51));
+        btnLogin.setForeground(new java.awt.Color(255, 255, 255));
+        btnLogin.setText("SIGN IN");
+        btnLogin.setBorder(null);
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnLoginActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 520, 270, 40));
+        getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 520, 270, 40));
 
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Don't have an account yet?");
@@ -125,16 +119,18 @@ public class LoginPage extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txt_usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_usernameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_usernameActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        // Get field values
         String username = txt_username.getText();
         String password = pf_password.getText();
-
-        getAuthenticatedUser(username, password);
-    }//GEN-LAST:event_jButton1ActionPerformed
+        
+        // Validate
+        if(isValidUsername(username) && isValidPassword(password)){
+            getAuthenticatedUser(username, password);
+        }else{
+            JOptionPane.showMessageDialog(this, "Invalid username or password format.");
+        }
+    }//GEN-LAST:event_btnLoginActionPerformed
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         new RegistrationPage().setVisible(true);
@@ -149,6 +145,7 @@ public class LoginPage extends javax.swing.JFrame {
         new RecoverPage().setVisible(true);
     }//GEN-LAST:event_jLabel7MouseClicked
 
+    // Method for authentication
     private void getAuthenticatedUser(String username, String password) {
         final String DB_URL = "jdbc:sqlserver://localhost\\DESKTOP-FT3D7QK:1433;databaseName=enrollment;encrypt=true;trustServerCertificate=true";
         final String USERNAME = "admin";
@@ -196,6 +193,7 @@ public class LoginPage extends javax.swing.JFrame {
                 }
             }
 
+            // Checks if user exists
             String sqlCredential = "SELECT * FROM ACCOUNT WHERE Username = ? AND UserPassword = ?";
             PreparedStatement preparedStatementCredential = conn.prepareStatement(sqlCredential);
             preparedStatementCredential.setString(1, username);
@@ -219,6 +217,7 @@ public class LoginPage extends javax.swing.JFrame {
                                                         """);
                 }
             } else {
+                // Handles if user exceeds login limit
                 loginAttempt++;
                 if (loginAttempt == 3) {
                     String sqlBlocked = "UPDATE ACCOUNT set userBlocked = 'true' WHERE username = ?";
@@ -246,6 +245,18 @@ public class LoginPage extends javax.swing.JFrame {
         }
     }
 
+    private boolean isValidUsername(String username) {
+        // Regular expression for username validation
+        String regex = "^(?=[A-Za-z0-9]{8}$)(?=(?:.*\\d){2})[A-Za-z0-9]+$";
+        return username.matches(regex);
+    }
+    
+    private boolean isValidPassword(String password) {
+        // Regular expression for password validation
+        String regex = "^(?=[A-Za-z0-9]{8}$)(?=(?:.*\\d){2})[A-Za-z0-9]+$";
+        return password.matches(regex);
+    }
+    
     public void setUserSessionID(int userSessionID) {
         this.userSessionID = userSessionID;
     }
@@ -291,7 +302,7 @@ public class LoginPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnLogin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

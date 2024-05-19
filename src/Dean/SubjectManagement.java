@@ -35,6 +35,7 @@ public class SubjectManagement extends javax.swing.JFrame {
     DefaultTableModel model = new DefaultTableModel();
     List<Boolean> multipleSelectedCheck = new ArrayList<>();
 
+    // Retrieve subject data
     public SubjectManagement(int userSessionID) {
         initComponents();
         this.userSessionID = userSessionID;
@@ -125,7 +126,7 @@ public class SubjectManagement extends javax.swing.JFrame {
         }
     }
 
-    // Search button
+    // Receives and displays search value for subject
     public SubjectManagement(String subjectCode, String subjectTitle, int lecture, int lab, int credit, String schedule) {
         initComponents();
         this.userSessionID = userSessionID;
@@ -361,6 +362,7 @@ public class SubjectManagement extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // Add subject page
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         new SubjectAdd(userSessionID, courseId, empId).setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
@@ -389,6 +391,7 @@ public class SubjectManagement extends javax.swing.JFrame {
         btnUpdate.setContentAreaFilled(true);
     }//GEN-LAST:event_btnUpdateMousePressed
 
+    // Updates the subject
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         for (int i = 0; i < jTable1.getRowCount(); i++) {
             Boolean isSelected = (Boolean) jTable1.getValueAt(i, 0);
@@ -424,6 +427,7 @@ public class SubjectManagement extends javax.swing.JFrame {
         btnRemove.setContentAreaFilled(true);
     }//GEN-LAST:event_btnRemoveMousePressed
 
+    // Remove subject
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
         for (int i = 0; i < jTable1.getRowCount(); i++) {
             Boolean isSelected = (Boolean) jTable1.getValueAt(i, 0);
@@ -497,11 +501,13 @@ public class SubjectManagement extends javax.swing.JFrame {
         btnRemove.setContentAreaFilled(false);
     }//GEN-LAST:event_btnRemoveMouseReleased
 
+    // Refresh
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         new SubjectManagement(userSessionID).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
+    // Search
     private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
         if (!tfSearch.getText().isBlank()) {
             search = tfSearch.getText();
@@ -549,6 +555,7 @@ public class SubjectManagement extends javax.swing.JFrame {
         btnBack.setContentAreaFilled(true);
     }//GEN-LAST:event_btnBackMousePressed
 
+    // Back
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         new DashboardDean(userSessionID).setVisible(true);
         this.dispose();

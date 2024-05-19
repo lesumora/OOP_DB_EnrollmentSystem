@@ -30,6 +30,7 @@ public class step3_enroll extends javax.swing.JFrame {
     static int userSessionID, yearLevel, studentID;
     static List<String> enrolledCode = new ArrayList<>();
 
+    // Get values for student enrollment
     public step3_enroll(int userSessionID, String selectedCourse, String curriculum, String campus, String courseID, String courseName, String section, List<String> enrolledCode, int yearLevel) {
         initComponents();
         this.userSessionID = userSessionID;
@@ -59,7 +60,7 @@ public class step3_enroll extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnNext = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -86,13 +87,13 @@ public class step3_enroll extends javax.swing.JFrame {
         });
         getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 616, 40, -1));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/btnNext.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/btnNext.png"))); // NOI18N
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnNextActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 616, -1, -1));
+        getContentPane().add(btnNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 616, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg_Step3Enroll.png"))); // NOI18N
@@ -107,7 +108,9 @@ public class step3_enroll extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    // Enrolls student
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             // Succesfully connected to database...
@@ -121,6 +124,7 @@ public class step3_enroll extends javax.swing.JFrame {
                 studentID = resultSetStudentInfo.getInt("StudID");
             }
 
+            // Insert enrolled subject
             String sqlEnrolledSubject = "INSERT INTO ENROLLED_SUBJECT (StudID, SubjectCode)"
                     + "VALUES (?, ?)";
             for (String subjectCode : enrolledCode) {
@@ -165,6 +169,7 @@ public class step3_enroll extends javax.swing.JFrame {
             // Convert LocalDateTime to java.sql.Timestamp
             Timestamp currentTimestamp = Timestamp.valueOf(now);
 
+            // Set enrollment status
             String sqlEnrollmentStatus = "INSERT INTO ENROLLMENT (EnrollmentDate, StudID, CourseID)"
                     + "VALUES (?, ?, ?)";
             PreparedStatement preparedStatementEnrollmentStatus = conn.prepareStatement(sqlEnrollmentStatus);
@@ -189,6 +194,7 @@ public class step3_enroll extends javax.swing.JFrame {
                 }
             }
 
+            // Updates student status
             String sqlStudent = "UPDATE STUDENT SET Section = ?, Campus = ?, CourseID = ?, "
                     + "EnrollmentStatus = ? WHERE UserID = ?";
             PreparedStatement preparedStatementRegister = conn.prepareStatement(sqlStudent);
@@ -205,7 +211,7 @@ public class step3_enroll extends javax.swing.JFrame {
         }
         new step4_enroll(userSessionID).setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnNextActionPerformed
 
     /**
      * @param args the command line arguments
@@ -244,7 +250,7 @@ public class step3_enroll extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnNext;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

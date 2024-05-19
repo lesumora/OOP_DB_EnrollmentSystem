@@ -39,10 +39,11 @@ public class StudentInformation extends javax.swing.JFrame {
     int studentId, userId;
     String search;
 
+    // Retrieve student informaton data
     public StudentInformation(int userSessionID) {
         initComponents();
         this.userSessionID = userSessionID;
-
+        
         {
             btnBack.setOpaque(false); // Make the button transparent
             btnBack.setContentAreaFilled(false); // Don't fill the button area with background
@@ -332,11 +333,13 @@ public class StudentInformation extends javax.swing.JFrame {
         btnBack.setContentAreaFilled(true);
     }//GEN-LAST:event_btnBackMousePressed
 
+    // Back
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         new AdminDashboard(userSessionID).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
+    // Search
     private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
         if (!tfSearch.getText().isBlank()) {
             search = tfSearch.getText();
@@ -360,7 +363,7 @@ public class StudentInformation extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "User not found");
                 return;
             }
-            new AdminInformation(userSessionID).setVisible(true);
+            new StudentInformation(userSessionID).setVisible(true);
             this.dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
@@ -368,6 +371,7 @@ public class StudentInformation extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnGoActionPerformed
 
+    // Refresh
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         new StudentInformation(userSessionID).setVisible(true);
         this.dispose();
@@ -409,6 +413,7 @@ public class StudentInformation extends javax.swing.JFrame {
         btnUpdate.setContentAreaFilled(false);
     }//GEN-LAST:event_btnUpdateMouseReleased
 
+    // Update student information
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         for (int i = 0; i < jTable1.getRowCount(); i++) {
             Boolean isSelected = (Boolean) jTable1.getValueAt(i, 0);
@@ -448,6 +453,7 @@ public class StudentInformation extends javax.swing.JFrame {
         btnRemove.setContentAreaFilled(false);
     }//GEN-LAST:event_btnRemoveMouseReleased
 
+    // Remove selected student information
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
         for (int i = 0; i < jTable1.getRowCount(); i++) {
             Boolean isSelected = (Boolean) jTable1.getValueAt(i, 0);

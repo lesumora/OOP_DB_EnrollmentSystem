@@ -36,6 +36,7 @@ public class step1_enroll extends javax.swing.JFrame {
     static int userSessionID, yearLevel;
     static List<String> enrolledCode = new ArrayList<>();
 
+    // Get student info
     public step1_enroll(int userSessionID) {
         initComponents();
         this.userSessionID = userSessionID;
@@ -62,6 +63,7 @@ public class step1_enroll extends javax.swing.JFrame {
         campus = (String) jComboBox1.getSelectedItem();
     }
 
+    // Handles back button for previous values
     public step1_enroll(int userSessionID, String selectedCourse, String curriculum, String campus, String courseID, String courseName, int yearLevel, String section, List<String> enrolledCode) {
         initComponents();
         this.userSessionID = userSessionID;
@@ -252,6 +254,7 @@ public class step1_enroll extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // Go next step
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         System.out.println(yearLevel);
         if(enrolledCode.isEmpty()){

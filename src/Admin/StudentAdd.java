@@ -30,6 +30,7 @@ public class StudentAdd extends javax.swing.JFrame {
     int yearLevel;
     List<String> courseIdList = new ArrayList<>();
 
+    // Retrieve course id for student
     public StudentAdd() {
         initComponents();
         
@@ -259,6 +260,7 @@ public class StudentAdd extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // Add new student
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         email = tfEmail.getText();
         username = tfUsername.getText();

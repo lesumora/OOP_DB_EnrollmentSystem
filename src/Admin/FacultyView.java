@@ -28,6 +28,7 @@ public class FacultyView extends javax.swing.JFrame {
     String search, firstName, middleName, lastName, position, empRank, colCode;
     int empId, supervisorId, userId;
 
+    // Retrieve faculty data
     public FacultyView(int userSessionId) {
         initComponents();
         this.userSessionId = userSessionId;
@@ -43,7 +44,7 @@ public class FacultyView extends javax.swing.JFrame {
             ResultSet resultSetLog = preparedStatementLog.executeQuery();
 
             while (resultSetLog.next()) {
-                Object[] row = new Object[9];
+                Object[] row = new Object[10];
                 row[0] = resultSetLog.getObject("EmpID");
                 row[1] = resultSetLog.getObject("FName");
                 row[2] = resultSetLog.getObject("MName");
@@ -60,6 +61,7 @@ public class FacultyView extends javax.swing.JFrame {
         }
     }
 
+    // Receives and displays search value for faculty
     public FacultyView(int userSessionId, String FName, String MName, String LName, String position, String empRank, String ColCode, int empId, int supervisorId, int userId) {
         initComponents();
         this.firstName = FName;
@@ -75,16 +77,17 @@ public class FacultyView extends javax.swing.JFrame {
 
         model = (DefaultTableModel) jTable1.getModel();
 
-        Object[] row = new Object[9];
-        row[0] = FName;
-        row[1] = MName;
-        row[2] = LName;
-        row[3] = position;
-        row[4] = empRank;
-        row[5] = ColCode;
-        row[6] = empId;
+        Object[] row = new Object[10];
+        row[0] = empId;
+        row[1] = FName;
+        row[2] = MName;
+        row[3] = LName;
+        row[4] = position;
+        row[5] = empRank;
+        row[6] = ColCode;
         row[7] = supervisorId;
-        row[8] = userId;
+        row[8] = colCode;
+        row[9] = userId;
         model.addRow(row);
     }
 
@@ -211,6 +214,7 @@ public class FacultyView extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // Search
     private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
         if (!tfSearch.getText().isBlank()) {
             search = tfSearch.getText();
@@ -249,11 +253,13 @@ public class FacultyView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGoActionPerformed
 
+    // Refresh
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         new FacultyView(userSessionId).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
+    // Back
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         new AdminDashboard(userSessionId).setVisible(true);
         this.dispose();

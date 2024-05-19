@@ -34,6 +34,7 @@ public class step2_enroll extends javax.swing.JFrame {
     String facultyFirstName, facultyLastName, facultyMiddleName, facultyFullName;
     DefaultTableModel model = new DefaultTableModel();
 
+    // Display subjects
     public step2_enroll(int userSessionID, String selectedCourse, String curriculum, String campus, String courseID, String courseName, int yearLevel) {
         initComponents();
         this.userSessionID = userSessionID;
@@ -77,6 +78,7 @@ public class step2_enroll extends javax.swing.JFrame {
         }
     }
 
+    // Display subjects for previously selected
     public step2_enroll(int userSessionID, String selectedCourse, String curriculum, String campus, String courseID, String courseName, String section, List<String> enrolledCode, int yearLevel) {
         initComponents();
         jComboBox1.setSelectedItem(section);
@@ -236,6 +238,7 @@ public class step2_enroll extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // Back
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         enrolledCode.clear();
         for (int i = 0; i < jTable1.getRowCount(); i++) {

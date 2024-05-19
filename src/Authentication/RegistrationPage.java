@@ -47,7 +47,7 @@ public class RegistrationPage extends javax.swing.JFrame {
         jTextField15 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jTextField16 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnSignUp = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jTextField17 = new javax.swing.JTextField();
@@ -76,45 +76,30 @@ public class RegistrationPage extends javax.swing.JFrame {
         getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 470, 100, -1));
 
         jTextField14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-        jTextField14.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField14ActionPerformed(evt);
-            }
-        });
         getContentPane().add(jTextField14, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 280, 120, 35));
 
         jLabel7.setText("Email");
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 320, 0, -1));
 
         jTextField15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-        jTextField15.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField15ActionPerformed(evt);
-            }
-        });
         getContentPane().add(jTextField15, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 350, 420, 35));
 
         jLabel8.setText("Email");
         getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 330, 60, -1));
 
         jTextField16.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-        jTextField16.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField16ActionPerformed(evt);
-            }
-        });
         getContentPane().add(jTextField16, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 420, 420, 35));
 
-        jButton1.setBackground(new java.awt.Color(204, 0, 51));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("SIGN UP");
-        jButton1.setBorder(null);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnSignUp.setBackground(new java.awt.Color(204, 0, 51));
+        btnSignUp.setForeground(new java.awt.Color(255, 255, 255));
+        btnSignUp.setText("SIGN UP");
+        btnSignUp.setBorder(null);
+        btnSignUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnSignUpActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 560, 300, 40));
+        getContentPane().add(btnSignUp, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 560, 300, 40));
 
         jLabel5.setText("Already have an account?");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 610, 140, -1));
@@ -156,19 +141,8 @@ public class RegistrationPage extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField14ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField14ActionPerformed
-
-    private void jTextField15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField15ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField15ActionPerformed
-
-    private void jTextField16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField16ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField16ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
+        // Get field values
         String fName = jTextField18.getText();
         String mName = jTextField14.getText();
         String lName = jTextField17.getText();
@@ -183,7 +157,7 @@ public class RegistrationPage extends javax.swing.JFrame {
             registerUser(fName, "N/A", lName, email, username, password, confirmPassword);
         }
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnSignUpActionPerformed
 
     private void jTextField17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField17ActionPerformed
         // TODO add your handling code here:
@@ -198,18 +172,26 @@ public class RegistrationPage extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel2MouseClicked
 
+    // Registers user
     private void registerUser(String fName, String mName, String lName, String email, String username, String password, String confirmPassword) {
         final String DB_URL = "jdbc:sqlserver://localhost\\DESKTOP-FT3D7QK:1433;databaseName=enrollment;encrypt=true;trustServerCertificate=true";
         final String USERNAME = "admin";
         final String PASSWORD = "admin";
 
+        // Validate fields
         if (fName.isBlank() || lName.isBlank() || email.isBlank() || username.isBlank() || password.isBlank() || confirmPassword.isBlank()) {
             JOptionPane.showMessageDialog(null, "Please fill in all required fields.", "Ooops!", JOptionPane.ERROR_MESSAGE);
             return;
         } else if (!isValidEmail(email)) {
             JOptionPane.showMessageDialog(null, "Invalid email address.");
             return;
-        } else if (!confirmPassword.equals(password)) {
+        } else if (!isValidUsername(username)) {
+            JOptionPane.showMessageDialog(null, "Invalid username format.");
+            return;
+        }else if (!isValidPassword(password)) {
+            JOptionPane.showMessageDialog(null, "Invalid password format.");
+            return;
+        }else if (!confirmPassword.equals(password)) {
             JOptionPane.showMessageDialog(null, "Password does not match.");
             return;
         }
@@ -234,6 +216,7 @@ public class RegistrationPage extends javax.swing.JFrame {
             boolean emailTaken = false;
             boolean usernameTaken = false;
 
+            // Checks if available
             while (availabilityResultSet.next()) {
                 String field = availabilityResultSet.getString("field");
                 int count = availabilityResultSet.getInt("count");
@@ -255,6 +238,7 @@ public class RegistrationPage extends javax.swing.JFrame {
                 return;
             }
 
+            // Insert to account table
             String sqlRegister = "INSERT INTO ACCOUNT (Username, UserPassword, Email, UserType)"
                     + "VALUES (?, ?, ?, 'student')";
             PreparedStatement preparedStatementRegister = conn.prepareStatement(sqlRegister, new String[]{"UserID"});
@@ -268,6 +252,7 @@ public class RegistrationPage extends javax.swing.JFrame {
                 if (generatedKeys.next()) {
                     userID = generatedKeys.getInt(1);
 
+                    // Insert to student table
                     String sqlName = "INSERT INTO STUDENT (FName, MName, LName, UserID) VALUES (?, ?, ?, ?)";
                     PreparedStatement preparedStatementName = conn.prepareStatement(sqlName, java.sql.Statement.RETURN_GENERATED_KEYS);
                     preparedStatementName.setString(1, fName);
@@ -293,6 +278,18 @@ public class RegistrationPage extends javax.swing.JFrame {
         // Regular expression for email validation
         String regex = "^[a-zA-Z0-9._!#$%&'*+/=?`{|}~-]+@(?:[a-zA-Z0-9-]+\\.)*gmail\\.com$";
         return email.matches(regex);
+    }
+    
+    private boolean isValidUsername(String username) {
+        // Regular expression for username validation
+        String regex = "^(?=[A-Za-z0-9]{8}$)(?=(?:.*\\d){2})[A-Za-z0-9]+$";
+        return username.matches(regex);
+    }
+    
+    private boolean isValidPassword(String password) {
+        // Regular expression for password validation
+        String regex = "^(?=[A-Za-z0-9]{8}$)(?=(?:.*\\d){2})[A-Za-z0-9]+$";
+        return password.matches(regex);
     }
 
     /**
@@ -332,7 +329,7 @@ public class RegistrationPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnSignUp;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel13;

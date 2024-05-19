@@ -28,6 +28,7 @@ public class CourseSubjectView extends javax.swing.JFrame {
     String search, subjectCode, subjectTitle, schedule, courseId;
     int lecture, lab, credit;
 
+    // Retrieve course subject data
     public CourseSubjectView(int userSessionId) {
         initComponents();
         this.userSessionId = userSessionId;
@@ -57,7 +58,8 @@ public class CourseSubjectView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-
+    
+    // Receives and displays search value for course subject
     public CourseSubjectView(int userSessionId, String subjectCode, String subjectTitle, int lecture, int lab, int credit, String schedule, String courseId) {
         initComponents();
         this.userSessionId = userSessionId;
@@ -196,6 +198,7 @@ public class CourseSubjectView extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // Search
     private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
         if (!tfSearch.getText().isBlank()) {
             search = tfSearch.getText();
@@ -232,11 +235,13 @@ public class CourseSubjectView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGoActionPerformed
 
+    // Refresh page
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         new CourseSubjectView(userSessionId).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
+    // Back button
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         new AdminDashboard(userSessionId).setVisible(true);
         this.dispose();

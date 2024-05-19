@@ -123,11 +123,13 @@ public class AdminAdd extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // Get field values
         email = tfEmail.getText();
         username = tfUsername.getText();
         password = pfPassword.getText();
         confirmPassword = pfConfirmPassword.getText();
 
+        // Validate
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
 
@@ -157,7 +159,8 @@ public class AdminAdd extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Password do not match");
                 return;
             }
-
+           
+            // Insert data to database
             String sqlAdminAdd = "insert into ACCOUNT (Username, UserPassword, Email, UserType) values (?, ?, ?, ?)";
             PreparedStatement preparedStatementAdminAdd = conn.prepareStatement(sqlAdminAdd, Statement.RETURN_GENERATED_KEYS);
             preparedStatementAdminAdd.setString(1, username);

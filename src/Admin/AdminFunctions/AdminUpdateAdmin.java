@@ -51,7 +51,7 @@ public class AdminUpdateAdmin extends javax.swing.JFrame {
         pfPassword = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
         pfConfirmPassword = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setIconImage(getIconImage());
@@ -61,12 +61,6 @@ public class AdminUpdateAdmin extends javax.swing.JFrame {
 
         jLabel2.setText("Username");
 
-        tfUsername.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfUsernameActionPerformed(evt);
-            }
-        });
-
         jLabel5.setText("Block User");
 
         cbBlockUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "false", "true" }));
@@ -75,10 +69,10 @@ public class AdminUpdateAdmin extends javax.swing.JFrame {
 
         jLabel4.setText("Confirm Password");
 
-        jButton1.setText("UPDATE");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnUpdate.setText("UPDATE");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnUpdateActionPerformed(evt);
             }
         });
 
@@ -90,7 +84,7 @@ public class AdminUpdateAdmin extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(104, 104, 104)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -141,7 +135,7 @@ public class AdminUpdateAdmin extends javax.swing.JFrame {
                             .addComponent(pfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(pfConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(41, 41, 41)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(cbBlockUser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
@@ -150,13 +144,15 @@ public class AdminUpdateAdmin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // Get field values
         email = tfEmail.getText();
         username = tfUsername.getText();
         blockUser = (String) cbBlockUser.getSelectedItem();
         password = pfPassword.getText();
         confirmPassword = pfConfirmPassword.getText();
 
+        // Validation
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             
@@ -175,6 +171,7 @@ public class AdminUpdateAdmin extends javax.swing.JFrame {
                 return;
             }
             
+            // Checks what values to be updated
             StringBuilder sqlUpdateAdmin = new StringBuilder("update account set ");
             if (!email.isBlank()) sqlUpdateAdmin.append("Email = ?, ");
             if (!username.isBlank()) sqlUpdateAdmin.append("Username = ?, ");
@@ -223,11 +220,7 @@ public class AdminUpdateAdmin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void tfUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfUsernameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfUsernameActionPerformed
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     private boolean isValidEmail(String email) {
         // Regular expression for email validation
@@ -298,8 +291,8 @@ public class AdminUpdateAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cbBlockUser;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

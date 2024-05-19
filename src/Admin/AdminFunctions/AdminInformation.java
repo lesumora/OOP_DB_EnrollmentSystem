@@ -34,7 +34,8 @@ public class AdminInformation extends javax.swing.JFrame {
     int userId;
     DefaultTableModel model = new DefaultTableModel();
      List<Boolean> multipleSelectedCheck = new ArrayList<>();
-
+     
+    // Retrieve admin information data
     public AdminInformation(int userSessionID) {
         initComponents();
         this.userSessionID = userSessionID;
@@ -60,6 +61,7 @@ public class AdminInformation extends javax.swing.JFrame {
             btnRemove.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
 
+        // Get table columns
         model = (DefaultTableModel) jTable1.getModel();
 
         try {
@@ -73,6 +75,7 @@ public class AdminInformation extends javax.swing.JFrame {
             preparedStatementUpdateAdmin.setInt(3, userSessionID);
             ResultSet resultSetAdmin = preparedStatementUpdateAdmin.executeQuery();
 
+            // Set values for each row
             while (resultSetAdmin.next()) {
                 Object[] row = new Object[7];
                 row[0] = false;
@@ -89,7 +92,7 @@ public class AdminInformation extends javax.swing.JFrame {
         }
     }
     
-    // Search button
+    // Receives and displays search value for admin info
     public AdminInformation(int userSessionID, int userId, String username, String password, String userBlocked, String email, String userType){
         initComponents();
         this.userSessionID = userSessionID;
@@ -115,8 +118,10 @@ public class AdminInformation extends javax.swing.JFrame {
             btnRemove.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Set cursor
         }
         
+        // Get table columns
         model = (DefaultTableModel) jTable1.getModel();
         
+        // Sets value for each row
         Object[] row = new Object[7];
                 row[0] = false;
                 row[1] = userId;
@@ -303,6 +308,7 @@ public class AdminInformation extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // Add admin
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         new AdminAdd().setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
@@ -331,6 +337,7 @@ public class AdminInformation extends javax.swing.JFrame {
         btnUpdate.setContentAreaFilled(true);
     }//GEN-LAST:event_btnUpdateMousePressed
 
+    // Update admin info
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         for (int i = 0; i < jTable1.getRowCount(); i++) {
             Boolean isSelected = (Boolean) jTable1.getValueAt(i, 0);
@@ -366,6 +373,7 @@ public class AdminInformation extends javax.swing.JFrame {
         btnRemove.setContentAreaFilled(true);
     }//GEN-LAST:event_btnRemoveMousePressed
 
+    // Remove admin
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
         for (int i = 0; i < jTable1.getRowCount(); i++) {
             Boolean isSelected = (Boolean) jTable1.getValueAt(i, 0);
@@ -463,6 +471,7 @@ public class AdminInformation extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
+    // Search
     private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
         if (!tfSearch.getText().isBlank()){
             search = tfSearch.getText();

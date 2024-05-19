@@ -38,13 +38,6 @@ public class SubjectAdd extends javax.swing.JFrame {
         this.empId = empId;
         
         System.out.println(courseId);
-        try {
-            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            
-            
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(this, e);
-        }
     }
 
     /**
@@ -113,6 +106,7 @@ public class SubjectAdd extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // Get field values
         subjectCode = tfSubjectCode.getText();
         subjectTitle = tfSubjectTitle.getText();
         schedule = tfSchedule.getText();
@@ -120,9 +114,11 @@ public class SubjectAdd extends javax.swing.JFrame {
         labText = tfLab.getText();
         creditText = tfCredit.getText();
 
+        // Validate
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-
+            // connect to database
+            
             if (subjectCode.isBlank() || subjectTitle.isBlank() || schedule.isBlank()) {
                 JOptionPane.showMessageDialog(null, "Please fill in all fields.", "Ooops!", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -142,6 +138,7 @@ public class SubjectAdd extends javax.swing.JFrame {
                 }
             }
 
+            // Insert to table
             String sqlSubjectAdd = "insert into COURSE_SUBJECT values (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatementSubjectAdd = conn.prepareStatement(sqlSubjectAdd);
             preparedStatementSubjectAdd.setString(1, subjectCode);
@@ -156,6 +153,7 @@ public class SubjectAdd extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Successfully added new subject");
             }
             
+            // Insert to table
             String sqlFacultySubject = "insert into FACULTY_SUBJECT values (?, ?, ?)";
             PreparedStatement preparedStatementFacultySubject = conn.prepareStatement(sqlFacultySubject);
             preparedStatementFacultySubject.setInt(1, empId);

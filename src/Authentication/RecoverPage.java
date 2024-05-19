@@ -91,6 +91,7 @@ public class RecoverPage extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // Recovers account
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
         username = tfUsername.getText();
         question = (String) cbQuestion.getSelectedItem();
@@ -98,6 +99,7 @@ public class RecoverPage extends javax.swing.JFrame {
         password = pfPassword.getText();
         confirmPassword = pfConfirmPassword.getText();
 
+        // Validate
         if (username.isBlank() || answer.isBlank() || password.isBlank() || confirmPassword.isBlank()) {
             JOptionPane.showMessageDialog(this, "Please enter all fields");
             return;
@@ -110,19 +112,22 @@ public class RecoverPage extends javax.swing.JFrame {
 
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-
+            // connect to database
+            
             String sqlUsername = "select Username from ACCOUNT where Username = ?";
             PreparedStatement preparedStatementUsername = conn.prepareStatement(sqlUsername);
             preparedStatementUsername.setString(1, username);
 
             ResultSet resultSetUsername = preparedStatementUsername.executeQuery();
 
+            // Checks if credentials exists
             if (resultSetUsername.next()) {
                 String sqlPassword = "select * from FORGOT_PASSWORD where SecurityQuestion = ? and Answer = ?";
                 PreparedStatement preparedStatementPassword = conn.prepareStatement(sqlPassword);
                 preparedStatementPassword.setString(1, question);
                 preparedStatementPassword.setString(2, answer);
 
+                // If exists and correct, proceed to update
                 ResultSet resultSetPassword = preparedStatementPassword.executeQuery();
                 if (resultSetPassword.next()) {
                     userId = resultSetPassword.getInt("UserID");

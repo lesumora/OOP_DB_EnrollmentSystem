@@ -29,6 +29,7 @@ public class step4_enroll extends javax.swing.JFrame {
     int studId, registrationId, yearLevel;
     Timestamp registrationDate;
 
+    // Display student status
     public step4_enroll(int userSessionID, String campus, String status, int registrationId, Timestamp registrationDate, String courseId, int yearLevel, String section){
         initComponents();
         this.userSessionId = userSessionID;

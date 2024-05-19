@@ -29,6 +29,7 @@ public class FacultySubject extends javax.swing.JFrame {
     DefaultTableModel model = new DefaultTableModel();
     int empId;
 
+    // Display subjects for faculty
     public FacultySubject(int userSessionID) {
         initComponents();
 
@@ -51,6 +52,7 @@ public class FacultySubject extends javax.swing.JFrame {
 
             System.out.println(empId);
 
+            // Get subject of faculty
             String sqlSubjectCode = "select FS.SubjectCode, CS.SubjectTitle, CS.Lecture, CS.Lecture, CS.Lab, CS.Credit, CS.Schedule "
                     + "from FACULTY_SUBJECT FS inner join COURSE_SUBJECT CS "
                     + "on FS.SubjectCode = CS.SubjectCode "

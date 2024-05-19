@@ -27,6 +27,7 @@ public class CourseView extends javax.swing.JFrame {
     DefaultTableModel model = new DefaultTableModel();
     String search, courseId, courseName, curriculum, colCode;
 
+    // Retrieve course data
     public CourseView(int userSessionId) {
         initComponents();
         this.userSessionId = userSessionId;
@@ -54,6 +55,7 @@ public class CourseView extends javax.swing.JFrame {
         }
     }
 
+    // Receives and displays search value for college
     public CourseView(int userSessionId, String courseId, String CourseName, String curriculum, String colCode) {
         initComponents();
         this.userSessionId = userSessionId;
@@ -186,6 +188,7 @@ public class CourseView extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // Search 
     private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
         if (!tfSearch.getText().isBlank()) {
             search = tfSearch.getText();
@@ -219,11 +222,13 @@ public class CourseView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGoActionPerformed
 
+    // Refresh
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         new CourseView(userSessionId).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
+    // Back
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         new AdminDashboard(userSessionId).setVisible(true);
         this.dispose();

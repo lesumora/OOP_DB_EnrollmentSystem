@@ -24,6 +24,8 @@ public class AdminDashboard extends javax.swing.JFrame {
     public AdminDashboard(int userSessionID) {
         initComponents();
         this.userSessionID = userSessionID;
+        
+        // Set button as transparent
         {
             btnBack.setOpaque(false); // Make the button transparent
             btnBack.setContentAreaFilled(false); // Don't fill the button area with background
@@ -309,6 +311,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // Open admin information page
     private void btnAdminsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminsActionPerformed
         new AdminInformation(userSessionID).setVisible(true);
         this.dispose();
@@ -338,6 +341,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnStudents.setContentAreaFilled(true);
     }//GEN-LAST:event_btnStudentsMousePressed
 
+    // Open student information page
     private void btnStudentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudentsActionPerformed
         new StudentInformation(userSessionID).setVisible(true);
         this.dispose();
@@ -355,6 +359,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnLogs.setContentAreaFilled(true);
     }//GEN-LAST:event_btnLogsMousePressed
 
+    // Open logs page
     private void btnLogsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogsActionPerformed
         new LogView(userSessionID).setVisible(true);
         this.dispose();
@@ -372,11 +377,13 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnFaculty.setContentAreaFilled(true);
     }//GEN-LAST:event_btnFacultyMousePressed
 
+    // Open faculty page
     private void btnFacultyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacultyActionPerformed
         new FacultyView(userSessionID).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnFacultyActionPerformed
 
+    // Back button to dashboard
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         new Dashboard(userSessionID).setVisible(true);
         this.dispose();
@@ -406,6 +413,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnCourse.setContentAreaFilled(true);
     }//GEN-LAST:event_btnCourseMousePressed
 
+    // Open course page
     private void btnCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCourseActionPerformed
         new CourseView(userSessionID).setVisible(true);
         this.dispose();
@@ -423,6 +431,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnCollege.setContentAreaFilled(true);
     }//GEN-LAST:event_btnCollegeMousePressed
 
+    // Open college page
     private void btnCollegeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCollegeActionPerformed
         new CollegeView(userSessionID).setVisible(true);
         this.dispose();
@@ -440,6 +449,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnCourseSubject.setContentAreaFilled(true);
     }//GEN-LAST:event_btnCourseSubjectMousePressed
 
+    // Open course page
     private void btnCourseSubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCourseSubjectActionPerformed
         new CourseSubjectView(userSessionID).setVisible(true);
         this.dispose();
@@ -457,6 +467,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnEnrolledSubject.setContentAreaFilled(true);
     }//GEN-LAST:event_btnEnrolledSubjectMousePressed
 
+    // Open enrolled subjects page
     private void btnEnrolledSubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnrolledSubjectActionPerformed
         new EnrolledSubjectView(userSessionID).setVisible(true);
         this.dispose();

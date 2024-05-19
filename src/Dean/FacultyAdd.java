@@ -29,6 +29,7 @@ public class FacultyAdd extends javax.swing.JFrame {
     static int supervisorId;
     static String colCode;
     
+    // Retrieve which supervisor wants to add a new faculty and their college code
     public FacultyAdd(int supervisorId, String colCode) {
         initComponents();
         this.colCode = colCode;
@@ -211,6 +212,7 @@ public class FacultyAdd extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // Get field values
         email = tfEmail.getText();
         username = tfUsername.getText();
         password = pfPassword.getText();
@@ -221,7 +223,7 @@ public class FacultyAdd extends javax.swing.JFrame {
         position = (String )cbPosition.getSelectedItem();
         empRank = (String) cbEmployeeRank.getSelectedItem();
         
-        
+        // Validate fields
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
 
@@ -256,6 +258,7 @@ public class FacultyAdd extends javax.swing.JFrame {
                 return;
             }
 
+            // Insert to account table
             String sqlAddUser = "insert into ACCOUNT (Username, UserPassword, Email, UserType) values (?, ?, ?, ?)";
             PreparedStatement preparedStatementAddUser = conn.prepareStatement(sqlAddUser, Statement.RETURN_GENERATED_KEYS);
             preparedStatementAddUser.setString(1, username);
@@ -275,6 +278,7 @@ public class FacultyAdd extends javax.swing.JFrame {
                 
             }
             
+            // Insert into faculty table
             String sqlFaculty = "insert into FACULTY (UserID) values (?)";
             PreparedStatement preparedStatementFaculty = conn.prepareStatement(sqlFaculty, Statement.RETURN_GENERATED_KEYS);
             preparedStatementFaculty.setInt(1, userId);

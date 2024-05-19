@@ -35,6 +35,7 @@ public class FacultyManagement extends javax.swing.JFrame {
     List<Boolean> multipleSelectedCheck = new ArrayList<>();
     static String searchEmpId, firstName, middleName, lastName, position, employeeRank, collegeCode;
 
+    // Retrieve faculty info data
     public FacultyManagement(int userSessionId) {
         initComponents();
         this.userSessionId = userSessionId;
@@ -72,7 +73,8 @@ public class FacultyManagement extends javax.swing.JFrame {
 
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-
+            // connect to database
+            
             String sqlUserType = "select EmpID, ColCode from FACULTY where UserID = ?";
             PreparedStatement preparedStatementUserType = conn.prepareStatement(sqlUserType);
             preparedStatementUserType.setInt(1, userSessionId);
@@ -84,6 +86,7 @@ public class FacultyManagement extends javax.swing.JFrame {
                 System.out.println(colCode);
             }
 
+            // Get faculy data
             String sqlFaculty = "select * from FACULTY where UserID != ? and ColCode = ? "
                     + "and UserID not in (select UserID from ACCOUNT where UserDeleted = 'true')";
             PreparedStatement preparedStatementFaculty = conn.prepareStatement(sqlFaculty);
@@ -92,6 +95,7 @@ public class FacultyManagement extends javax.swing.JFrame {
 
             ResultSet resultSetFaculty = preparedStatementFaculty.executeQuery();
 
+            // Set faculty for each row
             while (resultSetFaculty.next()) {
                 Object[] row = new Object[8];
                 row[0] = false;
@@ -111,6 +115,7 @@ public class FacultyManagement extends javax.swing.JFrame {
 
     }
 
+    // Receives and displays search value for faculty
     public FacultyManagement(int userSessionId, String empId, String firstName, String middleName, String lastName, String position, String employeeRank, String collegeCode) {
         initComponents();
         this.userSessionId = userSessionId;
@@ -382,6 +387,7 @@ public class FacultyManagement extends javax.swing.JFrame {
         btnUpdate.setContentAreaFilled(false);
     }//GEN-LAST:event_btnUpdateMouseReleased
 
+    // Update faculty
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         for (int i = 0; i < jTable1.getRowCount(); i++) {
             Boolean isSelected = (Boolean) jTable1.getValueAt(i, 0);
@@ -421,6 +427,7 @@ public class FacultyManagement extends javax.swing.JFrame {
         btnRemove.setContentAreaFilled(false);
     }//GEN-LAST:event_btnRemoveMouseReleased
 
+    // Remove faculty
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
         for (int i = 0; i < jTable1.getRowCount(); i++) {
             Boolean isSelected = (Boolean) jTable1.getValueAt(i, 0);
@@ -517,6 +524,7 @@ public class FacultyManagement extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
+    // Search
     private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
         if (!tfSearch.getText().isBlank()) {
             search = tfSearch.getText();
@@ -554,6 +562,7 @@ public class FacultyManagement extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGoActionPerformed
 
+    // Refresh
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         new FacultyManagement(userSessionId).setVisible(true);
         this.dispose();

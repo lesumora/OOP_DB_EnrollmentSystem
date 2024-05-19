@@ -95,6 +95,7 @@ public class ForgotPassword extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // Set new forgot password way
     private void btnFinishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinishActionPerformed
         question = (String) cbQuestion.getSelectedItem();
         answer = tfAnswer.getText();
@@ -104,6 +105,7 @@ public class ForgotPassword extends javax.swing.JFrame {
             return;
         }
 
+        // Valiadation
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
 
@@ -115,25 +117,25 @@ public class ForgotPassword extends javax.swing.JFrame {
             preparedStatementRegister.setString(3, answer);
 
             int rowsInserted = preparedStatementRegister.executeUpdate();
-            if(rowsInserted > 0){
+            if (rowsInserted > 0) {
                 JOptionPane.showMessageDialog(this, "Successfully added a new account");
-                
+
                 // Get the current date and time
-                        LocalDateTime now = LocalDateTime.now();
-                        // Convert LocalDateTime to java.sql.Timestamp
-                        Timestamp currentTimestamp = Timestamp.valueOf(now);
-                        
-                        String sqlInsertLog = "insert into USER_LOG (UserID, UserAction, ActionDate) values (?,?,?)";
-                        PreparedStatement preparedStatementInsertLog= conn.prepareStatement(sqlInsertLog);
-                        preparedStatementInsertLog.setInt(1, userId);
-                        preparedStatementInsertLog.setString(2, "Added new account");
-                        preparedStatementInsertLog.setTimestamp(3, currentTimestamp);
-                        
-                        int insertedRow = preparedStatementInsertLog.executeUpdate();
-                        if(insertedRow > 0){
-                            System.out.println("User log updated");
-                        }
-                
+                LocalDateTime now = LocalDateTime.now();
+                // Convert LocalDateTime to java.sql.Timestamp
+                Timestamp currentTimestamp = Timestamp.valueOf(now);
+
+                String sqlInsertLog = "insert into USER_LOG (UserID, UserAction, ActionDate) values (?,?,?)";
+                PreparedStatement preparedStatementInsertLog = conn.prepareStatement(sqlInsertLog);
+                preparedStatementInsertLog.setInt(1, userId);
+                preparedStatementInsertLog.setString(2, "Added new account");
+                preparedStatementInsertLog.setTimestamp(3, currentTimestamp);
+
+                int insertedRow = preparedStatementInsertLog.executeUpdate();
+                if (insertedRow > 0) {
+                    System.out.println("User log updated");
+                }
+
                 this.dispose();
             }
 
@@ -142,10 +144,12 @@ public class ForgotPassword extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnFinishActionPerformed
 
+    // Checks for form close
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit?\nThis will cancel your registration",
                 "Confirm Exit", JOptionPane.YES_NO_OPTION);
-
+        
+        // If user exits, cancels the account creation
         if (choice == JOptionPane.YES_OPTION) {
             try {
                 Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
@@ -156,12 +160,12 @@ public class ForgotPassword extends javax.swing.JFrame {
                 preparedStatementRegister.setInt(2, userId);
 
                 int rowsDeleted = preparedStatementRegister.executeUpdate();
-                if(rowsDeleted > 0 ){
+                if (rowsDeleted > 0) {
                     System.out.println("Account creation cancelled brpo");
-                }else{
+                } else {
                     System.out.println("No account deleted somehow");
                 }
-            } catch(Exception e){
+            } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, e);
             }
 
